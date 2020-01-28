@@ -4,7 +4,6 @@
 #*#
 /db.sqlite3
 sqlite.db
-/manage.py
 /mysite*
 /plan.txt
 /dist*
@@ -17,3 +16,4 @@ build*
 /uploads/
 .tox
 *.egg
+quickzy/settings.py

@@ -9,10 +9,32 @@ from django.core.validators import (
 )
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
-from django.utils.encoding import python_2_unicode_compatible
 from django.conf import settings
 
 from model_utils.managers import InheritanceManager
+
+class MyQuestion(models.Model):
+    category = models.ForeignKey(Category,
+                                 verbose_name=_("Category"),
+                                 blank=True,
+                                 null=True,
+                                 on_delete=models.CASCADE)
+
+    sub_category = models.ForeignKey(SubCategory,
+                                     verbose_name=_("Sub-Category"),
+                                     blank=True,
+                                     null=True,
+                                     on_delete=models.CASCADE)
+    order_question = models.IntegerField(blank=True, null=False)
+
+    class Meta:
+        verbose_name = _("Question")
+        verbose_name_plural = _("Questions")
+        ordering = ['category']
+
+    def __str__(self):
+        return self.content
+
 
 
 class CategoryManager(models.Manager):
@@ -25,7 +47,6 @@ class CategoryManager(models.Manager):
         return new_category
 
 
-@python_2_unicode_compatible
 class Category(models.Model):
 
     category = models.CharField(
@@ -43,7 +64,6 @@ class Category(models.Model):
         return self.category
 
 
-@python_2_unicode_compatible
 class SubCategory(models.Model):
 
     sub_category = models.CharField(
@@ -64,7 +84,6 @@ class SubCategory(models.Model):
         return self.sub_category + " (" + self.category.category + ")"
 
 
-@python_2_unicode_compatible
 class Quiz(models.Model):
 
     title = models.CharField(
@@ -541,7 +560,6 @@ class Sitting(models.Model):
         return answered, total
 
 
-@python_2_unicode_compatible
 class Question(models.Model):
     """
     Base class for all question types.

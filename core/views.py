@@ -1,9 +1,20 @@
 from django.shortcuts import render
 from django.forms import formset_factory
 
-from true_false.forms import TF_Quiz_Form
+from true_false.forms import TrueFalseForm
+from multichoice.forms import MultiChoiceForm
 
 def home_page_view(request):
-	TF_Quiz_FormSet = formset_factory(TF_Quiz_Form)
-	form = TF_Quiz_FormSet()
-	return render(request, 'core/home.html', {'form': form})
+    TF_formset = formset_factory(TrueFalseForm)
+    MC_formset = formset_factory(MultiChoiceForm)
+    
+    if request.method == "POST":
+        tf_formset = TF_formset(request.POST or None)
+        mc_formset = MC_formset(request.POST or None)
+        
+    
+    tf_form = TF_formset()
+    mc_form = MC_formset()
+
+    return render(request, 'core/home.html', 
+        {'tf_form': tf_form, 'mc_form': mc_form})

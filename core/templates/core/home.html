@@ -11,20 +11,119 @@
     {% block head %}
         <title>Quickzy</title>
     {% endblock %}
-
 </head>
 
 <body>
-{% if user.is_authenticated %}
-  Hi {{ user.email }}!
-  <p><a href="{% url 'account_logout' %}">Log Out</a></p>
-{% else %}
-  <p>You are not logged in</p>
-  <a href="{% url 'account_login' %}">Log In</a> |
-  <a href="{% url 'account_signup' %}">Sign Up</a>
-{% endif %}
+  <form method="POST" id="tf-form-0">
+    {% csrf_token %}
+    {{ tf_form.as_p }}
+    <input type="submit">
+  </form>
+ 
+  <form method="POST" id="mc-form-0">
+    {% csrf_token %}
+    {{ mc_form.as_p }}
+    <input type="submit">
+  </form>
 
-{{ form.as_p }}
+
+  {% if user.is_authenticated %}
+    Hi {{ user.email }}!
+    <p><a href="{% url 'account_logout' %}">Log Out</a></p>
+  {% else %}
+    <p>You are not logged in</p>
+    <a href="{% url 'account_login' %}">Log In</a> |
+    <a href="{% url 'account_signup' %}">Sign Up</a>
+  {% endif %}
+  <br>
+  <br>
+  <h1>Bienvenue sur la page de création de quiz.</h1>
+  <div id="choice">
+    Ajouter une question :
+    <button onclick="addTF()">Vrai/Faux</button>
+    <button onclick="addMC()">Choix multiples</button>
+    <br>
+    <input type="submit" value="J'ai fini">
+  </div>
+
+  <div id="new-forms">
+  </div>
+
 </body>
+
+<script>
+document.getElementById('tf-form-0').style.display = "none";
+document.getElementById('mc-form-0').style.display = "none";
+
+form_order_id = 'id_form-0-order';
+content_id = 'id_form-0-content';
+difficulty_id = 'id_form-0-difficulty'
+
+current_tf_id = 'tf-form-0';
+correct_id = 'id_form-0-correct';
+
+current_mc_id = 'mc-form-0';
+anwser1_id = 'id_form-0-answer1'
+anwser2_id = 'id_form-0-answer2'
+anwser3_id = 'id_form-0-answer3'
+answer1_correct_id = 'id_form-0-answer1_correct'
+answer2_correct_id = 'id_form-0-answer2_correct'
+answer3_correct_id = 'id_form-0-answer3_correct'
+
+
+counter = 0
+div_forms = document.getElementById('new-forms')
+
+
+function move() {
+  div1 = document.getElementById("choice");
+  div2 = document.getElementById("new-forms");
+
+  div2.append(div1);
+}
+
+function addTF() {
+  counter += 1;
+
+  tf = document.getElementById(current_tf_id);
+  new_tf = tf.cloneNode(true);
+  new_tf.id = new_tf.id.replace(/\d+/, counter);
+
+  fo = document.getElementById(current_fo_id);
+  current_fo_id += 1;
+  fo.id = fo.id.replace(/\d/, current_fo_id)
+
+
+  current_tf_id = new_tf.id;
+  var old_tf = document.getElementById('tf-form-0');
+  if (old_tf != null)
+  {
+    old_tf.remove();
+  }
+
+  div_forms.appendChild(new_tf)
+  new_tf.style.display = ""
+  move()
+}
+
+function addMC() {
+  counter += 1;
+
+  mc = document.getElementById(current_mc_id);
+  new_mc = mc.cloneNode(true);
+  new_mc.id = new_mc.id.replace(/\d+/, counter)
+
+  current_mc_id = new_mc.id
+  var old_mc = document.getElementById('mc-form-0')
+  if (typeof(old_tmc) != 'undefined' && old_mc != null)
+  {
+    old_mc.remove();
+  }
+
+  div_forms.appendChild(new_mc)
+  new_mc.style.display = ""
+  move()
+}
+</script>
 
 </html>

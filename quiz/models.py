@@ -91,6 +91,7 @@ class Quiz(models.Model):
         return self.title
 
 
+
 class Question(models.Model):
     """
     Base class for all question types.
@@ -105,7 +106,9 @@ class Question(models.Model):
     difficulty = models.IntegerField(default=2, blank=False, null=False)
 
     # new
-    order = models.BooleanField(default=True,
+    order = models.IntegerField(default=0)
+
+    ordered = models.BooleanField(default=True,
                                 help_text=_("Ordre des questions : aléatoire ou "
                                 "dans l'ordre de création des questions."
                                 ))

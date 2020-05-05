@@ -8,122 +8,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     {% block head %}
-        <title>Quickzy</title>
+        <title>Fast And Quizzy</title>
     {% endblock %}
 </head>
 
 <body>
-  <form method="POST" id="tf-form-0">
+  <form method="POST" action="">
     {% csrf_token %}
-    {{ tf_form.as_p }}
-    <input type="submit">
+      <div class="tf-form">
+        {{ tf_form.as_p }}
+        <input type="submit" value="J'ai fini !" class="create-quiz">
+      </div>
   </form>
- 
-  <form method="POST" id="mc-form-0">
+  <button class="add-tf-form">Ajouter TF</button>
+
+  <form method="POST" action="">
     {% csrf_token %}
-    {{ mc_form.as_p }}
-    <input type="submit">
+      <div class="mc-form">
+        {{ mc_form.as_p }}
+        <input type="submit" value="J'ai fini !" class="create-quiz">
+      </div>
   </form>
-
-
-  {% if user.is_authenticated %}
-    Hi {{ user.email }}!
-    <p><a href="{% url 'account_logout' %}">Log Out</a></p>
-  {% else %}
-    <p>You are not logged in</p>
-    <a href="{% url 'account_login' %}">Log In</a> |
-    <a href="{% url 'account_signup' %}">Sign Up</a>
-  {% endif %}
-  <br>
-  <br>
-  <h1>Bienvenue sur la page de création de quiz.</h1>
-  <div id="choice">
-    Ajouter une question :
-    <button onclick="addTF()">Vrai/Faux</button>
-    <button onclick="addMC()">Choix multiples</button>
-    <br>
-    <input type="submit" value="J'ai fini">
-  </div>
-
-  <div id="new-forms">
-  </div>
-
-</body>
+  <button class="add-mc-form">Ajouter MC</button>
 
 <script>
-document.getElementById('tf-form-0').style.display = "none";
-document.getElementById('mc-form-0').style.display = "none";
+function cloneTF(selector) {
+    var newElement = $(selector).clone(true);
+    total_tf = $('#id_form-TOTAL_FORMS').val();
+    newElement.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function() {
+        var name = $(this).attr('name').replace('-' + (total_tf-1) + '-', '-' + total_tf + '-');
+        var id = 'id_' + name;
+        $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+    });
+    newElement.find('label').each(function() {
+        var forValue = $(this).attr('for');
+        if (forValue) {
+          forValue = forValue.replace('-' + (total_tf-1) + '-', '-' + total_tf + '-');
+          $(this).attr({'for': forValue});
+        }
+    });
+    total_tf++;
+    $('#id_form-TOTAL_FORMS').val(total_tf);
+    $(selector).after(newElement);
 
-form_order_id = 'id_form-0-order';
-content_id = 'id_form-0-content';
-difficulty_id = 'id_form-0-difficulty'
-
-current_tf_id = 'tf-form-0';
-correct_id = 'id_form-0-correct';
-
-current_mc_id = 'mc-form-0';
-anwser1_id = 'id_form-0-answer1'
-anwser2_id = 'id_form-0-answer2'
-anwser3_id = 'id_form-0-answer3'
-answer1_correct_id = 'id_form-0-answer1_correct'
-answer2_correct_id = 'id_form-0-answer2_correct'
-answer3_correct_id = 'id_form-0-answer3_correct'
-
-
-counter = 0
-div_forms = document.getElementById('new-forms')
-
-
-function move() {
-  div1 = document.getElementById("choice");
-  div2 = document.getElementById("new-forms");
-
-  div2.append(div1);
+    return false;
 }
 
-function addTF() {
-  counter += 1;
+function cloneMC(selector) {
+    var newElement = $(selector).clone(true);
+    total_mc = $('#id_form-TOTAL_FORMS').val();
+    newElement.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function() {
+        var name = $(this).attr('name').replace('-' + (total_mc-1) + '-', '-' + total_mc + '-');
+        var id = 'id_' + name;
+        $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+    });
+    newElement.find('label').each(function() {
+        var forValue = $(this).attr('for');
+        if (forValue) {
+          forValue = forValue.replace('-' + (total_mc-1) + '-', '-' + total_mc + '-');
+          $(this).attr({'for': forValue});
+        }
+    });
+    total_mc++;
+    $('#id_form-TOTAL_FORMS').val(total_mc);
+    $(selector).after(newElement);
 
-  tf = document.getElementById(current_tf_id);
-  new_tf = tf.cloneNode(true);
-  new_tf.id = new_tf.id.replace(/\d+/, counter);
-
-  fo = document.getElementById(current_fo_id);
-  current_fo_id += 1;
-  fo.id = fo.id.replace(/\d/, current_fo_id)
-
-
-  current_tf_id = new_tf.id;
-  var old_tf = document.getElementById('tf-form-0');
-  if (old_tf != null)
-  {
-    old_tf.remove();
-  }
-
-  div_forms.appendChild(new_tf)
-  new_tf.style.display = ""
-  move()
+    return false;
 }
 
-function addMC() {
-  counter += 1;
+$(document).on('click', '.add-tf-form', function(e){
+    e.preventDefault();
+    var form = $(".tf-form").last();
+    cloneTF(form);
+    return false;
+});
 
-  mc = document.getElementById(current_mc_id);
-  new_mc = mc.cloneNode(true);
-  new_mc.id = new_mc.id.replace(/\d+/, counter)
+$(document).on('click', '.add-mc-form', function(e){
+    e.preventDefault();
+    var form = $(".mc-form").last();
+    cloneTF(form);
+    return false;
+});
 
-  current_mc_id = new_mc.id
-  var old_mc = document.getElementById('mc-form-0')
-  if (typeof(old_tmc) != 'undefined' && old_mc != null)
-  {
-    old_mc.remove();
-  }
+$('form').one('submit', function(e) {
+  e.preventDefault()
+  $("input[name='form-TOTAL_FORMS']").each(function() {
+    if ($(this).parents('.tf-form')) {
+      this.value = total_tf
+    } else if ($(this).parents('.mc-form')) {
+      this.value = total_mc
+    }
+  });
+  $("input[name='form-INITIAL_FORMS']").each(function() {
+    this.value = 0
+  });
+  $("input[name='form-MIN_NUM_FORMS']").each(function() {
+    this.value = 0
+  });
+  $("input[name='form-MAX_NUM_FORMS']").each(function() {
+    this.value = 1000
+  });
+  var forms = $("input[name='form-TOTAL_FORMS']");
+  $(this).submit()
+});
 
-  div_forms.appendChild(new_mc)
-  new_mc.style.display = ""
-  move()
-}
 </script>
+</body>
 
 </html>

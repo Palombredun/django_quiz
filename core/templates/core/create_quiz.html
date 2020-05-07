@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    {% block head %}
+        <title>Fast And Quizzy</title>
+    {% endblock %}
+</head>
+
+<body>
+  <form method="POST" action="">
+    {% csrf_token %}
+      <div class="tf-form">
+        {{ tf_form.as_p }}
+        <input type="submit" value="J'ai fini !" class="create-quiz">
+      </div>
+  </form>
+  <button class="add-tf-form">Ajouter TF</button>
+
+  <form method="POST" action="">
+    {% csrf_token %}
+      <div class="mc-form">
+        {{ mc_form.as_p }}
+        <input type="submit" value="J'ai fini !" class="create-quiz">
+      </div>
+  </form>
+  <button class="add-mc-form">Ajouter MC</button>
+
+<script>
+function cloneTF(selector) {
+    var newElement = $(selector).clone(true);
+    total_tf = $('#id_form-TOTAL_FORMS').val();
+    newElement.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function() {
+        var name = $(this).attr('name').replace('-' + (total_tf-1) + '-', '-' + total_tf + '-');
+        var id = 'id_' + name;
+        $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+    });
+    newElement.find('label').each(function() {
+        var forValue = $(this).attr('for');
+        if (forValue) {
+          forValue = forValue.replace('-' + (total_tf-1) + '-', '-' + total_tf + '-');
+          $(this).attr({'for': forValue});
+        }
+    });
+    total_tf++;
+    $('#id_form-TOTAL_FORMS').val(total_tf);
+    $(selector).after(newElement);
+
+    return false;
+}
+
+function cloneMC(selector) {
+    var newElement = $(selector).clone(true);
+    total_mc = $('#id_form-TOTAL_FORMS').val();
+    newElement.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function() {
+        var name = $(this).attr('name').replace('-' + (total_mc-1) + '-', '-' + total_mc + '-');
+        var id = 'id_' + name;
+        $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+    });
+    newElement.find('label').each(function() {
+        var forValue = $(this).attr('for');
+        if (forValue) {
+          forValue = forValue.replace('-' + (total_mc-1) + '-', '-' + total_mc + '-');
+          $(this).attr({'for': forValue});
+        }
+    });
+    total_mc++;
+    $('#id_form-TOTAL_FORMS').val(total_mc);
+    $(selector).after(newElement);
+
+    return false;
+}
+
+$(document).on('click', '.add-tf-form', function(e){
+    e.preventDefault();
+    var form = $(".tf-form").last();
+    cloneTF(form);
+    return false;
+});
+
+$(document).on('click', '.add-mc-form', function(e){
+    e.preventDefault();
+    var form = $(".mc-form").last();
+    cloneTF(form);
+    return false;
+});
+
+$('form').one('submit', function(e) {
+  e.preventDefault()
+  $("input[name='form-TOTAL_FORMS']").each(function() {
+    if ($(this).parents('.tf-form')) {
+      this.value = total_tf
+    } else if ($(this).parents('.mc-form')) {
+      this.value = total_mc
+    }
+  });
+  $("input[name='form-INITIAL_FORMS']").each(function() {
+    this.value = 0
+  });
+  $("input[name='form-MIN_NUM_FORMS']").each(function() {
+    this.value = 0
+  });
+  $("input[name='form-MAX_NUM_FORMS']").each(function() {
+    this.value = 1000
+  });
+  var forms = $("input[name='form-TOTAL_FORMS']");
+  $(this).submit()
+});
+
+</script>
+</body>
+
+</html>

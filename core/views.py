@@ -4,7 +4,7 @@ from django.forms import formset_factory
 from true_false.forms import TrueFalseForm, TF_Formset
 from multichoice.forms import MultiChoiceForm, MC_Formset
 
- def home_page_view(request):
+def home_page_view(request):
     return render(request, 'core/home.html')
 
 

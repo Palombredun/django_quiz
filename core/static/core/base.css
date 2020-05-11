@@ -1,0 +1,10 @@
+.header {
+	background-color: #738BCE;
+	display: grid;
+	grid-template-columns: 20% 20% 20% 20% 20%;
+}
+
+.menu {
+	grid-start: 1;
+	grid-column-end: span 2;
+}

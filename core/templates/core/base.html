@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %} {% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'core/base.css' %}">
+  <script src="script.js"></script>
+</head>
+
+<body>
+	<header class="header">
+	  <span class="logo">F&Q</span>
+	  <div class="menu">
+	  	{% if user.is_authenticated %}
+          <div class="mr-6">
+            <a href="#">Se connecter</a>
+          </div>
+        {% else %}
+          <div class="mr-6">
+            <a href="#">Mon profil</a>
+          </div>
+          <div class="mr-6">
+            <a href="#">Se déconnecter</a>
+          </div>
+        {% endif %}
+	  </div>
+	</header>
+
+  {% block content %}
+  {% endblock %}
+</body>
+
+</html>

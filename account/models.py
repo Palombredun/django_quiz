@@ -1,3 +1,4 @@
 from django.db import models
+from django.confs import settings
 
-# Create your models here.
+

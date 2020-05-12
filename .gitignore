@@ -16,5 +16,5 @@ build*
 /uploads/
 .tox
 *.egg
-quickzy/settings.py
+fastandquizy/settings.py
 venv/

@@ -1,0 +1,14 @@
+.first {
+	background-image: url("img/background.jpg");
+	background-color: #1A174C;
+}
+
+.button {
+	display: flex;
+  	justify-content: center;
+  	color: #1A174C;
+}
+
+.explanations {
+	background-color: #E8BBA9;
+}

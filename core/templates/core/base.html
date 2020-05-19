@@ -1,26 +1,68 @@
 <!DOCTYPE html>
 {% load static %}
+
 <html lang="fr">
 <head>
   <meta charset="utf-8">
   <title>{% block title %}{% endblock %}</title>
+  {% block css %}{% endblock %}
   <link rel="stylesheet" href="{% static 'core/base.css' %}">
-  <script src="script.js"></script>
+  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+  <!--<script src="script.js"></script>-->
 </head>
 
 <body>
-	<header class="header">
-	  <span class="logo">F&Q</span>
-	  {% if user.is_authenticated %}
-	    <a href="{% url "logout" %}">Logout</a>
-	  {% else %}
-	    <a href="{% url "login" %}">Log-in</a>
-	  {% endif %}
+  <header class=" header border-b md:flex md:items-center md:justify-between p-4 pb-0 shadow-lg md:pb-4">
+  
+  <!-- Logo text or image -->
+  <div class="flex items-center justify-between mb-4 md:mb-0">
+    <h1 class="leading-none text-3xl text-grey-darkest">
+      <a class="no-underline font-bold italic hover:text-green-500" href="{% url 'home' %}">
+        F&Q
+      </a>
+    </h1>
 
-	</header>
+    <a class="text-black hover:text-orange md:hidden" href="#">
+      <i class="fa fa-2x fa-bars"></i>
+    </a>
+  </div>
+  <!-- END Logo text or image -->
+  
+  <!-- Global navigation -->
+  <nav>
+    <ul class="list-reset md:flex md:items-center">
+      <li class="md:ml-4">
+        <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="#">
+          Quiz
+        </a>
+      </li>
+      {% if user.is_authenticated %}
+        <li class="md:ml-4">
+          <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="#"> Mon compte</a>
+        </li>
+        <li class="md:ml-4">
+          <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="#">Déconnexion</a>
+        </li>
+      {% else %}
+        <li class="md:ml-4">
+          <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="{% url 'login' %}">Connexion</a>
+        </li>
+      {% endif %}
+
+    </ul>
+  </nav>
+
+  <!-- END Global navigation -->
+
+  </header>
 
   {% block content %}
   {% endblock %}
+
+  <footer class="footer">
+    This is our footer
+  </footer>
+
 </body>
 
 </html>

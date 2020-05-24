@@ -8,11 +8,11 @@ def home(request):
     return render(request, 'core/home.html')
 
 
-def create_quiz(request):
+def create(request):
     if request.method == "GET":
         tf_formset = TF_Formset(request.GET or None)
         mc_formset = MC_Formset(request.GET or None)
     elif request.method == "POST":
             tf_formset = TF_Formset(request.POST)
             mc_formset = MC_Formset(request.POST)
-    return render(request, "core/home.html", {"tf_form": tf_formset, "mc_form": mc_formset})
+    return render(request, "core/create.html", {"tf_form": tf_formset, "mc_form": mc_formset})

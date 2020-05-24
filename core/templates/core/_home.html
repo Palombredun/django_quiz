@@ -1,0 +1,64 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Fast & Quizy{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'core/home.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="first">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+  
+    <div class="presentation">
+      <h1 class="text-center font-bold italic text-6xl text-gray-300">Fast & Quizy</h1>
+      <p class="text-center text-2xl text-gray-300">
+      	Ici vous pourrez <br>
+      	participer à des quiz dans des domaines variés <br>
+        et obtenir des conseils personnalisés</p>
+    </div>
+    <br>
+    <br>
+    <div class="button">
+      <button class="bg-yellow-400 hover:bg-orange-400 text-white font-bold py-2 px-4 rounded">Commencer</button>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
+
+  <div class="quizzes text-center">
+  	<ul>
+  	  <li>Quiz 1</li>
+  	  <li>Quiz 2</li>
+  	  <li>Quiz 3</li>
+  	  <li>Quiz 4</li>
+  	  <li>Quiz 5</li>
+  	</ul>
+
+  </div>
+  
+
+  <div class="explanations">
+  	<h3>Explications</h3>
+    Fast and Quizy vous permet de répondre à des quiz crées par les utilisateurs. Les catégories sont aisément reconnaissables à leur couleur. Vous pouvez aussi créer vos propres quiz si vous le désirez !
+    <button class="bg-green-400 hover:bg-green-600 text-black font-bold py-2 px-4 rounded">Découvrir</button>
+
+  </div>
+
+{% endblock %}

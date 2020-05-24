@@ -12,3 +12,8 @@
 .explanations {
 	background-color: #E8BBA9;
 }
+
+.difficulty {
+	display:flex;
+	align-items: flex-end;
+}

@@ -41,7 +41,7 @@
           <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="#"> Mon compte</a>
         </li>
         <li class="md:ml-4">
-          <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="#">Déconnexion</a>
+          <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="{% url 'logout' %}">Déconnexion</a>
         </li>
       {% else %}
         <li class="md:ml-4">
@@ -53,8 +53,18 @@
   </nav>
 
   <!-- END Global navigation -->
-
   </header>
+
+  {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">
+        {{ message|safe }}
+        <a href="#" class="close">x</a>
+      </li>
+    {% endfor %}
+    </ul>
+  {% endif %}
 
   {% block content %}
   {% endblock %}

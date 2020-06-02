@@ -6,12 +6,14 @@ from quiz.models import Question
 
 
 class TF_Question(Question):
-    correct = models.BooleanField(blank=False,
-                                  default=False,
-                                  help_text=_("Tick this if the question "
-                                              "is true. Leave it blank for"
-                                              " false."),
-                                  verbose_name=_("Correct"))
+    correct = models.BooleanField(
+        blank=False,
+        default=False,
+        help_text=_(
+            "Tick this if the question " "is true. Leave it blank for" " false."
+        ),
+        verbose_name=_("Correct"),
+    )
 
     class Meta:
         verbose_name = _("True/False Question")

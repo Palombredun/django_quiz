@@ -7,25 +7,28 @@ from quiz.models import Question
 
 class MCQuestion(Question):
 
-    answer1 = models.CharField(max_length=1000,
-                               blank=False,
-                               help_text=_("Enter the answer text that "
-                                           "you want displayed"),
-                               verbose_name=_("Content"))
+    answer1 = models.CharField(
+        max_length=1000,
+        blank=False,
+        help_text=_("Enter the answer text that " "you want displayed"),
+        verbose_name=_("Content"),
+    )
     answer1_correct = models.BooleanField(blank=False, default=False)
 
-    answer2 = models.CharField(max_length=1000,
-                               blank=False,
-                               help_text=_("Enter the answer text that "
-                                           "you want displayed"),
-                               verbose_name=_("Content"))
+    answer2 = models.CharField(
+        max_length=1000,
+        blank=False,
+        help_text=_("Enter the answer text that " "you want displayed"),
+        verbose_name=_("Content"),
+    )
     answer2_correct = models.BooleanField(blank=False, default=False)
 
-    answer3 = models.CharField(max_length=1000,
-                               blank=False,
-                               help_text=_("Enter the answer text that "
-                                           "you want displayed"),
-                               verbose_name=_("Content"))
+    answer3 = models.CharField(
+        max_length=1000,
+        blank=False,
+        help_text=_("Enter the answer text that " "you want displayed"),
+        verbose_name=_("Content"),
+    )
     answer3_correct = models.BooleanField(blank=False, default=False)
 
     class Meta:

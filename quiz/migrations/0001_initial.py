@@ -8,68 +8,215 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Category',
+            name="Category",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('category', models.CharField(blank=True, max_length=250, null=True, unique=True, verbose_name='Category')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "category",
+                    models.CharField(
+                        blank=True,
+                        max_length=250,
+                        null=True,
+                        unique=True,
+                        verbose_name="Category",
+                    ),
+                ),
+            ],
+            options={"verbose_name": "Category", "verbose_name_plural": "Categories"},
+        ),
+        migrations.CreateModel(
+            name="SubCategory",
+            fields=[
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "sub_category",
+                    models.CharField(
+                        blank=True,
+                        max_length=250,
+                        null=True,
+                        verbose_name="Sub-Category",
+                    ),
+                ),
+                (
+                    "category",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="quiz.Category",
+                        verbose_name="Category",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Category',
-                'verbose_name_plural': 'Categories',
+                "verbose_name": "Sub-Category",
+                "verbose_name_plural": "Sub-Categories",
             },
         ),
         migrations.CreateModel(
-            name='SubCategory',
+            name="Quiz",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('sub_category', models.CharField(blank=True, max_length=250, null=True, verbose_name='Sub-Category')),
-                ('category', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='quiz.Category', verbose_name='Category')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=60, verbose_name="Title")),
+                (
+                    "description",
+                    models.TextField(
+                        blank=True,
+                        help_text="a description of the quiz",
+                        verbose_name="Description",
+                    ),
+                ),
+                (
+                    "url",
+                    models.SlugField(
+                        help_text="a user friendly url",
+                        max_length=16,
+                        unique=True,
+                        verbose_name="user friendly url",
+                    ),
+                ),
+                ("date", models.DateTimeField(auto_now=True)),
+                (
+                    "random_order",
+                    models.BooleanField(
+                        default=False,
+                        help_text="Display the questions in a random order or as they are set?",
+                        verbose_name="Random Order",
+                    ),
+                ),
+                (
+                    "category",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="quiz.Category",
+                        verbose_name="Category",
+                    ),
+                ),
+                (
+                    "subcategory",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="quiz.SubCategory",
+                        verbose_name="Subcategory",
+                    ),
+                ),
             ],
-            options={
-                'verbose_name': 'Sub-Category',
-                'verbose_name_plural': 'Sub-Categories',
-            },
+            options={"verbose_name": "Quiz", "verbose_name_plural": "Quizzes"},
         ),
         migrations.CreateModel(
-            name='Quiz',
+            name="Question",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=60, verbose_name='Title')),
-                ('description', models.TextField(blank=True, help_text='a description of the quiz', verbose_name='Description')),
-                ('url', models.SlugField(help_text='a user friendly url', max_length=16, unique=True, verbose_name='user friendly url')),
-                ('date', models.DateTimeField(auto_now=True)),
-                ('random_order', models.BooleanField(default=False, help_text='Display the questions in a random order or as they are set?', verbose_name='Random Order')),
-                ('category', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='quiz.Category', verbose_name='Category')),
-                ('subcategory', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='quiz.SubCategory', verbose_name='Subcategory')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("difficulty", models.IntegerField(default=2)),
+                ("order", models.IntegerField(default=0)),
+                (
+                    "ordered",
+                    models.BooleanField(
+                        default=True,
+                        help_text="Ordre des questions : aléatoire ou dans l'ordre de création des questions.",
+                    ),
+                ),
+                (
+                    "figure",
+                    models.ImageField(
+                        blank=True,
+                        null=True,
+                        upload_to="uploads/%Y/%m/%d",
+                        verbose_name="Figure",
+                    ),
+                ),
+                (
+                    "content",
+                    models.CharField(
+                        help_text="Entrez la question à poser",
+                        max_length=1000,
+                        verbose_name="Question",
+                    ),
+                ),
+                (
+                    "explanation",
+                    models.TextField(
+                        blank=True,
+                        help_text="Explanation to be shown after the question has been answered.",
+                        max_length=2000,
+                        null=True,
+                        verbose_name="Explanation",
+                    ),
+                ),
+                (
+                    "theme1",
+                    models.CharField(
+                        blank=True,
+                        help_text="Thème de la question. Plus précis que la sous-catégorie, il permettra de rédiger les conseils en fin de quiz.",
+                        max_length=50,
+                        null=True,
+                    ),
+                ),
+                (
+                    "theme2",
+                    models.CharField(
+                        blank=True,
+                        help_text="Thème de la question. Plus précis que la sous-catégorie, il permettra de rédiger les conseils en fin de quiz.",
+                        max_length=50,
+                        null=True,
+                    ),
+                ),
+                (
+                    "theme3",
+                    models.CharField(
+                        blank=True,
+                        help_text="Thème de la question. Plus précis que la sous-catégorie, il permettra de rédiger les conseils en fin de quiz.",
+                        max_length=50,
+                        null=True,
+                    ),
+                ),
+                (
+                    "quiz",
+                    models.ManyToManyField(
+                        blank=True, to="quiz.Quiz", verbose_name="Quiz"
+                    ),
+                ),
             ],
-            options={
-                'verbose_name': 'Quiz',
-                'verbose_name_plural': 'Quizzes',
-            },
-        ),
-        migrations.CreateModel(
-            name='Question',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('difficulty', models.IntegerField(default=2)),
-                ('order', models.IntegerField(default=0)),
-                ('ordered', models.BooleanField(default=True, help_text="Ordre des questions : aléatoire ou dans l'ordre de création des questions.")),
-                ('figure', models.ImageField(blank=True, null=True, upload_to='uploads/%Y/%m/%d', verbose_name='Figure')),
-                ('content', models.CharField(help_text='Entrez la question à poser', max_length=1000, verbose_name='Question')),
-                ('explanation', models.TextField(blank=True, help_text='Explanation to be shown after the question has been answered.', max_length=2000, null=True, verbose_name='Explanation')),
-                ('theme1', models.CharField(blank=True, help_text='Thème de la question. Plus précis que la sous-catégorie, il permettra de rédiger les conseils en fin de quiz.', max_length=50, null=True)),
-                ('theme2', models.CharField(blank=True, help_text='Thème de la question. Plus précis que la sous-catégorie, il permettra de rédiger les conseils en fin de quiz.', max_length=50, null=True)),
-                ('theme3', models.CharField(blank=True, help_text='Thème de la question. Plus précis que la sous-catégorie, il permettra de rédiger les conseils en fin de quiz.', max_length=50, null=True)),
-                ('quiz', models.ManyToManyField(blank=True, to='quiz.Quiz', verbose_name='Quiz')),
-            ],
-            options={
-                'verbose_name': 'Question',
-                'verbose_name_plural': 'Questions',
-            },
+            options={"verbose_name": "Question", "verbose_name_plural": "Questions"},
         ),
     ]

@@ -8,26 +8,55 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-        ('quiz', '0001_initial'),
-    ]
+    dependencies = [("quiz", "0001_initial")]
 
     operations = [
         migrations.CreateModel(
-            name='MCQuestion',
+            name="MCQuestion",
             fields=[
-                ('question_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='quiz.Question')),
-                ('answer1', models.CharField(help_text='Enter the answer text that you want displayed', max_length=1000, verbose_name='Content')),
-                ('answer1_correct', models.BooleanField(default=False)),
-                ('answer2', models.CharField(help_text='Enter the answer text that you want displayed', max_length=1000, verbose_name='Content')),
-                ('answer2_correct', models.BooleanField(default=False)),
-                ('answer3', models.CharField(help_text='Enter the answer text that you want displayed', max_length=1000, verbose_name='Content')),
-                ('answer3_correct', models.BooleanField(default=False)),
+                (
+                    "question_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="quiz.Question",
+                    ),
+                ),
+                (
+                    "answer1",
+                    models.CharField(
+                        help_text="Enter the answer text that you want displayed",
+                        max_length=1000,
+                        verbose_name="Content",
+                    ),
+                ),
+                ("answer1_correct", models.BooleanField(default=False)),
+                (
+                    "answer2",
+                    models.CharField(
+                        help_text="Enter the answer text that you want displayed",
+                        max_length=1000,
+                        verbose_name="Content",
+                    ),
+                ),
+                ("answer2_correct", models.BooleanField(default=False)),
+                (
+                    "answer3",
+                    models.CharField(
+                        help_text="Enter the answer text that you want displayed",
+                        max_length=1000,
+                        verbose_name="Content",
+                    ),
+                ),
+                ("answer3_correct", models.BooleanField(default=False)),
             ],
             options={
-                'verbose_name': 'Multiple Choice Question',
-                'verbose_name_plural': 'Multiple Choice Questions',
+                "verbose_name": "Multiple Choice Question",
+                "verbose_name_plural": "Multiple Choice Questions",
             },
-            bases=('quiz.question',),
-        ),
+            bases=("quiz.question",),
+        )
     ]

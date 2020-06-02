@@ -3,11 +3,41 @@
 {% block title %}Create an account{% endblock %}
 
 {% block content %}
-  <h1>Create an account</h1>
-  <p>Please, sign up using the following form:</p>
-  <form action="." method="post">
-    {{ user_form.as_p }}
-    {% csrf_token %}
-    <p><input type="submit" value="Create my account"></p>
-  </form>
+  <div class="w-full max-w-xs">
+    <form action="{% url 'register' %}" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      {% csrf_token %}
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.username.id_for_label }}">Nom d'utilisateur :</label>
+        <div class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          {{ form.username }}
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.email.id_for_label }}">E-mail :</label>
+        <div class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          {{ form.email }}
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.password.id_for_label }}">Mot de passe :</label>
+        <div class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          {{ form.password }}
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.password2.id_for_label }}">Confirmer le mot de passe :</label>
+        <div class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          {{ form.password2 }}
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <input type="submit" value="S'inscrire" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+       </div>
+  
+    </form>
+  </div>
 {% endblock %}

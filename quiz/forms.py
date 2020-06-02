@@ -10,7 +10,6 @@ DIFFICULTY_CHOICES = (
     )
 
 class QuestionForm(forms.Form):
-	difficulty = forms.ChoiceField(choices=DIFFICULTY_CHOICES)
-	order = forms.BooleanField()
-	content = forms.CharField(max_length=1000)
-	
+	content = forms.CharField(max_length=1000, label="Question")
+	difficulty = forms.ChoiceField(choices=DIFFICULTY_CHOICES, label="Difficulté")
+	order = forms.IntegerField(widget=forms.HiddenInput())	

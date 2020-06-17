@@ -9,6 +9,3 @@ CORRECTNESS_CHOICES = ((True, "Vrai"), (False, "Faux"))
 
 class TrueFalseForm(QuestionForm):
     correct = forms.ChoiceField(choices=CORRECTNESS_CHOICES, label="Réponse")
-
-
-TF_Formset = formset_factory(TrueFalseForm)

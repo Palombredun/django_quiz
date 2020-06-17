@@ -4,6 +4,13 @@ from quiz.models import Question
 
 
 DIFFICULTY_CHOICES = ((1, "facile"), (2, "moyen"), (3, "difficile"))
+CATEGORY_CHOICES = (
+    ("francais", "Français"),
+    ("sciences", "Sciences"),
+    ("histgeo", "Histoire-Géographie"),
+    ("langues", "Langues"),
+    ("autres", "Autres"),
+)
 
 
 class QuestionForm(forms.Form):
@@ -14,5 +21,6 @@ class QuestionForm(forms.Form):
     )
     order = forms.IntegerField(widget=forms.HiddenInput())
 
-class QuizTitleForm(forms.Form):
-	title = forms.CharField(max_length=100, label="Titre du quiz")
+
+class QuizForm(forms.Form):
+    title = forms.CharField(max_length=100, label="Titre du quiz")

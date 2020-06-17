@@ -21,3 +21,4 @@ venv/
 _admin.py
 _forms.py
 _models.py
+essay/

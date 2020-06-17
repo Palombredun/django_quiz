@@ -12,6 +12,3 @@ class MultiChoiceForm(QuestionForm):
     answer2_correct = forms.BooleanField(required=False)
     answer3 = forms.CharField(max_length=1000)
     answer3_correct = forms.BooleanField(required=False)
-
-
-MC_Formset = formset_factory(MultiChoiceForm)

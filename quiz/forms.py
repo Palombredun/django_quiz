@@ -13,3 +13,6 @@ class QuestionForm(forms.Form):
         max_length=100, label="Thème", help_text="thème de la question"
     )
     order = forms.IntegerField(widget=forms.HiddenInput())
+
+class QuizTitleForm(forms.Form):
+	title = forms.CharField(max_length=100, label="Titre du quiz")

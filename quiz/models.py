@@ -118,7 +118,7 @@ class Question(models.Model):
     difficulty = models.IntegerField(default=2, blank=False, null=False)
 
     # new
-    order = models.IntegerField(default=0)
+    order = models.IntegerField(null=True)
 
     ordered = models.BooleanField(
         default=True,

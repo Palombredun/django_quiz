@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.forms import formset_factory
 
+from quiz.models import SubCategory
+
 from quiz.forms import QuizForm
 from true_false.forms import TrueFalseForm
 from multichoice.forms import MultiChoiceForm
@@ -30,4 +32,16 @@ def create(request):
         request,
         "core/create.html",
         {"title_form": quiz_title, "tf_form": tf_formset, "mc_form": mc_formset},
+    )
+
+
+def load_sub_categories(request):
+    category_id = request.GET.get("category")
+    sub_categories = SubCategory.objects.filter(category_id=category_id).order_by(
+        "sub_category"
+    )
+    return render(
+        request,
+        "core/sub_categories_dropdown_list.html",
+        {"sub_categories": sub_categories},
     )

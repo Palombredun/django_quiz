@@ -48,6 +48,7 @@ class Quiz(models.Model):
         verbose_name="Description", blank=True, help_text="a description of the quiz"
     )
 
+    # new
     creator = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
 
     url = models.SlugField(

@@ -1,6 +1,6 @@
 from django import forms
 
-from quiz.models import Quiz, Question
+from quiz.models import Quiz, Question, Category, SubCategory
 
 
 DIFFICULTY_CHOICES = ((1, "facile"), (2, "moyen"), (3, "difficile"))
@@ -14,15 +14,17 @@ class QuestionForm(forms.Form):
     )
     order = forms.IntegerField(widget=forms.HiddenInput())
 
-
-"""
-class QuizForm(forms.Form):
-    title = forms.CharField(max_length=100, label="Titre du quiz")
-    category = forms.ChoiceField(choices=CATEGORY_CHOICES, label="Catégorgie")
-"""
-
-
 class QuizForm(forms.ModelForm):
     class Meta:
         model = Quiz
-        fields = ("title", "description", "category", "sub_category")
+        fields = ("title", "description", "category", "sub_category", "random_order")
+        labels ={
+        	"title": "titre",
+        	"category": "catégorie",
+        	"sub_category": "sous-catégorie",
+        	"random_order": "ordre aléatoire"
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["sub_category"].queryset = SubCategory.objects.none()

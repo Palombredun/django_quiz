@@ -83,6 +83,8 @@ class Quiz(models.Model):
         help_text="Afficher les questions dans l'ordre de création ou aléatoirement ?",
     )
 
+    difficulty = models.IntegerField(default=1)
+
     class Meta:
         verbose_name = "Quiz"
         verbose_name_plural = "Quizzes"

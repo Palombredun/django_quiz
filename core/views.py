@@ -28,11 +28,9 @@ def create(request):
         quiz_form = QuizForm(request.POST, prefix="title")
         tf_formset = TF_Formset(request.POST, prefix="tf")
         mc_formset = MC_Formset(request.POST, prefix="mc")
+        
         if quiz_form.is_valid() and tf_formset.is_valid() and mc_formset.is_valid():
             quiz_cd = quiz_form.cleaned_data
-            print("------------------")
-            print(request.user)
-            print("------------------")
             new_quiz = Quiz.objects.create(title=quiz_cd["title"],
                             description=quiz_cd["description"],
                             creator=request.user,
@@ -41,8 +39,21 @@ def create(request):
                             sub_category=quiz_cd["sub_category"],
                             random_order=quiz_cd["random_order"]
                             )
-        quiz = Quiz.objects.all()
-        print(quiz)
+        
+        difficulty = 0
+        nb_of_questions = 0
+        if tf_formset.is_valid():
+            for question in tf_formset:
+                cd = question.cleaned_data
+                difficulty += cd["difficulty"]
+                nb_of_questions += 1
+        mean_difficulty = difficulty/nb_of_questions
+        if mean_difficulty < 1.667:
+            quiz_difficulty = 1
+        elif mean_difficulty > 2.333:
+            quiz_difficulty = 3
+        else:
+            quiz_difficulty = 2
     return render(
         request,
         "core/create.html",
@@ -60,3 +71,11 @@ def load_sub_categories(request):
         "core/sub_categories_dropdown_list.html",
         {"sub_categories": sub_categories},
     )
+
+def handler404(request, exception):
+    data = {}
+    return render(request,'core/404.html', data)
+
+def handler500(request):
+    data = {}
+    return render(request, "core/500.html", data)

@@ -23,3 +23,6 @@ urlpatterns = [
     path("", include("core.urls")),
     path("account/", include("account.urls")),
 ]
+
+handler404 = "core.views.handler404"
+handler500 = "core.views.handler500"

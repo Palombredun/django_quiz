@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% extends "core/base.html" %}
 {% load static %}
 
 <html lang="fr">
@@ -14,7 +14,7 @@
     {% endblock %}
 </head>
 
-<body>
+{% block content %}
   <span>Quiz :</span>
   <form method="POST" data-subcategories-url="{% url 'ajax_load_subcategories' %}" novalidate>
     {% csrf_token %}
@@ -68,6 +68,4 @@ $('form').one('submit', function(e) {
 });
 
 </script>
-</body>
-
-</html>
+{% endblock %}

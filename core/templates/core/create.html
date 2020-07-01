@@ -16,9 +16,9 @@
 
 <body>
   <span>Quiz :</span>
-  <form method="POST" action="">
+  <form method="POST" data-subcategories-url="{% url 'ajax_load_subcategories' %}" novalidate>
     {% csrf_token %}
-    <div class="title-form" id="title-form">
+    <div class="title-form" id="titleForm">
       {{ title_form.as_p }}
     <br>
     <hr>
@@ -42,15 +42,14 @@
   <button class="add-tf-form">Ajouter TF</button>
   <button class="add-mc-form">Ajouter MC</button>
 
-<script src="{% static 'js/create.js' %}">
+<script src="{% static 'js/create.js' %}"> </script>
+<!-- <script src="{% static 'js/dropdown_list.js' %}"> </script>-->
+<script>
 // set the starting value of the hidden inputs to 0
 var order = 0;
 $("input[name='tf-0-order']").val(order);
 $("input[name='mc-0-order']").val(order);
 
-// hide by default the two forms
-//$('#tf-form').hide();
-//$('#mc-form').hide();
 
 // Prevent submit to update the values of max forms
 $('form').one('submit', function(e) {

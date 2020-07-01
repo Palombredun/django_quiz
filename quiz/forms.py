@@ -25,6 +25,6 @@ class QuizForm(forms.ModelForm):
         	"random_order": "ordre aléatoire"
         }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["sub_category"].queryset = SubCategory.objects.none()
+    #def __init__(self, *args, **kwargs):
+    #    super().__init__(*args, **kwargs)
+    #    self.fields["sub_category"].queryset = SubCategory.objects.none()

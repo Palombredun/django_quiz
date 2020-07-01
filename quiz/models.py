@@ -48,7 +48,6 @@ class Quiz(models.Model):
         verbose_name="Description", blank=True, help_text="a description of the quiz"
     )
 
-    # new
     creator = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
 
     url = models.SlugField(
@@ -67,7 +66,6 @@ class Quiz(models.Model):
         on_delete=models.CASCADE,
     )
 
-    #  new
     sub_category = models.ForeignKey(
         SubCategory,
         null=True,
@@ -76,7 +74,6 @@ class Quiz(models.Model):
         on_delete=models.CASCADE,
     )
 
-    # new
     date = models.DateTimeField(auto_now=True)
 
     random_order = models.BooleanField(

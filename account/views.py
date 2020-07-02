@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 
 
 from .forms import UserRegistrationForm
@@ -26,4 +26,9 @@ def register(request):
 class MyLoginView(SuccessMessageMixin ,LoginView):
     template_name = 'registration/login.html'
     success_url = 'home'
-    success_message = 'Welcome to your profile'
+    success_message = 'Vous êtes bien connecté'
+
+class MyLogoutView(SuccessMessageMixin, LogoutView):
+    template_name = "registration/logged_out.html"
+    success_url = "home"
+    success_message = "Vous avez bien été déconnecté"

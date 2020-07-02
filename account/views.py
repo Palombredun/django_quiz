@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.views import LoginView
 
-from .forms import LoginForm, UserRegistrationForm
+
+from .forms import UserRegistrationForm
 
 
 def register(request):
@@ -19,3 +22,8 @@ def register(request):
     else:
         user_form = UserRegistrationForm()
     return render(request, "account/register.html", {"form": user_form})
+
+class MyLoginView(SuccessMessageMixin ,LoginView):
+    template_name = 'registration/login.html'
+    success_url = 'home'
+    success_message = 'Welcome to your profile'

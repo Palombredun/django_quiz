@@ -21,4 +21,6 @@ venv/
 _admin.py
 _forms.py
 _models.py
+_views.py
+_urls.py
 essay/

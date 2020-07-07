@@ -3,6 +3,7 @@ from random import randint
 from django.shortcuts import render
 from django.forms import formset_factory
 from django.utils.text import slugify
+from django.contrib.auth.decorators import login_required
 
 from quiz.models import SubCategory
 
@@ -12,6 +13,7 @@ from multichoice.forms import MultiChoiceForm
 
 from quiz.models import Quiz
 
+@login_required
 def create(request):
     TF_Formset = formset_factory(TrueFalseForm)
     MC_Formset = formset_factory(MultiChoiceForm)
@@ -25,6 +27,7 @@ def create(request):
         mc_formset = MC_Formset(request.POST, prefix="mc")
         
         if quiz_form.is_valid() and tf_formset.is_valid() and mc_formset.is_valid():
+            last_quiz = Quiz.objects.latest('created')
             quiz_cd = quiz_form.cleaned_data
             new_quiz = Quiz.objects.create(title=quiz_cd["title"],
                             description=quiz_cd["description"],
@@ -34,7 +37,12 @@ def create(request):
                             sub_category=quiz_cd["sub_category"],
                             random_order=quiz_cd["random_order"]
                             )
-        
+            for question in tf_formset:
+                cd = question.cleaned_data
+                #pass
+            for question in mc_formset:
+                cd = question.cleaned_data
+                #pas
         difficulty = 0
         nb_of_questions = 0
         if tf_formset.is_valid():

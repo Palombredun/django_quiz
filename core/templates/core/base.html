@@ -12,68 +12,16 @@
 </head>
 
 <body>
-  <header class=" header border-b md:flex md:items-center md:justify-between p-4 pb-0 shadow-lg md:pb-4">
-  
-  <!-- Logo text or image -->
-  <div class="flex items-center justify-between mb-4 md:mb-0">
-    <h1 class="leading-none text-3xl text-grey-darkest">
-      <a class="no-underline font-bold italic hover:text-green-500" href="{% url 'home' %}">
-        F&Q
-      </a>
-    </h1>
+  {% block header %}
+    {% include 'core/header.html' %}
+  {% endblock %}
 
-    <a class="text-black hover:text-orange md:hidden" href="#">
-      <i class="fa fa-2x fa-bars"></i>
-    </a>
-  </div>
-  <!-- END Logo text or image -->
-  
-  <!-- Global navigation -->
-  <nav>
-    <ul class="list-reset md:flex md:items-center">
-      <li class="md:ml-4">
-        <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="#">
-          Quiz
-        </a>
-      </li>
-      {% if user.is_authenticated %}
-        <li class="md:ml-4">
-          <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="#"> Mon compte</a>
-        </li>
-        <li class="md:ml-4">
-          <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="{% url 'logout' %}">Déconnexion</a>
-        </li>
-      {% else %}
-        <li class="md:ml-4">
-          <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="{% url 'login' %}">Connexion</a>
-        </li>
-      {% endif %}
-
-    </ul>
-  </nav>
-
-  <!-- END Global navigation -->
-  </header>
-
-  {% if messages %}
-    {% for message in messages %}
-      <div class="row justify-content-end">
-        <div class="">
-          <div class="alert alert-{{message.tags}}">
-            {{ message }}
-          </div>
-        </div>
-      </div>
-    {% endfor %}
-  {% endif%}
 
   {% block content %}
   {% endblock %}
   
-  <footer class="footer py-8 flex justify-around">
-      <a class="no-underline font-bold italic hover:text-green-500" href="#">Mentions Legales</a>
-      <a class="no-underline font-bold italic hover:text-green-500" href="#">Licence</a>
-  </footer>
+{% block footer %}
+{% endblock %}
 
 </body>
 

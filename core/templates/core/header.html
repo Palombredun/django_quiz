@@ -1,55 +1,42 @@
+<header class=" header border-b md:flex md:items-center md:justify-between p-4 pb-0 shadow-lg md:pb-4">
+  
+  <!-- Logo text or image -->
+  <div class="flex items-center justify-between mb-4 md:mb-0">
+    <h1 class="leading-none text-3xl text-grey-darkest">
+      <a class="no-underline font-bold italic hover:text-green-500" href="{% url 'home' %}">
+        F&Q
+      </a>
+    </h1>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tailwind Starter Template - Fixed Header : Tailwind Toolbox</title>
-	<meta name="author" content="name">
-    <meta name="description" content="description here">
-	<meta name="keywords" content="keywords,here">
-	<link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet"> <!--Replace with your tailwind.css once created-->
-	<link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet"> <!--Totally optional :) -->
-	
-</head>
-<body class="bg-gray-400 font-sans leading-normal tracking-normal">
+    <a class="text-black hover:text-orange md:hidden" href="#">
+      <i class="fa fa-2x fa-bars"></i>
+    </a>
+  </div>
+  <!-- END Logo text or image -->
+  
+  <!-- Global navigation -->
+  <nav>
+    <ul class="list-reset md:flex md:items-center">
+      <li class="md:ml-4">
+        <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="#">
+          Quiz
+        </a>
+      </li>
+      {% if user.is_authenticated %}
+        <li class="md:ml-4">
+          <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="#"> Mon compte</a>
+        </li>
+        <li class="md:ml-4">
+          <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="{% url 'logout' %}">Déconnexion</a>
+        </li>
+      {% else %}
+        <li class="md:ml-4">
+          <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="{% url 'login' %}">Connexion</a>
+        </li>
+      {% endif %}
 
-	<!--Nav-->
-	<nav class="bg-gray-800 p-2 mt-0 fixed w-full z-10 top-0">
-        <div class="container mx-auto flex flex-wrap items-center">
-		    <div class="flex w-full md:w-1/2 justify-center md:justify-start text-white font-extrabold">
-				<a class="text-white no-underline hover:text-white hover:no-underline" href="#">
-					<span class="text-2xl pl-2"><i class="em em-grinning"></i> Brand McBrandface</span>
-				</a>
-            </div>
-			<div class="flex w-full pt-2 content-center justify-between md:w-1/2 md:justify-end">
-				<ul class="list-reset flex justify-between flex-1 md:flex-none items-center">
-				  <li class="mr-3">
-					<a class="inline-block py-2 px-4 text-white no-underline" href="#">Active</a>
-				  </li>
-				  <li class="mr-3">
-					<a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4" href="#">link</a>
-				  </li>
-				  <li class="mr-3">
-					<a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4" href="#">link</a>
-				  </li>
-					<li class="mr-3">
-					<a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4" href="#">link</a>
-				  </li>
-				</ul>
-			</div>
-        </div>
-    </nav>
+    </ul>
+  </nav>
 
-
-	<!--Container-->
-	<div class="container shadow-lg mx-auto bg-white mt-24 md:mt-16 h-screen">
-		
-	
-		
-	</div>
-
-
-</body>
-</html>
+  <!-- END Global navigation -->
+  </header>

@@ -74,7 +74,7 @@ class Quiz(models.Model):
         on_delete=models.CASCADE,
     )
 
-    date = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now=True)
 
     random_order = models.BooleanField(
         blank=False,

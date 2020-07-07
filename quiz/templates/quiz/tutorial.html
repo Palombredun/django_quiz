@@ -1,0 +1,31 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Tutorial{% endblock %}
+
+
+{% block content %}
+<h1>Comment créer un quiz</h1>
+<h3>Dans ce tutoriel, nous allons voir comment créer un quiz simplement sur Fast & Quizzy</h3>
+<p>
+  Le premier formulaire à remplir concerne le quiz en lui-même. Il faut tout d'abord y indiquer un titre, une courte description et décider d'afficher ou non les questions dans l'ordre de création.
+</p>
+<p>
+  Ensuite, vous pourrez choisir entre ajouter deux types de question. Les questions Vrai/Faux, dont la réponse est soit Vrai soit Faux, et les Questions à Choix Multiples. Ces dernières ont trois propositions, et c'est à vous de décider lesquelles sont correctes (entre une et trois).
+</p>
+
+<p>
+  Ces deux types de question ont de nombreux champs en commun que nous allons maintenant détailler.
+  Vous allez devoir commencer par choisir dans quelle catégorie votre costume appartient (Sciences, Français, Histoire-Géographie, Langues, Autre), et une sous-Catégorie (Mathématiques, Espagnol, Histoire, etc).
+  Ensuite, vous allez devoir taper la question que vous souhaitez poser.
+  Puis, décider de la difficulté de la question posée, et des thèmes abordés par cette question. Ces thèmes, jusqu'au nombre de trois, permettront d'affiner les conseils prodigués en fin de quiz. Par exemple, un quiz dans la catégorie Sciences, sous-catégorie Mathématiques, peut poser des questions de cours, des exercices pratiques, ou encore aborder des thèmes tels que la géométrie ou l'algèbre.
+</p>
+ <a href="{% url 'create' %}">
+ 	<button>Créer un quiz</button>
+ </a>
+{% endblock %}
+
+
+{% block footer %}
+  {% include "core/footer.html" %}
+{% endblock %}

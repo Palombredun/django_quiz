@@ -1,6 +1,6 @@
 from random import randint
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.forms import formset_factory
 from django.utils.text import slugify
 from django.contrib.auth.decorators import login_required
@@ -13,14 +13,20 @@ from multichoice.forms import MultiChoiceForm
 
 from quiz.models import Quiz
 
+def tutorial(request):
+    return render(request, "quiz/tutorial.html")
+
 @login_required
 def create(request):
     TF_Formset = formset_factory(TrueFalseForm)
     MC_Formset = formset_factory(MultiChoiceForm)
     if request.method == "GET":
-        quiz_form = QuizForm(request.GET or None, prefix="title")
-        tf_formset = TF_Formset(request.GET or None, prefix="tf")
-        mc_formset = MC_Formset(request.GET or None, prefix="mc")
+        if Quiz.objects.filter(creator=request.user).exists():
+            quiz_form = QuizForm(request.GET or None, prefix="title")
+            tf_formset = TF_Formset(request.GET or None, prefix="tf")
+            mc_formset = MC_Formset(request.GET or None, prefix="mc")
+        else:
+            return redirect("tutorial")
     elif request.method == "POST":
         quiz_form = QuizForm(request.POST, prefix="title")
         tf_formset = TF_Formset(request.POST, prefix="tf")

@@ -99,31 +99,18 @@ class Question(models.Model):
     Shared properties placed here.
     """
 
-    quiz = models.ManyToManyField(Quiz, verbose_name="Quiz", blank=True)
-
-    # new
+    quiz = models.ForeignKey(Quiz, verbose_name="Quiz", default=1, on_delete=models.CASCADE)
     difficulty = models.IntegerField(default=2, blank=False, null=False)
-
-    # new
     order = models.IntegerField(null=True)
-
-    ordered = models.BooleanField(
-        default=True,
-        help_text="Ordre des questions : aléatoire ou "
-        "dans l'ordre de création des questions.",
-    )
-
     figure = models.ImageField(
         upload_to="uploads/%Y/%m/%d", blank=True, null=True, verbose_name="Figure"
     )
-
     content = models.CharField(
         max_length=1000,
         blank=False,
         help_text="Entrez la question à poser",
         verbose_name="Question",
     )
-
     explanation = models.TextField(
         max_length=2000,
         blank=True,

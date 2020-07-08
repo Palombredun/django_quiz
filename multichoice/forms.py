@@ -12,3 +12,20 @@ class MultiChoiceForm(QuestionForm):
     answer2_correct = forms.BooleanField(required=False)
     answer3 = forms.CharField(max_length=1000)
     answer3_correct = forms.BooleanField(required=False)
+
+    class Meta:
+        model = MCQuestion
+        fields = (
+            "difficulty",
+            "order",
+            "content",
+            "theme1",
+            "theme2",
+            "theme3",
+            "answer1",
+            "answer1_correct",
+            "answer2",
+            "answer2_correct",
+            "answer3",
+            "answer3_correct",
+        )

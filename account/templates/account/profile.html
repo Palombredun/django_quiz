@@ -1,0 +1,20 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Mon profil{% endblock %}
+
+{% block content %}
+<h1>Bienvenue sur votre profil {{ user.username }}</h1>
+
+<p>Vous pourrez retrouver ici toutes informations concernant votre profil telles que les quis auxquels vous avez participés ainsi que ceux que vous avez créées.</p>
+
+<a href="{% url "create" %}">
+	<button>Créer un quiz</button>
+</a>
+
+
+{% endblock %}
+
+{% block footer %}
+  {% include 'core/footer.html' %}
+{% endblock %}

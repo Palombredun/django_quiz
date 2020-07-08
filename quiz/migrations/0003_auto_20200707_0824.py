@@ -5,19 +5,11 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('quiz', '0002_auto_20200618_1316'),
-    ]
+    dependencies = [("quiz", "0002_auto_20200618_1316")]
 
     operations = [
-        migrations.RenameField(
-            model_name='quiz',
-            old_name='date',
-            new_name='created',
-        ),
+        migrations.RenameField(model_name="quiz", old_name="date", new_name="created"),
         migrations.AddField(
-            model_name='quiz',
-            name='difficulty',
-            field=models.IntegerField(default=1),
+            model_name="quiz", name="difficulty", field=models.IntegerField(default=1)
         ),
     ]

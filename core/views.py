@@ -9,7 +9,8 @@ def home(request):
 
 def handler404(request, exception):
     data = {}
-    return render(request,'core/404.html', data)
+    return render(request, "core/404.html", data)
+
 
 def handler500(request):
     data = {}

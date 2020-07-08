@@ -1,25 +1,19 @@
-{% extends "core/base.html" %}
-{% load static %}
-
-<html lang="fr">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    {% block head %}
-        <title>Fast And Quizzy</title>
-    {% endblock %}
-</head>
+<!--{% extends "core/base.html" %}
+{% load static %}-->
 
 {% block content %}
-  <span>Quiz :</span>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <h1>Créer un quiz :</h1>
+  <a href="{% url 'tutorial' %}">Découvrir comment créer un quiz</a>
   <form method="POST" data-subcategories-url="{% url 'ajax_load_subcategories' %}" novalidate>
     {% csrf_token %}
-    <div class="title-form" id="titleForm">
-      {{ title_form.as_p }}
+    <div class="quiz-form" id="quiForm">
+      {{ quiz_form.as_p }}
     <br>
     <hr>
     <br>
@@ -47,10 +41,9 @@
 <script>
 // set the starting value of the hidden inputs to 0
 var order = 0;
-$("input[name='tf-0-order']").val(order);
-$("input[name='mc-0-order']").val(order);
-
-
+document.getElementById("id_tf-0-order").value = order;
+document.getElementById("id_mc-0-order").value = order;
+console.log(document.getElementById("id_tf-0-order"));
 // Prevent submit to update the values of max forms
 $('form').one('submit', function(e) {
   e.preventDefault()

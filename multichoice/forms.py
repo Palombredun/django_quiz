@@ -5,7 +5,7 @@ from multichoice.models import MCQuestion
 from quiz.forms import QuestionForm
 
 
-class MultiChoiceForm(QuestionForm):
+class CreationMultiChoiceForm(QuestionForm):
     answer1 = forms.CharField(max_length=1000)
     answer1_correct = forms.BooleanField(required=False)
     answer2 = forms.CharField(max_length=1000)

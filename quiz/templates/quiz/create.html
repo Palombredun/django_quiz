@@ -32,13 +32,9 @@
   </div>
 </div>
 <script src="{% static 'js/create.js' %}"> </script>
+<script src="{% static 'js/order.js' %}"></script>
 <!-- <script src="{% static 'js/dropdown_list.js' %}"> </script>-->
 <script>
-// set the starting value of the hidden inputs to 0
-var order = 0;
-document.getElementById("id_tf-0-order").value = order;
-document.getElementById("id_mc-0-order").value = order;
-
 // Prevent submit to update the values of max forms
 $('form').one('submit', function(e) {
   e.preventDefault()
@@ -46,12 +42,11 @@ $('form').one('submit', function(e) {
   $("input[name='tf-TOTAL_FORMS']").each(function() {
       this.value = total_tf
   });
-
   // For mc forms
   $("input[name='mc-TOTAL_FORMS']").each(function() {
       this.value = total_mc
   });
-
+  // Submit the forms
   $(this).submit()
 });
 

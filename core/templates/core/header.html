@@ -18,13 +18,13 @@
   <nav>
     <ul class="list-reset md:flex md:items-center">
       <li class="md:ml-4">
-        <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="#">
+        <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="{% url 'quiz-list' %}">
           Quiz
         </a>
       </li>
       {% if user.is_authenticated %}
         <li class="md:ml-4">
-          <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="{% url "profile" %}"> Mon compte</a>
+          <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="{% url 'profile' %}"> Mon compte</a>
         </li>
         <li class="md:ml-4">
           <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="{% url 'logout' %}">Déconnexion</a>

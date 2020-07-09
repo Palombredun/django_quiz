@@ -1,6 +1,3 @@
-$("#tf-form").hide();
-$("#mc-form").hide();
-
 function cloneTF(selector) {
   // change the current total number of tf questions
   total_tf = $('#id_tf-TOTAL_FORMS').val();

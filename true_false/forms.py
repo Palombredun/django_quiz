@@ -7,7 +7,7 @@ from .models import TF_Question
 CORRECTNESS_CHOICES = ((True, "Vrai"), (False, "Faux"))
 
 
-class TrueFalseForm(QuestionForm):
+class CreationTrueFalseForm(QuestionForm):
     correct = forms.ChoiceField(choices=CORRECTNESS_CHOICES, label="Réponse")
 
     class Meta:

@@ -1,13 +1,16 @@
+from random import shuffle
+
 from django.shortcuts import render, redirect
 from django.forms import formset_factory
 from django.utils.text import slugify
 from django.contrib.auth.decorators import login_required
+from django.views.generic.list import ListView
 
 from quiz.forms import QuizForm
-from true_false.forms import TrueFalseForm
-from multichoice.forms import MultiChoiceForm
+from true_false.forms import CreationTrueFalseForm
+from multichoice.forms import CreationMultiChoiceForm
 
-from quiz.models import Quiz, SubCategory
+from quiz.models import Quiz, Question, SubCategory
 from true_false.models import TF_Question
 from multichoice.models import MCQuestion
 
@@ -22,8 +25,8 @@ def create(request):
     View dedicated to the creation of the quiz using formsets.
     If the user has never created a quiz, redirect him to the tutorial.
     """
-    TF_Formset = formset_factory(TrueFalseForm)
-    MC_Formset = formset_factory(MultiChoiceForm)
+    TF_Formset = formset_factory(CreationTrueFalseForm)
+    MC_Formset = formset_factory(CreationMultiChoiceForm)
     if request.method == "GET":
         # if Quiz.objects.filter(creator=request.user).exists():
         quiz_form = QuizForm(request.GET or None, prefix="title")
@@ -123,3 +126,12 @@ def load_sub_categories(request):
         "core/sub_categories_dropdown_list.html",
         {"sub_categories": sub_categories},
     )
+
+class QuizListView(ListView):
+    model = Quiz
+
+def take_quiz(request, slug):
+    quiz = Quiz.objects.get(slug=slug)
+    questions = Question.objects(quiz=quiz)
+    if quiz.random_order == True:
+        pass

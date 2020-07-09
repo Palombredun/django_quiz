@@ -1,16 +1,11 @@
-<!--{% extends "core/base.html" %}
-{% load static %}-->
+{% extends "core/base.html" %}
+{% load static %}
 
 {% block content %}
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <h1>Créer un quiz :</h1>
-  <a href="{% url 'tutorial' %}">Découvrir comment créer un quiz</a>
-  <form method="POST" data-subcategories-url="{% url 'ajax_load_subcategories' %}" novalidate>
+<div class="container mx-auto">
+  <h1 class="pt-8 text-2xl font-bold">Créer un quiz :</h1>
+  <a href="{% url 'tutorial' %}" class="py-2 text-blue-500 hover:underline">Découvrir comment créer un quiz</a>
+  <form method="POST" data-subcategories-url="{% url 'ajax_load_subcategories' %}" novalidate class="pt-8" id="quiz-form">
     {% csrf_token %}
     <div class="quiz-form" id="quiForm">
       {{ quiz_form.as_p }}
@@ -30,12 +25,12 @@
       <hr>
       <br>
     </div>
-      <input type="submit" value="J'ai fini !" class="create-quiz">
-    </div>
+      <input type="submit" value="J'ai fini !" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
   </form>
-  <button class="add-tf-form">Ajouter TF</button>
-  <button class="add-mc-form">Ajouter MC</button>
-
+  <button class="add-tf-form bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Ajouter TF</button>
+    <button class="add-mc-form bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Ajouter MC</button>
+  </div>
+</div>
 <script src="{% static 'js/create.js' %}"> </script>
 <!-- <script src="{% static 'js/dropdown_list.js' %}"> </script>-->
 <script>
@@ -43,7 +38,7 @@
 var order = 0;
 document.getElementById("id_tf-0-order").value = order;
 document.getElementById("id_mc-0-order").value = order;
-console.log(document.getElementById("id_tf-0-order"));
+
 // Prevent submit to update the values of max forms
 $('form').one('submit', function(e) {
   e.preventDefault()

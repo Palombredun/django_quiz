@@ -38,13 +38,6 @@ def create(request):
         tf_formset = TF_Formset(request.POST, prefix="tf")
         mc_formset = MC_Formset(request.POST, prefix="mc")
 
-        if quiz_form.is_valid():
-            print("quiz_form valid")
-        if tf_formset.is_valid():
-            print("tf form valid")
-        if mc_formset.is_valid():
-            print("mc form valide")
-
         if quiz_form.is_valid() and tf_formset.is_valid() and mc_formset.is_valid():
             try:
                 last_quiz = Quiz.objects.latest("created")
@@ -62,9 +55,7 @@ def create(request):
                 sub_category=quiz_cd["sub_category"],
                 random_order=quiz_cd["random_order"],
             )
-            print("avant sauvegarde quiz")
             new_quiz.save()
-            print("quiz sauvegardé")
 
             mean_difficulty = 0
             n = 0
@@ -83,9 +74,8 @@ def create(request):
                     correct=cd["correct"],
                     quiz=new_quiz,
                 )
-                print("tf va être sauvegardé")
                 new_tf.save()
-                print("tf sauvegardé")
+
             for question in mc_formset:
                 cd = question.cleaned_data
                 n += 1
@@ -105,9 +95,7 @@ def create(request):
                     answer3_correct=cd["answer3_correct"],
                     quiz=new_quiz,
                 )
-                print("mc va être sauvé")
                 new_mc.save()
-                print("mc sauvé")
 
             if mean_difficulty < 1.667:
                 quiz_difficulty = 1
@@ -115,6 +103,9 @@ def create(request):
                 quiz_difficulty = 3
             else:
                 quiz_difficulty = 2
+            new_quiz.difficulty = quiz_difficulty
+            new_quiz.save()
+
     return render(
         request,
         "quiz/create.html",

@@ -11,6 +11,6 @@ urlpatterns = [
         views.load_sub_categories,
         name="ajax_load_subcategories",
     ),
-    path("take-quiz/<slug:slug>/", views.take_quiz, name="take_quiz"),
+    path("take-quiz/<slug:url>/", views.take_quiz, name="take_quiz"),
     path("quiz-list/", QuizListView.as_view(), name="quiz-list"),
 ]

@@ -1,3 +1,3 @@
 {% for quiz in object_list %}
-{{ quiz.title }}
+<a href="{% url 'take_quiz' slug=quiz.url %}">{{ quiz.title }}</a>
 {% endfor %}

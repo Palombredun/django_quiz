@@ -1,10 +1,10 @@
-
+/*
 //hide the basic forms:
 $("#base-tf-form").hide();
 $("#base-mc-form").hide();
 
 var order = 0;
-
+*/
 
 function cloneTF(selector) {
   // get the current total number of tf questions
@@ -19,7 +19,7 @@ function cloneTF(selector) {
       $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
     });
   // remove its id (useful later):
-  $('#base-tf-form').removeAttr('id');
+  //$('#base-tf-form').removeAttr('id');
   // Update the number of tf questions in the labels
   newElement.find('label').each(function() {
     var forValue = $(this).attr('for');
@@ -34,11 +34,11 @@ function cloneTF(selector) {
   //place it in the div intended for it
   $('#forms').append(newElement);
   
-  // Change the value of the hidden input order
+  /* Change the value of the hidden input order
   id_order = "id_tf-" + order + "-order";
   order = document.getElementById(id_order);
   order++;
-  $(order).val(order);
+  $(order).val(order);*/
   return false;  
 }
 

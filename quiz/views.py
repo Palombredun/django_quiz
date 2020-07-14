@@ -58,7 +58,7 @@ def create(request):
                 sub_category=quiz_cd["sub_category"],
                 random_order=quiz_cd["random_order"],
             )
-            new_quiz.save()
+            #new_quiz.save()
 
             mean_difficulty = 0
             n = 0
@@ -77,7 +77,7 @@ def create(request):
                     correct=cd["correct"],
                     quiz=new_quiz,
                 )
-                new_tf.save()
+                #new_tf.save()
 
             for question in mc_formset:
                 cd = question.cleaned_data
@@ -98,7 +98,7 @@ def create(request):
                     answer3_correct=cd["answer3_correct"],
                     quiz=new_quiz,
                 )
-                new_mc.save()
+                #new_mc.save()
 
             if mean_difficulty < 1.667:
                 quiz_difficulty = 1
@@ -107,7 +107,7 @@ def create(request):
             else:
                 quiz_difficulty = 2
             new_quiz.difficulty = quiz_difficulty
-            new_quiz.save()
+            #new_quiz.save()
 
     return render(
         request,

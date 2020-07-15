@@ -6,18 +6,18 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('quiz', '0004_remove_question_ordered'),
-    ]
+    dependencies = [("quiz", "0004_remove_question_ordered")]
 
     operations = [
-        migrations.RemoveField(
-            model_name='question',
-            name='quiz',
-        ),
+        migrations.RemoveField(model_name="question", name="quiz"),
         migrations.AddField(
-            model_name='question',
-            name='quiz',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='quiz.Quiz', verbose_name='Quiz'),
+            model_name="question",
+            name="quiz",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="quiz.Quiz",
+                verbose_name="Quiz",
+            ),
         ),
     ]

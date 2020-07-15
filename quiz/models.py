@@ -99,7 +99,9 @@ class Question(models.Model):
     Shared properties placed here.
     """
 
-    quiz = models.ForeignKey(Quiz, verbose_name="Quiz", default=1, on_delete=models.CASCADE)
+    quiz = models.ForeignKey(
+        Quiz, verbose_name="Quiz", default=1, on_delete=models.CASCADE
+    )
     difficulty = models.IntegerField(default=2, blank=False, null=False)
     order = models.IntegerField(null=True)
     figure = models.ImageField(
@@ -155,3 +157,23 @@ class Question(models.Model):
 
     def __str__(self):
         return self.content
+
+
+class Detail(models.Model):
+    user = models.ManyToManyField(User)
+    question = models.ManyToManyField(Question)
+    correct = models.BooleanField()
+
+
+class Result(models.Model):
+    quiz = models.OneToOneField(Quiz, on_delete=models.CASCADE)
+    student = models.ManyToManyField(User)
+    easy = models.FloatField()
+    medium = models.FloatField()
+    difficult = models.FloatField()
+    theme1 = models.FloatField()
+    theme2 = models.FloatField()
+    theme3 = models.FloatField()
+    result_0_to_3 = models.FloatField()
+    result_4_to_6 = models.FloatField()
+    result_7_to_10 = models.FloatField()

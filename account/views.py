@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 from .forms import UserRegistrationForm
+from quiz.models import Quiz, Detail
 
 
 def register(request):
@@ -37,6 +38,18 @@ class MyLogoutView(SuccessMessageMixin, LogoutView):
     success_message = "Vous avez bien été déconnecté"
 
 
+@login_required
 def profile(request):
     user = User.objects.get(pk=request.user.id)
-    return render(request, "account/profile.html", {"user": user})
+    quiz_created = Quiz.objects.filter(user=user)
+    questions_participated = Details.objects.filter(user=user)
+    quiz_participated = set(Quiz.objects.filter(question=questions_participated))
+    return render(
+        request,
+        "account/profile.html",
+        {
+            "user": user,
+            "quiz_participated": quiz_participated,
+            "quiz_created": quiz_created,
+        },
+    )

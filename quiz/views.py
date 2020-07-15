@@ -132,8 +132,7 @@ class QuizListView(ListView):
     model = Quiz
 
 
-def take_quiz(request, slug):
-    quiz = Quiz.objects.get(slug=slug)
-    questions = Question.objects(quiz=quiz)
-    if quiz.random_order == True:
-        pass
+def take_quiz(request, url):
+    quiz = Quiz.objects.get(url=url)
+    questions = Question.objects.filter(quiz=quiz)
+    return render(request, "quiz/take_quiz.html")

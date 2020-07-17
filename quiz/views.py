@@ -7,8 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.list import ListView
 
 from quiz.forms import QuizForm
-from true_false.forms import CreationTrueFalseForm
-from multichoice.forms import CreationMultiChoiceForm
+from true_false.forms import CreationTrueFalseForm, TrueFalseForm
+from multichoice.forms import CreationMultiChoiceForm, MultiChoiceForm
 
 from quiz.models import Quiz, Question, SubCategory
 from true_false.models import TF_Question
@@ -35,6 +35,7 @@ def create(request):
         # else:
         #    pass
         #    #return redirect("tutorial")
+        print(type(tf_formset))
 
     elif request.method == "POST":
         quiz_form = QuizForm(request.POST, prefix="title")
@@ -133,6 +134,31 @@ class QuizListView(ListView):
 
 
 def take_quiz(request, url):
+    """
     quiz = Quiz.objects.get(url=url)
-    questions = Question.objects.filter(quiz=quiz)
-    return render(request, "quiz/take_quiz.html")
+    tf_questions = TF_Question.objects.filter(quiz=quiz)
+    mc_questions = MCQuestion.objects.filter(quiz=quiz)
+    nb_tf_questions = tf_questions.count()
+    nb_mc_questions = mc_questions.count()
+    forms = [0] * (nb_tf_questions + nb_mc_questions)
+    for question in tf_questions:
+        index = question.order
+        forms[index] = TFQuestionForm(prefix='tf'+str(index))
+    for question in mc_question:
+        index = question.order
+        forms[index] = MCQuestionForm(prefix='mc'+str(index))
+    questions = [0] * (nb_tf_questions + nb_mc_questions)
+    for question in tf_questions:
+        index = question.order
+        questions[index] = question
+    for question in mc_questions:
+        index = question.order
+        questions[index] = question
+
+    """
+    if request.method == "GET":
+        if quiz.ordered == False:
+            questions = shuffle(questions)
+        return render(request, "quiz/take_quiz.html")
+    elif request.method == "POST":
+        pass

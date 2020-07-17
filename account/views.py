@@ -41,9 +41,13 @@ class MyLogoutView(SuccessMessageMixin, LogoutView):
 @login_required
 def profile(request):
     user = User.objects.get(pk=request.user.id)
-    quiz_created = Quiz.objects.filter(user=user)
-    questions_participated = Details.objects.filter(user=user)
-    quiz_participated = set(Quiz.objects.filter(question=questions_participated))
+    quiz_created = Quiz.objects.filter(creator=user)
+    questions_participated = Detail.objects.filter(user=user)
+    if not questions_participated:
+        quiz_participated = []
+    else:
+        questions_id = [question.id for question in questions_participated]
+        quiz_participated = set(Quiz.objects.filter(question=questions_id))
     return render(
         request,
         "account/profile.html",

@@ -1,0 +1,79 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title%}Créer un quiz{% endblock %}
+
+{% block content %}
+<div class="container mx-auto">
+  <h1 class="pt-8 text-2xl font-bold">Créer un quiz :</h1>
+  <a href="{% url 'tutorial' %}" class="py-2 text-blue-500 hover:underline">Découvrir comment créer un quiz</a>
+  
+  <form method="POST" data-subcategories-url="{% url 'ajax_load_subcategories' %}" novalidate class="pt-8" id="quiz-form">
+    {% csrf_token %}
+    <div class="quiz-form" id="quizForm">
+      {{ quiz_form.as_p }}
+    <br>
+    <hr>
+    <br>
+    </div>
+    <div class="tf-form" id="base-tf-form">
+      {{ tf_form.as_p }}
+    <br>
+    <hr>
+    <br>
+    </div>
+    <div class="mc-form" id="base-mc-form">
+      {{ mc_form.as_p}}
+      <br>
+      <hr>
+      <br>
+    </div>
+    <div id="forms">
+    </div>
+      <input type="submit" value="J'ai fini !" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+  </form>
+  <button class="add-tf-form bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Ajouter TF</button>
+
+    <button class="add-mc-form bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Ajouter MC</button>
+  </div>
+</div>
+
+<script src="{% static 'js/create.js' %}"> </script>
+<!-- <script src="{% static 'js/dropdown_list.js' %}"> </script>-->
+
+<script>
+// Add a TrueFalse Question Form
+$(document).on('click', '.add-tf-form', function(e){
+  e.preventDefault();
+  var form = $("#base-tf-form");
+  cloneTF(form);
+  return false;
+});
+// Add a MultiChoice Question Form
+$(document).on('click', '.add-mc-form', function(e){
+  e.preventDefault();
+  var form = $("#base-mc-form");
+  console.log(form);
+  cloneTF(form);
+  return false;
+});
+
+// Prevent submit to update the values of max forms
+$('form').one('submit', function(e) {
+  e.preventDefault();
+  // For tf forms
+  $("input[name='tf-TOTAL_FORMS']").each(function() {
+      this.value = total_tf;
+  });
+  // For mc forms
+  $("input[name='mc-TOTAL_FORMS']").each(function() {
+      this.value = total_mc;
+  });
+  //Delete the two basic forms :
+  $("#base-tf-form").remove();
+  $("#base-mc-form").remove();
+  // Submit the forms
+  $(this).submit();
+});
+</script>
+{% endblock %}

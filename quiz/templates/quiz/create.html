@@ -4,111 +4,227 @@
 {% block title%}Créer un quiz{% endblock %}
 
 {% block content %}
-<form method="post">
-	<div id="quiz">
-		<p>
-		  	<label class="block text-gray-700 text-sm font-bold mb-2"> {{ quiz_form.title.label }}</label>
-		  	<div class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"> {{ quiz_form.title}}</div>
-		</p>
-		<p>
-			{{ quiz_form.description.label }}
-			{{ quiz_form.description }}
-		</p>
-		<p>
-			{{ quiz_form.category.label }}
-			{{quiz_form.category }}
-		</p>
-		<p>
-			{{ quiz_form.sub_category.label }}
-			{{quiz_form.sub_category }}
-		</p>
+<div class="container mx-auto">
+	<form method="post">
+		{% csrf_token %}
+		<div id="quiz">
+			<p>
+		  		<label class="block text-gray-700 text-sm font-bold mb-2"> {{ quiz_form.title.label }}</label>
+		  		<div class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"> {{ quiz_form.title}}</div>
+		  	</p>
+			<p>
+				{{ quiz_form.description.label }}
+				{{ quiz_form.description }}
+			</p>
+			<p>
+				{{ quiz_form.category.label }}
+				{{quiz_form.category }}
+			</p>
+			<p>
+				{{ quiz_form.sub_category.label }}
+				{{quiz_form.sub_category }}
+			</p>
+		</div>
+		<hr>
+		<hr>
+		<div id="tf">
+			{{ tf_form.management_form }}
+			{% for tf in tf_form %}
+			<p>
+				{% for hidden_field in tf.hidden_fields %}
+				{{ hidden_field }}
+				{% endfor %}
+			</p>
+			<p>
+				{{ tf.content.label }}
+				{{ tf.content }}
+			</p>
+			<p>
+				{{ tf.difficulty.label }}
+				{{ tf.difficulty }}
+			</p>
+			<p>
+				{{ tf.theme1.label }}
+				{{ tf.theme1 }}
+			</p>
+			<p>
+				{{ tf.theme2.label }}
+				{{ tf.theme2 }}
+			</p>
+			<p>
+				{{ tf.theme3.label }}
+				{{ tf.theme3 }}
+			</p>
+			<p>
+				{{ tf.correct.label }}
+				{{ tf.correct }}
+			</p>
+			{% endfor %}
+		</div>
+		<hr>
+		<div id="mc">
+			{{ mc_form.management_form }}
+			{% for mc in mc_form %}
+			
+			<p>
+				{% for hidden_field in mc.hidden_fields %}
+				{{ hidden_field }}
+				{% endfor %}
+			</p>
+			<p>
+				{{ mc.content.label }}
+				{{ mc.content }}
+			</p>
+			<p>
+				{{ mc.difficulty.label }}
+				{{ mc.difficulty }}
+			</p>
+			<p>
+				{{ mc.theme1.label }}
+				{{ mc.theme1 }}
+			</p>
+			<p>
+				{{ mc.theme2.label }}
+				{{ mc.theme2 }}
+			</p>
+			<p>
+				{{ mc.theme3.label }}
+				{{ mc.theme3 }}
+			</p>
+			<p>
+				{{ mc.answer1.label }}
+				{{ mc.answer1 }}
+			</p>
+			<p>
+				{{ mc.answer1_correct.label }}
+				{{ mc.answer1_correct }}
+			</p>
+			<p>
+				{{ mc.answer2.label }}
+				{{ mc.answer2 }}
+			</p>
+			<p>
+				{{ mc.answer2_correct.label }}
+				{{ mc.answer2_correct }}
+			</p>
+			<p>
+				{{ mc.answer3.label }}
+				{{ mc.answer3 }}
+			</p>
+			<p>
+				{{ mc.answer3_correct.label }}
+				{{ mc.answer3_correct }}
+			</p>
+			{% endfor %}
+		</div>
 	</div>
-	<br>
-	<hr>
-	<br>
+		<input type="submit" value="Créer">
+	</form>
+<!--
+
 	<div id="tf">
-	{% for tf in tf_form %}
-		<p>
-			{{ tf.content.label }}
-			{{ tf.content }}
-		</p>
-		<p>
-			{{ tf.difficulty.label }}
-			{{ tf.difficulty }}
-		</p>
-		
-		<p>
-			{{ tf.theme1.label }}
-			{{ tf.theme1 }}
-		</p>
-		<p>
-			{{ tf.theme2.label }}
-			{{ tf.theme2 }}
-		</p>
-		<p>
-			{{ tf.theme3.label }}
-			{{ tf.theme3 }}
-		</p>
-		<p>
-			{{ tf.correct.label }}
-			{{ tf.correct }}
-		</p>
-	</div>
-	{% endfor %}
-	<br>
-	<hr>
-	<br>
-	{% for mc in mc_form %}
-		<p>
-			{{ mc.content.label }}
-			{{ mc.content }}
-		</p>
-		<p>
-			{{ mc.difficulty.label }}
-			{{ mc.difficulty }}
-		</p>
-		<p>
-			{{ mc.theme1.label }}
-			{{ mc.theme1 }}
-		</p>
-		<p>
-			{{ mc.theme2.label }}
-			{{ mc.theme2 }}
-		</p>
-		<p>
-			{{ mc.theme3.label }}
-			{{ mc.theme3 }}
-		</p>
-		<p>
-			{{ mc.answer1.label }}
-			{{ mc.answer1 }}
-		</p>
-		<p>
-			{{ mc.answer1_correct.label }}
-			{{ mc.answer1_correct }}
-		</p>
-		<p>
-			{{ mc.answer2.label }}
-			{{ mc.answer2 }}
-		</p>
-		<p>
-			{{ mc.answer2_correct.label }}
-			{{ mc.answer2_correct }}
-		</p>
-		<p>
-			{{ mc.answer3.label }}
-			{{ mc.answer3 }}
-		</p>
-		<p>
-			{{ mc.answer3_correct.label }}
-			{{ mc.answer3_correct }}
-		</p>
-	{% endfor %}
+			
+		</div>
+
+
 	
+</form>-->
 
-<input type="submit" value="Créer">
-</form>
+    <button id="add-tf" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Ajouter TF</button>
+    <button id="add-mc" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Ajouter MC</button>
+</div>
 
+<script>
+$("#id_tf-0-order").val(1);
+$("#id_mc-0-order").val(2);
+/*
+var total_tf = 1;
+var total_mc = 1;
+var order = 1;
 
+// Add a TrueFalse Question Form
+$(document).on('click', '#add-tf', function(e){
+  e.preventDefault();
+  var form = $("#base-tf");
+  cloneTF(form);
+  return false;
+});
+// Add a MultiChoice Question Form
+$(document).on('click', '#add-mc', function(e){
+  e.preventDefault();
+  var form = $("#base-mc");
+  console.log(form);
+  cloneTF(form);
+  return false;
+});
 
+function cloneTF(selector) {
+	// clone
+	var newElement = $(selector).clone(true);
+	// update order value
+	newElement.find('#id_tf-' + total_tf).val(order);
+	// change id of the div cloned
+	newElement.prop('id', 'tf-' + total_tf);
+
+	// update 'for' value of the element
+	newElement.find('label').each(function() {
+    var forValue = $(this).attr('for');
+    if (forValue) {
+      forValue = forValue.replace('-' + (total_tf-1) + '-', '-' + total_tf + '-');
+      $(this).attr({'for': forValue});
+      }
+  	});
+	// append div #forms with newElement
+	$('#forms-container').append(newElement);
+
+	total_tf ++;
+	order ++;
+	return false;
+}
+
+function cloneMC(selector) {
+	// clone
+	var newElement = $(selector).clone(true);
+	// update order value
+	newElement.find('#id_mc-' + total_mc).val(order);
+	// change id of the div cloned
+	newElement.prop('id', 'mc-' + total_mc);
+
+	// update 'for' value of the element
+	newElement.find('label').each(function() {
+    var forValue = $(this).attr('for');
+    if (forValue) {
+      forValue = forValue.replace('-' + (total_mc-1) + '-', '-' + total_mc + '-');
+      $(this).attr({'for': forValue});
+      }
+  	});
+	// append div #forms with newElement
+	$('#forms-container').append(newElement);
+
+	total_mc ++;
+	order ++;
+	return false;
+}
+*/
+// Prevent submit to update the values of max forms
+/*$('form').one('submit', function(e) {
+    e.preventDefault();
+    // For tf forms
+    $("input[name='tf-TOTAL_FORMS']").each(function() {
+        this.value = total_tf;
+        console.log(this);
+    });
+    // For mc forms
+    $("input[name='mc-TOTAL_FORMS']").each(function() {
+        this.value = total_mc;
+        console.log(this);
+    });
+    //Delete the two basic forms :
+    $("#base-tf").remove();
+    $("#base-mc").remove();
+  
+    // Submit the forms
+    $(this).submit();
+});*/
+</script>
 {% endblock %}

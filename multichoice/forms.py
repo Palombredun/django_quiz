@@ -6,11 +6,11 @@ from quiz.forms import QuestionForm
 
 
 class CreationMultiChoiceForm(QuestionForm):
-    answer1 = forms.CharField(max_length=1000)
+    answer1 = forms.CharField(max_length=1000, label="Réponse 1")
     answer1_correct = forms.BooleanField(required=False)
-    answer2 = forms.CharField(max_length=1000)
+    answer2 = forms.CharField(max_length=1000, label="Réponse 2")
     answer2_correct = forms.BooleanField(required=False)
-    answer3 = forms.CharField(max_length=1000)
+    answer3 = forms.CharField(max_length=1000, label="Réponse 3")
     answer3_correct = forms.BooleanField(required=False)
 
     class Meta:

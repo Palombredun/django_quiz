@@ -28,8 +28,9 @@
 
 
 <script>
-$("#id_tf-0-order").val(1);
-total_tf = 1;
+total_tf = 1
+order = 1
+$("#id_tf-0-order").val(order);
 
 // Add a TrueFalse Question Form
 $(document).on('click', '#add-tf', function(e){
@@ -40,29 +41,64 @@ $(document).on('click', '#add-tf', function(e){
   return false;
 });
 
+$('form').one('submit', function(e) {
+  e.preventDefault()
+  // For tf forms
+  $("input[name='tf-TOTAL_FORMS']").each(function() {
+      this.value = total_tf;
+  });
+  $("input[name='tf-INITIAL_FORMS']").each(function() {
+      this.value = 0;
+  });
+  $("input[name='tf-MIN_NUM_FORMS']").each(function() {
+      this.value = 0;
+  });
+  $("input[name='tf-MAX_NUM_FORMS']").each(function() {
+      this.value = 1000;
+  });
+  console.log(this);
+  // Submit the forms
+  //$(this).submit()
+});
+
+
 function cloneTF(selector) {
   // get the current total number of tf questions
   total_tf = $('#id_tf-TOTAL_FORMS').val();
 
   // clone the selected part of the form
   var newElement = $(selector).clone(true);
-  // change its name and id
+
+  // Empty the fields
   newElement.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function() {
-      var name = $(this).attr('name').replace('-' + (total_tf-1) + '-', '-' + total_tf + '-');
-      var id = 'id_' + name;
-      $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+        var name = $(this).attr('name').replace('-' + (total_tf-1) + '-', '-' + total_tf + '-');
+        var id = 'id_' + name;
+        $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
     });
-  // remove its id (useful later):
-  //$('#base-tf-form').removeAttr('id');
+
   // Update the number of tf questions in the labels
   newElement.find('label').each(function() {
     var forValue = $(this).attr('for');
+    var idValue = $(this).attr('id');
+    var nameValue = $(this).attr('name');
     if (forValue) {
       forValue = forValue.replace('-' + (total_tf-1) + '-', '-' + total_tf + '-');
       $(this).attr({'for': forValue});
       }
-  });
+    if (idValue) {
+      idValue = idValue.replace('-' + (total_tf-1) + '-', '-' + total_tf + '-');
+      $(this).attr({'id': idValue});
+      }
+    if (nameValue) {
+      nameValue = nameValue.replace('-' + (total_tf-1) + '-', '-' + total_tf + '-');
+      $(this).attr({'name': nameValue});
+      }
+    });
+  var id_order = "id_tf-" + (total_tf-1) + "-order";
+  $("#" + id_order).val(order);
+
   total_tf++;
+  order++;
   // change the id value of the new tf question
   $('#id_tf-TOTAL_FORMS').val(total_tf);
   //place it in the div intended for it

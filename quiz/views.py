@@ -35,7 +35,9 @@ def create(request):
         #if quiz_form.is_valid():
         #    print("QUIZ")
         if tf_formset.is_valid():
-            print(tf_formset)
+            for form in tf_formset:
+                cd = form.cleaned_data
+                print(cd["content"])
         #if mc_formset.is_valid():
         #    print("mc")
     return render(request, "quiz/create.html", 

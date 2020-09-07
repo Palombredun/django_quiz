@@ -6,11 +6,8 @@
 <h1>Créer quiz</h1>
 <br>
 <br>
-<form method="POST" id="quiz-form">
+<form method="POST" id="quiz-form" action="">
     {% csrf_token %}
-    <div class="quiz-form" id="quizForm">
-      {{ quiz_form.as_p }}
-    <br>
     <hr>
     <br>
     </div>
@@ -22,7 +19,7 @@
     </div>
     <div id="forms">
     </div>
-      <input type="submit" value="J'ai fini !" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+    <input type="submit" value="J'ai fini !" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
 </form>
   <button class="add-tf-form bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" id="add-tf">Ajouter TF</button>
 
@@ -41,8 +38,7 @@ $(document).on('click', '#add-tf', function(e){
   return false;
 });
 
-$('form').one('submit', function(e) {
-  e.preventDefault()
+$("form").submit(function(e){
   // For tf forms
   $("input[name='tf-TOTAL_FORMS']").each(function() {
       this.value = total_tf;
@@ -57,14 +53,13 @@ $('form').one('submit', function(e) {
       this.value = 1000;
   });
   console.log(this);
-  // Submit the forms
-  //$(this).submit()
+  e.preventDefault();
 });
 
 
 function cloneTF(selector) {
   // get the current total number of tf questions
-  total_tf = $('#id_tf-TOTAL_FORMS').val();
+  //total_tf = $('#id_tf-TOTAL_FORMS').val();
 
   // clone the selected part of the form
   var newElement = $(selector).clone(true);
@@ -75,35 +70,36 @@ function cloneTF(selector) {
         var id = 'id_' + name;
         $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
     });
-
   // Update the number of tf questions in the labels
   newElement.find('label').each(function() {
     var forValue = $(this).attr('for');
     var idValue = $(this).attr('id');
     var nameValue = $(this).attr('name');
     if (forValue) {
-      forValue = forValue.replace('-' + (total_tf-1) + '-', '-' + total_tf + '-');
+      forValue = forValue.replace('-0-', '-' + total_tf + '-');
       $(this).attr({'for': forValue});
       }
     if (idValue) {
-      idValue = idValue.replace('-' + (total_tf-1) + '-', '-' + total_tf + '-');
+      idValue = idValue.replace('-0-', '-' + total_tf + '-');
       $(this).attr({'id': idValue});
       }
     if (nameValue) {
-      nameValue = nameValue.replace('-' + (total_tf-1) + '-', '-' + total_tf + '-');
+      nameValue = nameValue.replace('-0-', '-' + total_tf + '-');
       $(this).attr({'name': nameValue});
       }
-    });
-  var id_order = "id_tf-" + (total_tf-1) + "-order";
-  $("#" + id_order).val(order);
-
-  total_tf++;
-  order++;
+  });
+  console.log(newElement);
+  
   // change the id value of the new tf question
   $('#id_tf-TOTAL_FORMS').val(total_tf);
   //place it in the div intended for it
   $('#forms').append(newElement);
+
+  var id_order = "id_tf-" + total_tf + "-order";
+  $(id_order).val(order);
   
+  total_tf++;
+  order++;
   return false;  
 }
 </script>

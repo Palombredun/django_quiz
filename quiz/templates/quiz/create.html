@@ -34,6 +34,8 @@ $(document).on('click', '#add-tf', function(e){
   e.preventDefault();
   var form = $("#base-tf-form");
   cloneTF(form);
+  $("#id_tf-" + (total_tf-1) + "-order").val(5);
+  console.log($("#id_tf-" + (total_tf-1) + "-order"));
   return false;
 });
 
@@ -42,7 +44,7 @@ $("form").submit(function(e){
   $("input[name='tf-TOTAL_FORMS']").each(function() {
       this.value = total_tf;
   });
-  $("input[name='tf-INITIAL_FORMS']").each(function() {
+  /*$("input[name='tf-INITIAL_FORMS']").each(function() {
       this.value = 0;
   });
   $("input[name='tf-MIN_NUM_FORMS']").each(function() {
@@ -50,8 +52,12 @@ $("form").submit(function(e){
   });
   $("input[name='tf-MAX_NUM_FORMS']").each(function() {
       this.value = 1000;
-  });
-  $(this).submit();
+  });*/
+  /*$(this).children().find("order").each(function() {
+    this.val(5);
+  });*/
+  //$(this).submit();
+  e.preventDefault();
 });
 
 
@@ -63,27 +69,21 @@ function cloneTF(selector) {
 
   // Empty the fields
   newElement.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function() {
-        var name = $(this).attr('name').replace('-' + (total_tf-1) + '-', '-' + total_tf + '-');
+        var name = $(this).attr('name').replace('-0-', '-' + total_tf + '-');
         var id = 'id_' + name;
         $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
     });
   // Update the number of tf questions in the labels
   newElement.find('label').each(function() {
     var forValue = $(this).attr('for');
-    console.log(forValue);
     if (forValue) {
       forValue = forValue.replace('-0-', '-' + total_tf + '-');
       $(this).attr({'for': forValue});
       }
   });
-  
-  $('#forms').after(newElement);
-
-  //var id_order = "id_tf-" + total_tf + "-order";
-  //$(id_order).val(order);
+  $('#forms').append(newElement);
   
   total_tf++;
-  order++;
   return false;  
 }
 </script>

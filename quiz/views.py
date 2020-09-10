@@ -31,10 +31,12 @@ def create(request):
         #quiz_form = QuizForm(request.POST, prefix="quiz")
         tf_formset = TF_Formset(request.POST, prefix="tf")
         #mc_formset = MC_Formset(request.POST, prefix="mc")
-
-        #if quiz_form.is_valid():
-        #    print("QUIZ")
         print(tf_formset)
+        if tf_formset.is_valid():
+            print("QUIZ")
+            for form in tf_formset:
+                cd = form.cleaned_data
+                print(cd['order'])
         #if mc_formset.is_valid():
         #    print("mc")
     return render(request, "quiz/create.html", 

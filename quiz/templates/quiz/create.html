@@ -28,14 +28,15 @@
 total_tf = 1
 order = 1
 $("#id_tf-0-order").val(order);
+order++;
 
 // Add a TrueFalse Question Form
 $(document).on('click', '#add-tf', function(e){
   e.preventDefault();
   var form = $("#base-tf-form");
   cloneTF(form);
-  $("#id_tf-" + (total_tf-1) + "-order").val(5);
-  console.log($("#id_tf-" + (total_tf-1) + "-order"));
+  $("#id_tf-" + (total_tf-1) + "-order").val(order);
+  order++;
   return false;
 });
 
@@ -44,7 +45,7 @@ $("form").submit(function(e){
   $("input[name='tf-TOTAL_FORMS']").each(function() {
       this.value = total_tf;
   });
-  /*$("input[name='tf-INITIAL_FORMS']").each(function() {
+  $("input[name='tf-INITIAL_FORMS']").each(function() {
       this.value = 0;
   });
   $("input[name='tf-MIN_NUM_FORMS']").each(function() {
@@ -52,12 +53,9 @@ $("form").submit(function(e){
   });
   $("input[name='tf-MAX_NUM_FORMS']").each(function() {
       this.value = 1000;
-  });*/
-  /*$(this).children().find("order").each(function() {
-    this.val(5);
-  });*/
-  //$(this).submit();
-  e.preventDefault();
+  });
+  $(this).submit();
+  //e.preventDefault();
 });
 
 

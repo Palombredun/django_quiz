@@ -17,18 +17,28 @@
     <hr>
     <br>
     </div>
+    <div class="mc-form" id="base-mc-form">
+      {{ mc_form.as_p }}
+    <br>
+    <hr>
+    <br>
+    </div>
     <div id="forms">
     </div>
     <input type="submit" value="J'ai fini !" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
 </form>
-  <button class="add-tf-form bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" id="add-tf">Ajouter TF</button>
+  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" id="add-tf">Ajouter TF</button>
+  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" id="add-mc">Ajouter MC</button>
 
 
 <script>
 total_tf = 0
+total_mc = 0
 order = 0
 $("#id_tf-0-order").val(order);
+$("#id_mc-0-order").val(order);
 $("#base-tf-form").hide();
+$("#base-mc-form").hide();
 order++;
 
 
@@ -38,6 +48,16 @@ $(document).on('click', '#add-tf', function(e){
   var form = $("#base-tf-form");
   cloneTF(form);
   $("#id_tf-" + (total_tf-1) + "-order").val(order);
+  order++;
+  return false;
+});
+
+// Add a MultiChoice Question Form
+$(document).on('click', '#add-mc', function(e){
+  e.preventDefault();
+  var form = $("#base-mc-form");
+  cloneMC(form);
+  $("#id_mc-" + (total_mc-1) + "-order").val(order);
   order++;
   return false;
 });
@@ -56,15 +76,27 @@ $("form").submit(function(e){
   $("input[name='tf-MAX_NUM_FORMS']").each(function() {
       this.value = 1000;
   });
+  // For mc forms
+  $("input[name='mc-TOTAL_FORMS']").each(function() {
+      this.value = total_mc;
+  });
+  $("input[name='mc-INITIAL_FORMS']").each(function() {
+      this.value = 0;
+  });
+  $("input[name='mc-MIN_NUM_FORMS']").each(function() {
+      this.value = 0;
+  });
+  $("input[name='mc-MAX_NUM_FORMS']").each(function() {
+      this.value = 1000;
+  });
   $("#base-tf-form").remove();
+  $("#base-mc-form").remove();
   $(this).submit();
   //e.preventDefault();
 });
 
 
 function cloneTF(selector) {
-  // get the current total number of tf questions
-
   // clone the selected part of the form
   var newElement = $(selector).clone(true);
 
@@ -85,6 +117,33 @@ function cloneTF(selector) {
     });
   }
   total_tf++;
+  newElement.removeAttr('id').show();
+  $('#forms').append(newElement);
+  
+  return false;  
+}
+
+function cloneMC(selector) {
+  // clone the selected part of the form
+  var newElement = $(selector).clone(true);
+
+  if (total_mc >= 1) {
+    // Empty the fields
+    newElement.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function() {
+          var name = $(this).attr('name').replace('-0-', '-' + total_mc + '-');
+          var id = 'id_' + name;
+          $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+      });
+    // Update the number of tf questions in the labels
+    newElement.find('label').each(function() {
+      var forValue = $(this).attr('for');
+      if (forValue) {
+        forValue = forValue.replace('-0-', '-' + total_mc + '-');
+        $(this).attr({'for': forValue});
+        }
+    });
+  }
+  total_mc++;
   newElement.removeAttr('id').show();
   $('#forms').append(newElement);
   

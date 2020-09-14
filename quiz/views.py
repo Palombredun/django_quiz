@@ -22,25 +22,25 @@ def tutorial(request):
 
 def create(request):
     TF_Formset = formset_factory(CreationTrueFalseForm)
-    #MC_Formset = formset_factory(CreationMultiChoiceForm)
+    MC_Formset = formset_factory(CreationMultiChoiceForm)
     if request.method == "GET":
         #quiz_form = QuizForm(request.GET or None, prefix="quiz")
         tf_formset = TF_Formset(request.GET or None, prefix="tf")
-        #mc_formset = MC_Formset(request.GET or None, prefix="mc")
+        mc_formset = MC_Formset(request.GET or None, prefix="mc")
     elif request.method == "POST":
         #quiz_form = QuizForm(request.POST, prefix="quiz")
         tf_formset = TF_Formset(request.POST, prefix="tf")
-        #mc_formset = MC_Formset(request.POST, prefix="mc")
-        print(tf_formset)
-        if tf_formset.is_valid():
+        mc_formset = MC_Formset(request.POST, prefix="mc")
+
+        if mc_formset.is_valid():
             print("QUIZ")
-            for form in tf_formset:
+            for form in mc_formset:
                 cd = form.cleaned_data
                 print(cd['order'])
         #if mc_formset.is_valid():
         #    print("mc")
     return render(request, "quiz/create.html", 
-        {'tf_form': tf_formset})
+        {'tf_form': tf_formset, 'mc_form': mc_formset})
 
 #@login_required
 #def create(request):

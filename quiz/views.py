@@ -29,16 +29,13 @@ def create(request):
         mc_formset = MC_Formset(request.GET or None, prefix="mc")
     elif request.method == "POST":
         #quiz_form = QuizForm(request.POST, prefix="quiz")
-        tf_formset = TF_Formset(request.POST, prefix="tf")
-        mc_formset = MC_Formset(request.POST, prefix="mc")
+        tf_formset = TF_Formset(request.POST or None, prefix="tf")
+        mc_formset = MC_Formset(request.POST or None, prefix="mc")
 
-        if mc_formset.is_valid():
-            print("QUIZ")
-            for form in mc_formset:
-                cd = form.cleaned_data
-                print(cd['order'])
-        #if mc_formset.is_valid():
-        #    print("mc")
+        if tf_formset and tf_formset.is_valid():
+            print("TF")
+        if mc_formset and mc_formset.is_valid():
+            print("MC")
     return render(request, "quiz/create.html", 
         {'tf_form': tf_formset, 'mc_form': mc_formset})
 

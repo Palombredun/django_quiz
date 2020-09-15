@@ -89,8 +89,8 @@ $("form").submit(function(e){
   $("input[name='mc-MAX_NUM_FORMS']").each(function() {
       this.value = 1000;
   });
-  $("#base-tf-form").remove();
-  $("#base-mc-form").remove();
+  if (total_tf != 0) $("#base-tf-form").remove();
+  if (total_mc != 0) $("#base-mc-form").remove();
   $(this).submit();
   //e.preventDefault();
 });

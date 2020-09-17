@@ -8,8 +8,12 @@
 <br>
 <form method="POST" id="quiz-form" action="">
     {% csrf_token %}
+    <div>
+      {{ quiz_form.as_p }}
+    <br>
     <hr>
     <br>
+    </div>
     </div>
     <div class="tf-form" id="base-tf-form">
       {{ tf_form.as_p }}

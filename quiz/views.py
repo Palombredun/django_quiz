@@ -43,19 +43,13 @@ def create(request):
             and mc_formset
             and mc_formset.is_valid()
         ):
-            #  get id of the last quiz created for the slug field
-            try:
-                last_quiz = Quiz.objects.latest("created")
-                last_id = last_quiz.id
-            except Quiz.DoesNotExist:
-                last_id = 0
 
             quiz_cd = quiz_form.cleaned_data
             new_quiz = Quiz(
                 title=quiz_cd["title"],
                 description=quiz_cd["description"],
                 creator=request.user,
-                url=slugify(quiz_cd["title"]) + "-" + str(last_id + 1),
+                url=slugify(quiz_cd["title"]),
                 category=quiz_cd["category"],
                 sub_category=quiz_cd["sub_category"],
                 random_order=quiz_cd["random_order"],

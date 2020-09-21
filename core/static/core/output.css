@@ -21234,19 +21234,6 @@ video {
           animation: bounce 1s infinite;
 }
 
-.header {
-  background-color: #738BCE;
-  color: #8CD894;
-}
-
-.footer {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-end;
-  background-color: #8CD894;
-}
-
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;

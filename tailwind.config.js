@@ -5,14 +5,15 @@ module.exports = {
   },
   purge: [],
   theme: {
-    colors: {
-      darkpastelblue: '#738BCE',
+    extend: {
+      colors: {
       russianviolet: '#1A174C',
-      mylightgreen: '#8CD894',
-      desertsand: 'E8BBA9',
-      mellowyellow: 'F4DF7F'
+      mypink: '#E8BBA9',
+      mylighgreen: '#8CD894',
+      mylightblue: '#738BCE',
+      myyellow: '#F4DF7F'
     }
-    extend: {},
+    },
   },
   variants: {},
   plugins: [],

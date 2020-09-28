@@ -24,3 +24,5 @@ _models.py
 _views.py
 _urls.py
 essay/
+package-lock.json
+node_modules

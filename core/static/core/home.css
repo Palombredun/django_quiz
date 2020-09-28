@@ -1,12 +1,25 @@
 .first {
 	background-image: url("img/background.jpg");
 	background-color: #1A174C;
+	width: 100%;
+	height: 100%;
+}
+
+#begin {
+	border: 2px;
+}
+
+#begin:hover {
+	color: #1A174C;
 }
 
 .button {
 	display: flex;
   	justify-content: center;
-  	color: #1A174C;
+}
+
+.button:hover {
+	color: #1A174C;
 }
 
 .explanations {

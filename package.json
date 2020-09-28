@@ -1,7 +1,7 @@
 {
-  "name": "fastandquizy",
+  "name": "fastandquizzy",
   "version": "1.0.0",
-  "description": "A website for creating quizzes, and receiving advices based on your results.",
+  "description": "Create easily quizzes and get custom advices based on your answers.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/Palombredun/django_quiz.git"
   },
-  "author": "Baptiste",
+  "author": "baptiste",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Palombredun/django_quiz/issues"

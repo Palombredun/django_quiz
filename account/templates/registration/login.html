@@ -4,48 +4,45 @@
 {% block title %}Login{% endblock %}
 
 {% block css %}
-  <link rel="stylesheet" href="{% static 'account/login.css' %}">
+<link rel="stylesheet" href="{% static 'account/login.css' %}">
 {% endblock %}
 
 {% block content %}
-  <div class="container mx-auto py-8">
-    {% if form.errors %}
-      <p>Votre identifiant et le mot de passe ne correspondent pas. Veuillez réessayer.</p>
-    {% endif %}
-  
-    {% if next %}
-        {% if user.is_authenticated %}
-        <p>Your account doesn't have access to this page. To proceed,
-        please login with an account that has access.</p>
-        {% else %}
-        <p>Please login to see this page.</p>
-        {% endif %}
-    {% endif %}
-  <div class="w-full max-w-xs">
-    <form action="{% url 'login' %}" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-      {% csrf_token %}
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.username.id_for_label }}">Nom d'utilisateur :</label>
-        <div class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-          {{ form.username }}
+{% if form.errors %}
+<p>Votre identifiant et le mot de passe ne correspondent pas. Veuillez réessayer.</p>
+{% endif %}
+<div class="flex min-h-screen">
+  <div class="container flex-grow mx-auto py-8 bg-gray-200">
+    <div class="mx-auto w-full max-w-xs py-8">   
+      <form action="{% url 'login' %}" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        {% csrf_token %}
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.username.id_for_label }}">Nom d'utilisateur :</label>
+          <div class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            {{ form.username }}
+          </div>
         </div>
-      </div>
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.password.id_for_label }}">Mot de passe :</label>
-        <div class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-          {{ form.password }}
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.password.id_for_label }}">Mot de passe :</label>
+          <div class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            {{ form.password }}
+          </div>
         </div>
-      </div>
-      <div class="flex items-center justify-between">
-        <input type="submit" value="Connexion" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-        <input type="hidden" name="next" value="{{ next }}">
+        <div class="flex items-center justify-between">
+          <input type="submit" value="Connexion" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          <input type="hidden" name="next" value="{{ next }}">
           <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800 px-4" href="#">
             Mot de passe oublié ?
           </a>
-      </div>
-      <a class="inline-block align-baseline text-sm text-blue-500 hover:text-blue-800 px-4 py-8" href="{% url 'register' %}">Pas encore de compte ? S'inscrire
-      </a>
-    </form>
+        </div>
+        <a class="inline-block align-baseline text-sm text-blue-500 hover:text-blue-800 px-4 py-8" href="{% url 'register' %}">Pas encore de compte ? S'inscrire
+        </a>
+      </form>
+    </div>
   </div>
 </div>
+{% endblock %}
+
+{% block footer %}
+{% include 'core/footer.html' %}
 {% endblock %}

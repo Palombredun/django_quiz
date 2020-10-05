@@ -36,12 +36,9 @@ def create(request):
         tf_formset = TF_Formset(request.POST or None, prefix="tf")
         mc_formset = MC_Formset(request.POST or None, prefix="mc")
 
-        if (
-            quiz_form.is_valid()
-            and tf_formset
-            and tf_formset.is_valid()
-            and mc_formset
-            and mc_formset.is_valid()
+        if quiz_form.is_valid() and (
+            (tf_formset and tf_formset.is_valid())
+            and (mc_formset and mc_formset.is_valid())
         ):
 
             quiz_cd = quiz_form.cleaned_data
@@ -54,6 +51,7 @@ def create(request):
                 sub_category=quiz_cd["sub_category"],
                 random_order=quiz_cd["random_order"],
             )
+            new_quiz.save()
 
             mean_difficulty = 0
             n = 0
@@ -117,7 +115,7 @@ def load_sub_categories(request):
     )
     return render(
         request,
-        "core/sub_categories_dropdown_list.html",
+        "quiz/subcategories_dropdown.html",
         {"sub_categories": sub_categories},
     )
 
@@ -126,29 +124,44 @@ class QuizListView(ListView):
     model = Quiz
 
 
-def take_quiz(request, url):
+def take(request):
     """
+    get quiz
+    get questions
+    create 2 list of size n
+    populate the first list with the questions
+    populate the second list with the forms
+    """
+    if request.method == "GET":
+        forms = []
+        for i in range(3):
+            forms.append(TotoForm(prefix="toto" + str(i)))
+
+    if request.method == "POST":
+        for i in range(3):
+            toto = request
+    return render(request, "quiz/take.html", {"forms": forms})
+
+
+def take_quiz(request, url):
     quiz = Quiz.objects.get(url=url)
     tf_questions = TF_Question.objects.filter(quiz=quiz)
     mc_questions = MCQuestion.objects.filter(quiz=quiz)
+
     nb_tf_questions = tf_questions.count()
     nb_mc_questions = mc_questions.count()
     forms = [0] * (nb_tf_questions + nb_mc_questions)
+    questions = [0] * (nb_tf_questions + nb_mc_questions)
+
     for question in tf_questions:
         index = question.order
-        forms[index] = TFQuestionForm(prefix='tf'+str(index))
+        forms[index] = TFQuestionForm(prefix="tf" + str(index))
+        questions[index] = question
     for question in mc_question:
         index = question.order
-        forms[index] = MCQuestionForm(prefix='mc'+str(index))
-    questions = [0] * (nb_tf_questions + nb_mc_questions)
-    for question in tf_questions:
-        index = question.order
-        questions[index] = question
-    for question in mc_questions:
-        index = question.order
+        forms[index] = MCQuestionForm(prefix="mc" + str(index))
         questions[index] = question
 
-    """
     if request.method == "GET":
         if quiz.ordered == False:
             questions = shuffle(questions)

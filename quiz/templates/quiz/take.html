@@ -1,0 +1,13 @@
+<h1>Passer le quiz</h1>
+<br>
+<br>
+
+<form method="POST" action="">
+	{% csrf_token %}
+	{% for form in forms %}
+		<p>Toto</p>
+		{{ form.as_p }}
+	{% endfor %}
+
+	<input type="submit" value="J'ai fini !">
+</form>

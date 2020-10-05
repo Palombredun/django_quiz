@@ -1,77 +1,114 @@
-/*
-//hide the basic forms:
+total_tf = 0
+total_mc = 0
+order = 0
+$("#id_tf-0-order").val(order);
+$("#id_mc-0-order").val(order);
 $("#base-tf-form").hide();
 $("#base-mc-form").hide();
+order++;
 
-var order = 0;
-*/
+// Add a TrueFalse Question Form
+$(document).on('click', '#add-tf', function(e){
+  e.preventDefault();
+  var form = $("#base-tf-form");
+  cloneTF(form);
+  $("#id_tf-" + (total_tf-1) + "-order").val(order);
+  order++;
+  return false;
+});
 
-function cloneTF(selector) {
-  // get the current total number of tf questions
-  total_tf = $('#id_tf-TOTAL_FORMS').val();
+// Add a MultiChoice Question Form
+$(document).on('click', '#add-mc', function(e){
+  e.preventDefault();
+  var form = $("#base-mc-form");
+  cloneMC(form);
+  $("#id_mc-" + (total_mc-1) + "-order").val(order);
+  order++;
+  return false;
+});
 
+$("form").submit(function(e){
+  // For tf forms
+  $("input[name='tf-TOTAL_FORMS']").each(function() {
+      this.value = total_tf;
+  });
+  $("input[name='tf-INITIAL_FORMS']").each(function() {
+      this.value = 0;
+  });
+  $("input[name='tf-MIN_NUM_FORMS']").each(function() {
+      this.value = 0;
+  });
+  $("input[name='tf-MAX_NUM_FORMS']").each(function() {
+      this.value = 1000;
+  });
+  // For mc forms
+  $("input[name='mc-TOTAL_FORMS']").each(function() {
+      this.value = total_mc;
+  });
+  $("input[name='mc-INITIAL_FORMS']").each(function() {
+      this.value = 0;
+  });
+  $("input[name='mc-MIN_NUM_FORMS']").each(function() {
+      this.value = 0;
+  });
+  $("input[name='mc-MAX_NUM_FORMS']").each(function() {
+      this.value = 1000;
+  });
+  if (total_tf != 0) $("#base-tf-form").remove();
+  if (total_mc != 0) $("#base-mc-form").remove();
+  $(this).submit();
+});
+
+  function cloneTF(selector) {
   // clone the selected part of the form
   var newElement = $(selector).clone(true);
-  // change its name and id
-  newElement.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function() {
-      var name = $(this).attr('name').replace('-' + (total_tf-1) + '-', '-' + total_tf + '-');
-      var id = 'id_' + name;
-      $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+
+  if (total_tf >= 1) {
+    // Empty the fields
+    newElement.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function() {
+          var name = $(this).attr('name').replace('-0-', '-' + total_tf + '-');
+          var id = 'id_' + name;
+          $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+      });
+    // Update the number of tf questions in the labels
+    newElement.find('label').each(function() {
+      var forValue = $(this).attr('for');
+      if (forValue) {
+        forValue = forValue.replace('-0-', '-' + total_tf + '-');
+        $(this).attr({'for': forValue});
+        }
     });
-  // remove its id (useful later):
-  //$('#base-tf-form').removeAttr('id');
-  // Update the number of tf questions in the labels
-  newElement.find('label').each(function() {
-    var forValue = $(this).attr('for');
-    if (forValue) {
-      forValue = forValue.replace('-' + (total_tf-1) + '-', '-' + total_tf + '-');
-      $(this).attr({'for': forValue});
-      }
-  });
+  }
   total_tf++;
-  // change the id value of the new tf question
-  $('#id_mc-TOTAL_FORMS').val(total_tf);
-  //place it in the div intended for it
+  newElement.removeAttr('id').show();
   $('#forms').append(newElement);
   
-  /* Change the value of the hidden input order
-  id_order = "id_tf-" + order + "-order";
-  order = document.getElementById(id_order);
-  order++;
-  $(order).val(order);*/
   return false;  
 }
 
 function cloneMC(selector) {
-  console.log(selector);
-  // get the current total number of mc questions
-  total_mc = $('#id_mc-TOTAL_FORMS').val();
-
-  // change its name and id
+  // clone the selected part of the form
   var newElement = $(selector).clone(true);
-  newElement.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function() {
-      var name = $(this).attr('name').replace('-' + (total_mc-1) + '-', '-' + total_mc + '-');
-      var id = 'id_' + name;
-      $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
-    });
-  // remove its id (useful later):
-  $('#base-mc-form').removeAttr('id');
-  newElement.find('label').each(function() {
-    var forValue = $(this).attr('for');
-    if (forValue) {
-      forValue = forValue.replace('-' + (total_mc-1) + '-', '-' + total_mc + '-');
+
+  if (total_mc >= 1) {
+    // Empty the fields
+    newElement.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function() {
+          var name = $(this).attr('name').replace('-0-', '-' + total_mc + '-');
+          var id = 'id_' + name;
+          $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+      });
+    // Update the number of tf questions in the labels
+    newElement.find('label').each(function() {
+      var forValue = $(this).attr('for');
+      if (forValue) {
+        forValue = forValue.replace('-0-', '-' + total_mc + '-');
         $(this).attr({'for': forValue});
-      }
-  });
+        }
+    });
+  }
   total_mc++;
-  $('#id_mc-TOTAL_FORMS').val(total_mc);
+  newElement.removeAttr('id').show();
   $('#forms').append(newElement);
-
-  // Change the value of the hidden input order
-  id_order = "id_mc-" + order + "-order";
-  order = document.getElementById(id_order);
-  order++;
-  $(order).val(order);
-
-    return false;
+  
+  return false;  
 }

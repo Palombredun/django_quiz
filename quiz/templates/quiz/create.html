@@ -1,12 +1,16 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
-
+{% block content %}
 <h1>Créer quiz</h1>
 <br>
 <br>
-<form method="POST" id="quiz-form" action="">
+<form method="POST" id="quiz-form" data-cities-url="{% url 'ajax_load_subcategories' %}">
     {% csrf_token %}
     <div>
       {{ quiz_form.as_p }}
@@ -31,126 +35,26 @@
     </div>
     <input type="submit" value="J'ai fini !" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
 </form>
-  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" id="add-tf">Ajouter TF</button>
-  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" id="add-mc">Ajouter MC</button>
+<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" id="add-tf">Ajouter TF</button>
+<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" id="add-mc">Ajouter MC</button>
 
 
+<script src="{% static 'js/create.js' %}"></script>
 <script>
-total_tf = 0
-total_mc = 0
-order = 0
-$("#id_tf-0-order").val(order);
-$("#id_mc-0-order").val(order);
-$("#base-tf-form").hide();
-$("#base-mc-form").hide();
-order++;
+  $("#id_quiz-category").change(function() {
+    var url = $("#quiz-form").attr('data-cities-url');
+    var categoryId = $(this).val();
 
-
-// Add a TrueFalse Question Form
-$(document).on('click', '#add-tf', function(e){
-  e.preventDefault();
-  var form = $("#base-tf-form");
-  cloneTF(form);
-  $("#id_tf-" + (total_tf-1) + "-order").val(order);
-  order++;
-  return false;
-});
-
-// Add a MultiChoice Question Form
-$(document).on('click', '#add-mc', function(e){
-  e.preventDefault();
-  var form = $("#base-mc-form");
-  cloneMC(form);
-  $("#id_mc-" + (total_mc-1) + "-order").val(order);
-  order++;
-  return false;
-});
-
-$("form").submit(function(e){
-  // For tf forms
-  $("input[name='tf-TOTAL_FORMS']").each(function() {
-      this.value = total_tf;
-  });
-  $("input[name='tf-INITIAL_FORMS']").each(function() {
-      this.value = 0;
-  });
-  $("input[name='tf-MIN_NUM_FORMS']").each(function() {
-      this.value = 0;
-  });
-  $("input[name='tf-MAX_NUM_FORMS']").each(function() {
-      this.value = 1000;
-  });
-  // For mc forms
-  $("input[name='mc-TOTAL_FORMS']").each(function() {
-      this.value = total_mc;
-  });
-  $("input[name='mc-INITIAL_FORMS']").each(function() {
-      this.value = 0;
-  });
-  $("input[name='mc-MIN_NUM_FORMS']").each(function() {
-      this.value = 0;
-  });
-  $("input[name='mc-MAX_NUM_FORMS']").each(function() {
-      this.value = 1000;
-  });
-  if (total_tf != 0) $("#base-tf-form").remove();
-  if (total_mc != 0) $("#base-mc-form").remove();
-  $(this).submit();
-  //e.preventDefault();
-});
-
-
-function cloneTF(selector) {
-  // clone the selected part of the form
-  var newElement = $(selector).clone(true);
-
-  if (total_tf >= 1) {
-    // Empty the fields
-    newElement.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function() {
-          var name = $(this).attr('name').replace('-0-', '-' + total_tf + '-');
-          var id = 'id_' + name;
-          $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
-      });
-    // Update the number of tf questions in the labels
-    newElement.find('label').each(function() {
-      var forValue = $(this).attr('for');
-      if (forValue) {
-        forValue = forValue.replace('-0-', '-' + total_tf + '-');
-        $(this).attr({'for': forValue});
-        }
+    $.ajax({
+      url: url,
+      data: {
+        'category': categoryId
+      },
+      success: function (data) {
+        $('#id_quiz-sub_category').html(data);
+      }
     });
-  }
-  total_tf++;
-  newElement.removeAttr('id').show();
-  $('#forms').append(newElement);
-  
-  return false;  
-}
-
-function cloneMC(selector) {
-  // clone the selected part of the form
-  var newElement = $(selector).clone(true);
-
-  if (total_mc >= 1) {
-    // Empty the fields
-    newElement.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function() {
-          var name = $(this).attr('name').replace('-0-', '-' + total_mc + '-');
-          var id = 'id_' + name;
-          $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
-      });
-    // Update the number of tf questions in the labels
-    newElement.find('label').each(function() {
-      var forValue = $(this).attr('for');
-      if (forValue) {
-        forValue = forValue.replace('-0-', '-' + total_mc + '-');
-        $(this).attr({'for': forValue});
-        }
-    });
-  }
-  total_mc++;
-  newElement.removeAttr('id').show();
-  $('#forms').append(newElement);
-  
-  return false;  
-}
+  });
 </script>
+
+{% endblock %}

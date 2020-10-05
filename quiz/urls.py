@@ -13,4 +13,6 @@ urlpatterns = [
     ),
     path("take-quiz/<slug:url>/", views.take_quiz, name="take_quiz"),
     path("quiz-list/", QuizListView.as_view(), name="quiz-list"),
+
+    path("take/", views.take, name="take"),
 ]

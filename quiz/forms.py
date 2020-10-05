@@ -31,3 +31,7 @@ class QuizForm(forms.ModelForm):
             "sub_category": "Sous-catégorie",
             "random_order": "Ordre aléatoire",
         }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['sub_category'].queryset = SubCategory.objects.none()

@@ -7,12 +7,12 @@ from django.contrib.auth.models import User
 class Category(models.Model):
 
     category = models.CharField(
-        verbose_name="Category", max_length=250, blank=True, unique=True, null=True
+        verbose_name="Catégorie", max_length=250, blank=True, unique=True, null=True
     )
 
     class Meta:
-        verbose_name = "Category"
-        verbose_name_plural = "Categories"
+        verbose_name = "Catégorie"
+        verbose_name_plural = "Catégories"
 
     def __str__(self):
         return self.category
@@ -21,20 +21,20 @@ class Category(models.Model):
 class SubCategory(models.Model):
 
     sub_category = models.CharField(
-        verbose_name="Sub-Category", max_length=250, blank=True, null=True
+        verbose_name="Sous-Catégorie", max_length=250, blank=True, null=True
     )
 
     category = models.ForeignKey(
         Category,
         null=True,
         blank=True,
-        verbose_name="Category",
+        verbose_name="Catégorie",
         on_delete=models.CASCADE,
     )
 
     class Meta:
-        verbose_name = "Sub-Category"
-        verbose_name_plural = "Sub-Categories"
+        verbose_name = "Sous-catégorie"
+        verbose_name_plural = "Sous-catégories"
 
     def __str__(self):
         return self.sub_category + " (" + self.category.category + ")"
@@ -42,27 +42,26 @@ class SubCategory(models.Model):
 
 class Quiz(models.Model):
 
-    title = models.CharField(verbose_name="Title", max_length=60, blank=False)
+    title = models.CharField(verbose_name="Titre", max_length=60, blank=False)
 
     description = models.TextField(
-        verbose_name="Description", blank=True, help_text="a description of the quiz"
+        verbose_name="Description", blank=True, help_text="une description du quiz"
     )
 
-    creator = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    creator = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
     url = models.SlugField(
         max_length=16,
         blank=False,
         unique=True,
-        help_text="a user friendly url",
-        verbose_name="user friendly url",
+        db_index = True
     )
 
     category = models.ForeignKey(
         Category,
         null=True,
         blank=True,
-        verbose_name="Category",
+        verbose_name="Catégorie",
         on_delete=models.CASCADE,
     )
 
@@ -70,7 +69,7 @@ class Quiz(models.Model):
         SubCategory,
         null=True,
         blank=True,
-        verbose_name="Subcategory",
+        verbose_name="Sous-catégorie",
         on_delete=models.CASCADE,
     )
 
@@ -87,7 +86,7 @@ class Quiz(models.Model):
 
     class Meta:
         verbose_name = "Quiz"
-        verbose_name_plural = "Quizzes"
+        verbose_name_plural = "Quiz"
 
     def __str__(self):
         return self.title
@@ -117,8 +116,8 @@ class Question(models.Model):
         max_length=2000,
         blank=True,
         null=True,
-        help_text="Explanation to be shown " "after the question has " "been answered.",
-        verbose_name="Explanation",
+        help_text="Explication à afficher " "après que la question " "aient été répondue.",
+        verbose_name="Explication",
     )
 
     theme1 = models.CharField(

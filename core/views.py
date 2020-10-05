@@ -1,10 +1,11 @@
-from random import randint
-
 from django.shortcuts import render
+
+from quiz.models import Quiz
 
 
 def home(request):
-    return render(request, "core/home.html")
+    quizzes = Quiz.objects.order_by('-created')[:5]
+    return render(request, "core/home.html", {'quizzes': quizzes})
 
 
 def handler404(request, exception):

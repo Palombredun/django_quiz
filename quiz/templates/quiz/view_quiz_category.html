@@ -1,0 +1,7 @@
+<h1>Quiz par catégorie</h1>
+
+<ul>
+{% for quizy in quiz %}
+	<li> {{ quizy.category }} - {{ quizy.title }}</li>
+{% endfor %}
+</ul>

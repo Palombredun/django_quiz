@@ -1,7 +1,7 @@
 from django.urls import path
 
 from . import views
-from quiz.views import QuizListView
+from quiz.views import QuizListView, CategoryListView, ViewQuizListByCategory
 
 urlpatterns = [
     path("create/", views.create, name="create"),
@@ -12,7 +12,13 @@ urlpatterns = [
     ),
     path("tutorial/", views.tutorial, name="tutorial"),
     path("take-quiz/<slug:url>/", views.take_quiz, name="take_quiz"),
+
     path("quiz-list/", QuizListView.as_view(), name="quiz-list"),
+    path("category-list/", CategoryListView.as_view(), name="category-list"),
+    path("<str:category_name>", views.quiz_list_by_category, name="quiz_category_list_matching"),
+    #path("category/<str:category_name>/",
+    #    view=ViewQuizListByCategory.as_view(),
+    #    name='quiz_category_list_matching'),
 
     path("take/", views.take, name="take"),
 ]

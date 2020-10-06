@@ -1,0 +1,20 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Liste des catégories{% endblock %}
+
+{% block content %}
+<h1>Catégories :</h1>
+
+<ul>
+  {% for cat in category_list %}
+  	<li>
+  		<a href="{% url 'quiz_category_list_matching' category_name=cat.category %}">
+  			{{ cat.category }}
+  		</a>
+  	</li>
+  	{% endfor %}
+</ul>
+
+
+{% endblock %}

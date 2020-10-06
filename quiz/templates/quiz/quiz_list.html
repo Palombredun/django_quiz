@@ -11,22 +11,24 @@
 		<div class="w-1/3 p-2">
 			<div class="bg-blue-300 p-2 h-40 rounded-lg">
 				<div class="text-gray-700 text-center truncate">
-				    <a href="{% url 'take_quiz' quiz.url %}">{{ quiz.title }}</a>
-			    </div>
+					<a href="{% url 'take_quiz' quiz.url %}">{{ quiz.title }}</a>
+				</div>
 				<div class="flex h-24 justify-center items-end">
 					{% if quiz.difficulty == 1 %}
-					  <img src="{% static "quiz/img/etoile.png" %}" alt="etoile">
+					<img src="{% static "quiz/img/etoile.png" %}" alt="etoile">
 					{% elif quiz.difficulty == 2%}
-						<img src="{% static "quiz/img/etoile.png" %}" alt="etoile">
-						<img src="{% static "quiz/img/etoile.png" %}" alt="etoile">
+					<img src="{% static "quiz/img/etoile.png" %}" alt="etoile">
+					<img src="{% static "quiz/img/etoile.png" %}" alt="etoile">
 					{% elif quiz.difficulty == 3 %}
-						<img src="{% static "quiz/img/etoile.png" %}" alt="etoile">
-						<img src="{% static "quiz/img/etoile.png" %}" alt="etoile">
-						<img src="{% static "quiz/img/etoile.png" %}" alt="etoile">
+					<img src="{% static "quiz/img/etoile.png" %}" alt="etoile">
+					<img src="{% static "quiz/img/etoile.png" %}" alt="etoile">
+					<img src="{% static "quiz/img/etoile.png" %}" alt="etoile">
 					{% endif %}
 				</div>
 			</div>
 		</div>
-	{% endfor %}
+		{% endfor %}
 	</div>
+	<a href="{% url '' %}">Voir les catégories</a>
+</div>
 {% endblock %}

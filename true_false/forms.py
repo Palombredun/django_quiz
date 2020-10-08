@@ -16,8 +16,8 @@ class CreationTrueFalseForm(QuestionForm):
 
 
 class TrueFalseForm(QuestionForm):
-	correct = forms.ChoiceField(choices=CORRECTNESS_CHOICES)
+    correct = forms.ChoiceField(choices=CORRECTNESS_CHOICES)
 
-	class Meta:
-		model = TF_Question
-		fields = ("content", "correct")
+    class Meta:
+        model = TF_Question
+        fields = ("content", "correct")

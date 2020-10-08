@@ -4,8 +4,8 @@ from quiz.models import Quiz
 
 
 def home(request):
-    quiz_list = Quiz.objects.order_by('-created')[:5]
-    return render(request, "core/home.html", {'quiz_list': quiz_list})
+    quiz_list = Quiz.objects.order_by("-created")[:5]
+    return render(request, "core/home.html", {"quiz_list": quiz_list})
 
 
 def handler404(request, exception):

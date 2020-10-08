@@ -11,10 +11,12 @@ urlpatterns = [
         name="ajax_load_subcategories",
     ),
     path("tutorial/", views.tutorial, name="tutorial"),
-    path("take-quiz/<slug:url>/", views.take_quiz, name="take_quiz"),
-
+    path("take/<slug:url>/", views.take_quiz, name="take"),
     path("quiz-list/", QuizListView.as_view(), name="quiz-list"),
     path("category-list/", CategoryListView.as_view(), name="category-list"),
-    path("<str:category_name>", views.quiz_list_by_category, name="quiz_category_list_matching"),
-    path("take/", views.take, name="take"),
+    path(
+        "<str:category_name>",
+        views.quiz_list_by_category,
+        name="quiz_category_list_matching",
+    ),
 ]

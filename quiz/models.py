@@ -50,12 +50,7 @@ class Quiz(models.Model):
 
     creator = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
-    url = models.SlugField(
-        max_length=16,
-        blank=False,
-        unique=True,
-        db_index = True
-    )
+    url = models.SlugField(max_length=16, blank=False, unique=True, db_index=True)
 
     category = models.ForeignKey(
         Category,
@@ -116,7 +111,9 @@ class Question(models.Model):
         max_length=2000,
         blank=True,
         null=True,
-        help_text="Explication à afficher " "après que la question " "aient été répondue.",
+        help_text="Explication à afficher "
+        "après que la question "
+        "aient été répondue.",
         verbose_name="Explication",
     )
 

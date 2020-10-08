@@ -17,7 +17,7 @@ from multichoice.models import MCQuestion
 
 def tutorial(request):
     response = render(request, "quiz/tutorial.html")
-    response.set_cookie('tutorial', 'True')
+    response.set_cookie("tutorial", "True")
     return response
 
 
@@ -27,12 +27,14 @@ def create(request):
     View dedicated to the creation of the quiz using formsets.
     If the user has never created a quiz, redirect him to the tutorial.
     """
-    print(request.COOKIES.get('tutorial', 'False'))
-    if Quiz.objects.filter(creator=request.user).exists() == False \
-        or request.COOKIES.get('tutorial', 'False') != 'False':
-        #request.COOKIES['tutorial'] = True
+    print(request.COOKIES.get("tutorial", "False"))
+    if (
+        Quiz.objects.filter(creator=request.user).exists() == False
+        or request.COOKIES.get("tutorial", "False") != "False"
+    ):
+        # request.COOKIES['tutorial'] = True
         response = render(request, "quiz/tutorial.html")
-        response.set_cookie('tutorial', 'False')
+        response.set_cookie("tutorial", "False")
 
         return response
 
@@ -112,7 +114,7 @@ def create(request):
                 new_quiz.difficulty = quiz_difficulty
                 new_quiz.save()
 
-                return redirect('profile')
+                return redirect("profile")
 
     return render(
         request,
@@ -127,24 +129,24 @@ def load_sub_categories(request):
         "sub_category"
     )
     return render(
-        request,
-        "quiz/subcategories_dropdown.html",
-        {"sub_categories": sub_categories},
+        request, "quiz/subcategories_dropdown.html", {"sub_categories": sub_categories}
     )
 
 
 class QuizListView(ListView):
-    template_name = 'quiz_list.html'
+    template_name = "quiz_list.html"
     queryset = Quiz.objects.all()
-    context_object_name = 'quiz_list'
+    context_object_name = "quiz_list"
+
 
 class CategoryListView(ListView):
     model = Category
 
+
 def quiz_list_by_category(request, category_name):
     category_id = Category.objects.get(category=category_name)
     quiz = Quiz.objects.filter(category=category_id)
-    return render(request, "quiz/view_quiz_category.html", {'quiz': quiz})
+    return render(request, "quiz/view_quiz_category.html", {"quiz": quiz})
 
 
 def take(request):

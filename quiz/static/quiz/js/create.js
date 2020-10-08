@@ -5,11 +5,13 @@ $("#id_tf-0-order").val(order);
 $("#id_mc-0-order").val(order);
 $("#base-tf-form").hide();
 $("#base-mc-form").hide();
+$("#post-quiz").hide();
 order++;
 
 // Add a TrueFalse Question Form
 $(document).on('click', '#add-tf', function(e){
   e.preventDefault();
+  $("#post-quiz").show()
   var form = $("#base-tf-form");
   cloneTF(form);
   $("#id_tf-" + (total_tf-1) + "-order").val(order);
@@ -20,6 +22,7 @@ $(document).on('click', '#add-tf', function(e){
 // Add a MultiChoice Question Form
 $(document).on('click', '#add-mc', function(e){
   e.preventDefault();
+  $("#post-quiz").show()
   var form = $("#base-mc-form");
   cloneMC(form);
   $("#id_mc-" + (total_mc-1) + "-order").val(order);

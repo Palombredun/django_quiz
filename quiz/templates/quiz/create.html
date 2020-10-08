@@ -3,58 +3,162 @@
 {% load static %}
 
 <head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  {% block title %}Créer un quiz{% endblock %}
+  {% block css %}<link rel="stylesheet" href="{% static 'quiz/create.css' %}">{% endblock %}
 </head>
 
 {% block content %}
-<h1>Créer quiz</h1>
-<br>
-<br>
-<form method="POST" id="quiz-form" data-cities-url="{% url 'ajax_load_subcategories' %}">
+<div class="container mx-auto">
+  <h1 class="text-2xl text-gray-900 font-bold py-8">Créer un quiz :</h1>
+
+  <form method="POST" id="quiz-form" data-cities-url="{% url 'ajax_load_subcategories' %}">
     {% csrf_token %}
-    <div>
-      {{ quiz_form.as_p }}
-    <br>
-    <hr>
-    <br>
+    <div id="quiz">
+      <p>
+        <label class="block text-gray-700 text-base font-bold pt-4 pl-2">{{ quiz_form.title.label }}</label>
+        <div class="shadow appearance-none border rounded lg:w-3/5 w-full pt-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline">{{ quiz_form.title}}</div>
+      </p>
+      <p>
+        <label class="block text-gray-700 text-base font-bold pt-4 pl-2 text-gray-700"> {{ quiz_form.description.label }}</label>
+        <div class="shadow appearance-none border rounded lg:w-2/3 w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline">{{ quiz_form.description }}</div>
+      </p>
+      <p>
+        <label class="block text-gray-700 text-base font-bold pt-4 pl-2 text-gray-700">{{ quiz_form.category.label }}</label>
+        <div class="block appearance-none text-gray-500 lg:w-2/3 w-full bg-white">{{quiz_form.category }}</div>
+      </p>
+      <p>
+        <label class="block text-gray-700 text-base font-bold pt-4 pl-2 text-gray-700">{{ quiz_form.sub_category.label }}</label>
+        <div class="block appearance-none text-gray-500 lg:w-2/3 w-full bg-white">{{quiz_form.sub_category }}</div>
+      </p>
     </div>
-    </div>
-    <div class="tf-form" id="base-tf-form">
-      {{ tf_form.as_p }}
-    <br>
-    <hr>
-    <br>
+
+    <div class="tf-form py-8" id="base-tf-form">
+      <hr class="bg-grey-700 h-2">
+      {{ tf_form.management_form }}
+      {% for tf in tf_form %}
+      <p>
+        {% for hidden_field in tf.hidden_fields %}
+        {{ hidden_field }}
+        {% endfor %}
+      </p>
+      <p>
+        <label class="block text-gray-700 text-base font-bold pt-4 pl-2">{{ tf.content.label }}</label>
+        <div class="shadow appearance-none border rounded lg:w-2/3 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ tf.content }}</div>
+      </p>
+      <p>
+        <label class="block text-gray-700 text-base font-bold pt-4 pl-2">{{ tf.difficulty.label }}</label>
+        <div class="block appearance-none text-gray-500 lg:w-2/3 w-full bg-white">{{ tf.difficulty }}</div>
+      </p>
+      <p>
+        <label class="block text-gray-700 text-base font-bold pt-4 pl-2">{{ tf.theme1.label }}</label>
+        <div class="shadow appearance-none border rounded lg:w-1/3 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ tf.theme1 }}</div>
+      </p>
+      <p>
+        <label class="block text-gray-700 text-base font-bold pt-4 pl-2">{{ tf.theme2.label }}</label>
+        <div class="shadow appearance-none border rounded lg:w-1/3 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ tf.theme2 }}</div>
+      </p>
+      <p>
+        <label class="block text-gray-700 text-base font-bold pt-4 pl-2">{{ tf.theme3.label }}</label>
+        <div class="shadow appearance-none border rounded lg:w-1/3 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ tf.theme3 }}</div>
+      </p>
+      <p>
+        <label class="block text-gray-700 text-base font-bold pt-4 pl-2">{{ tf.correct.label }}</label>
+        <div class="block appearance-none text-gray-500 lg:w-2/3 w-full bg-white">{{ tf.correct }}</div>
+      </p>
+      {% endfor %}
     </div>
     <div class="mc-form" id="base-mc-form">
-      {{ mc_form.as_p }}
-    <br>
-    <hr>
-    <br>
+      <hr class="bg-grey-700 h-2">
+      {{ mc_form.management_form }}
+      {% for mc in mc_form %}
+
+      <p>
+        {% for hidden_field in mc.hidden_fields %}
+        {{ hidden_field }}
+        {% endfor %}
+      </p>
+      <p>
+        <label class="block text-gray-700 text-base font-bold pt-4 pl-2">{{ mc.content.label }}</label>
+        <div class="shadow appearance-none border rounded lg:w-1/3 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ mc.content }}</div>
+      </p>
+      <p>
+        <label class="block text-gray-700 text-base font-bold pt-4 pl-2">{{ mc.difficulty.label }}</label>
+        <div class="block appearance-none text-gray-500 lg:w-2/3 w-full bg-white">{{ mc.difficulty }}</div>
+      </p>
+      <p>
+        <label class="block text-gray-700 text-base font-bold pt-4 pl-2">{{ mc.theme1.label }}</label>
+        <div class="shadow appearance-none border rounded lg:w-1/3 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ mc.theme1 }}</div>
+      </p>
+      <p>
+        <label class="block text-gray-700 text-base font-bold pt-4 pl-2">{{ mc.theme2.label }}</label>
+        <div class="shadow appearance-none border rounded lg:w-1/3 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ mc.theme2 }}</div>
+      </p>
+      <p>
+        <label class="block text-gray-700 text-base font-bold pt-4 pl-2">{{ mc.theme3.label }}</label>
+        <div class="shadow appearance-none border rounded lg:w-1/3 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ mc.theme3 }}</div>
+      </p>
+      <p>
+        <label class="block text-gray-700 text-base font-bold pt-4 pl-2">{{ mc.answer1.label }}</label>
+        <div class="shadow appearance-none border rounded lg:w-1/3 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ mc.answer1 }}</div>
+      </p>
+      <p>
+        <label class="block text-gray-700 text-base font-bold pt-4 pl-2">{{ mc.answer1_correct.label }}</label>
+        <div class="mr-2 leading-tight">{{ mc.answer1_correct }}</div>
+      </p>
+      <p>
+        <label class="block text-gray-700 text-base font-bold pt-4 pl-2">{{ mc.answer2.label }}</label>
+        <div class="shadow appearance-none border rounded lg:w-1/3 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ mc.answer2 }}</div>
+      </p>
+      <p>
+        <label class="block text-gray-700 text-base font-bold pt-4 pl-2">{{ mc.answer2_correct.label }}</label>
+        {{ mc.answer2_correct }}
+      </p>
+      <p>
+        <label class="block text-gray-700 text-base font-bold pt-4 pl-2">{{ mc.answer3.label }}</label>
+        <div class="shadow appearance-none border rounded lg:w-1/3 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ mc.answer3 }}</div>
+      </p>
+      <p>
+        <label class="block text-gray-700 text-base font-bold pt-4 pl-2">{{ mc.answer3_correct.label }}</label>
+        {{ mc.answer3_correct }}
+      </p>
+      {% endfor %}
+
     </div>
     <div id="forms">
     </div>
-    <input type="submit" value="J'ai fini !" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-</form>
-<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" id="add-tf">Ajouter TF</button>
-<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" id="add-mc">Ajouter MC</button>
+    <div class="py-2">
+      <input type="submit" value="J'ai fini !" class="mybutton text-white font-bold py-2 px-4 rounded-full" id="post-quiz">
+    </div>
+  </form>
+  <div class="py-2">
+    <button class="mybutton text-white font-bold py-2 px-4 rounded-full" id="add-tf">Ajouter TF</button>
+    <button class="mybutton text-white font-bold py-2 px-4 rounded-full" id="add-mc">Ajouter MC</button>
+  </div>
+</div>
 
 
-<script src="{% static 'js/create.js' %}"></script>
+<script src="{% static 'quiz/js/create.js' %}"></script>
 <script>
-  $("#id_quiz-category").change(function() {
-    var url = $("#quiz-form").attr('data-cities-url');
-    var categoryId = $(this).val();
+$("#id_quiz-category").change(function() {
+  var url = $("#quiz-form").attr('data-cities-url');
+  var categoryId = $(this).val();
 
-    $.ajax({
-      url: url,
-      data: {
-        'category': categoryId
-      },
-      success: function (data) {
-        $('#id_quiz-sub_category').html(data);
-      }
-    });
+  $.ajax({
+    url: url,
+    data: {
+      'category': categoryId
+    },
+    success: function (data) {
+      $('#id_quiz-sub_category').html(data);
+    }
   });
+});
 </script>
 
+{% endblock %}
+
+
+{% block footer %}
+{% include 'core/footer.html' %}
 {% endblock %}

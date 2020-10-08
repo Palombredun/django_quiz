@@ -5,28 +5,47 @@
 	height: 100%;
 }
 
-#begin {
-	border: 2px;
-}
-
 #begin:hover {
 	color: #1A174C;
 }
 
-.button {
-	display: flex;
-  	justify-content: center;
+.Sciences {
+	background-color: #E8BBA9;
 }
 
-.button:hover {
-	color: #1A174C;
+.Histoire-Geographie {
+	background-color: #8CD894;
+}
+
+.Langues {
+	background-color: #d88cd0;
+}
+
+.Francais {
+	background-color: #738BCE;
+}
+
+.Autres {
+	background-color: #BCBCBB;
 }
 
 .explanations {
 	background-color: #E8BBA9;
 }
 
-.difficulty {
-	display:flex;
-	align-items: flex-end;
+#seequiz {
+  border: 2px solid black;
+  border-radius: 5px;
+  background-color: none;
+  color: black;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+  border-color: #1A174C;
+  color: #1A174C;
+}
+
+#seequiz:hover {
+	background-color: #1A174C;
+	color: #e2e8f0;
 }

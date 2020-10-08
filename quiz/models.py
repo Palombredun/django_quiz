@@ -1,7 +1,7 @@
-from __future__ import unicode_literals
-
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.html import mark_safe
+from markdown import markdown
 
 
 class Category(models.Model):
@@ -148,6 +148,12 @@ class Question(models.Model):
         "la sous-catégorie, il permettra de "
         "rédiger les conseils en fin de quiz.",
     )
+
+    def get_question_as_markdown(self):
+        return mark_safe(markdown(self.content, safe_mode="escape"))
+        # {{ question.content }}
+        # >
+        # {{ question.get_question_as_markdown }}
 
     class Meta:
         verbose_name = "Question"

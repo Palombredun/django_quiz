@@ -16,7 +16,9 @@ from multichoice.models import MCQuestion
 
 
 def tutorial(request):
-    return render(request, "quiz/tutorial.html")
+    response = render(request, "quiz/tutorial.html")
+    response.set_cookie('tutorial', 'True')
+    return response
 
 
 @login_required
@@ -25,6 +27,15 @@ def create(request):
     View dedicated to the creation of the quiz using formsets.
     If the user has never created a quiz, redirect him to the tutorial.
     """
+    print(request.COOKIES.get('tutorial', 'False'))
+    if Quiz.objects.filter(creator=request.user).exists() == False \
+        or request.COOKIES.get('tutorial', 'False') != 'False':
+        #request.COOKIES['tutorial'] = True
+        response = render(request, "quiz/tutorial.html")
+        response.set_cookie('tutorial', 'False')
+
+        return response
+
     TF_Formset = formset_factory(CreationTrueFalseForm)
     MC_Formset = formset_factory(CreationMultiChoiceForm)
     if request.method == "GET":
@@ -101,6 +112,8 @@ def create(request):
                 new_quiz.difficulty = quiz_difficulty
                 new_quiz.save()
 
+                return redirect('profile')
+
     return render(
         request,
         "quiz/create.html",
@@ -121,7 +134,9 @@ def load_sub_categories(request):
 
 
 class QuizListView(ListView):
-    model = Quiz
+    template_name = 'quiz_list.html'
+    queryset = Quiz.objects.all()
+    context_object_name = 'quiz_list'
 
 class CategoryListView(ListView):
     model = Category
@@ -130,31 +145,6 @@ def quiz_list_by_category(request, category_name):
     category_id = Category.objects.get(category=category_name)
     quiz = Quiz.objects.filter(category=category_id)
     return render(request, "quiz/view_quiz_category.html", {'quiz': quiz})
-
-
-class ViewQuizListByCategory(ListView):
-    model = Quiz
-    template_name = "view_quiz_category.html"
-
-    def dispatch(self, request, *args, **kwargs):
-        self.category = get_object_or_404(
-            Category,
-            category=self.kwargs['category_name']
-        )
-
-        return super(ViewQuizListByCategory, self).\
-            dispatch(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super(ViewQuizListByCategory, self).\
-            get_context_data(**kwargs)
-        context["category"] = self.category
-        print('\n\n',context["category"])
-        return context
-
-    def get_queryset(self):
-        queryset = super(ViewQuizListByCategory, self).get_queryset()
-        return queryset.filter(category=self.category)
 
 
 def take(request):

@@ -16,6 +16,7 @@ $(document).on('click', '#add-tf', function(e){
   cloneTF(form);
   $("#id_tf-" + (total_tf-1) + "-order").val(order);
   order++;
+  $("#id-mc-0-order").val(order);
   return false;
 });
 
@@ -27,6 +28,7 @@ $(document).on('click', '#add-mc', function(e){
   cloneMC(form);
   $("#id_mc-" + (total_mc-1) + "-order").val(order);
   order++;
+  $("#id-mc-0-order").val(order);
   return false;
 });
 

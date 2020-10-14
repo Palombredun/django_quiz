@@ -27,7 +27,6 @@ def create(request):
     View dedicated to the creation of the quiz using formsets.
     If the user has never created a quiz, redirect him to the tutorial.
     """
-    print(request.COOKIES.get("tutorial", "False"))
     if (
         Quiz.objects.filter(creator=request.user).exists() == False
         or request.COOKIES.get("tutorial", "False") != "False"
@@ -112,6 +111,7 @@ def create(request):
                 else:
                     quiz_difficulty = 2
                 new_quiz.difficulty = quiz_difficulty
+                new_quiz.slug = new_quiz.url + "-" + str(new_quiz.id)
                 new_quiz.save()
 
                 return redirect("profile")
@@ -133,30 +133,45 @@ def load_sub_categories(request):
     )
 
 
-class QuizListView(ListView):
-    template_name = "quiz_list.html"
-    queryset = Quiz.objects.all()
-    context_object_name = "quiz_list"
-
-
-class CategoryListView(ListView):
-    model = Category
+def quiz_list(request):
+    quiz_list = Quiz.objects.all().order_by("-created")
+    categories = Category.objects.all()
+    return render(
+        request,
+        "quiz/quiz_list.html",
+        {"quiz_list": quiz_list, "categories": categories},
+    )
 
 
 def quiz_list_by_category(request, category_name):
-    category_id = Category.objects.get(category=category_name)
-    quiz = Quiz.objects.filter(category=category_id)
-    return render(request, "quiz/view_quiz_category.html", {"quiz": quiz})
+    category = Category.objects.get(category=category_name)
+    subcategories = SubCategory.objects.all()
+    quiz = Quiz.objects.filter(category=category)
+    return render(
+        request,
+        "quiz/view_quiz_category.html",
+        {"category": category_name, 
+        "subcategories": subcategories, "quiz_list": quiz},
+    )
 
 
+def quiz_list_by_subcategory(request, subcategory_name):
+    subcategory_id = SubCategory.objects.get(sub_category=subcategory_name)
+    quiz = Quiz.objects.filter(sub_category=subcategory_id)
+    return render(
+        request,
+        "quiz/view_quiz_subcategory.html",
+        {"subcategories": subcategory_name, "quiz_list": quiz},
+    )
+
+
+"""
 def take(request):
-    """
     get quiz
     get questions
     create 2 list of size n
     populate the first list with the questions
     populate the second list with the forms
-    """
     if request.method == "GET":
         forms = []
         for i in range(3):
@@ -166,9 +181,10 @@ def take(request):
         for i in range(3):
             toto = request
     return render(request, "quiz/take.html", {"forms": forms})
+"""
 
 
-def take_quiz(request, url):
+def take(request, url):
     quiz = Quiz.objects.get(url=url)
     tf_questions = TF_Question.objects.filter(quiz=quiz)
     mc_questions = MCQuestion.objects.filter(quiz=quiz)
@@ -176,20 +192,21 @@ def take_quiz(request, url):
     nb_tf_questions = tf_questions.count()
     nb_mc_questions = mc_questions.count()
     forms = [0] * (nb_tf_questions + nb_mc_questions)
-    questions = [0] * (nb_tf_questions + nb_mc_questions)
 
     for question in tf_questions:
         index = question.order
-        forms[index] = TFQuestionForm(prefix="tf" + str(index))
-        questions[index] = question
-    for question in mc_question:
+        forms[index] = (question.content, TrueFalseForm(prefix="tf" + str(index)))
+    for question in mc_questions:
         index = question.order
-        forms[index] = MCQuestionForm(prefix="mc" + str(index))
-        questions[index] = question
+        forms[index] = (question.content, MultiChoiceForm(prefix="mc" + str(index)))
 
     if request.method == "GET":
-        if quiz.ordered == False:
-            questions = shuffle(questions)
-        return render(request, "quiz/take_quiz.html")
+        if quiz.random_order is True:
+            shuffle(forms)
+        return render(request, "quiz/take.html", {"title": quiz.title, "forms": forms})
     elif request.method == "POST":
-        pass
+        for i in range(nb_tf_questions):
+            tf = TrueFalseForm(request.POST, prefix="tf" + str(i))
+            if tf.is_valid():
+                cd = tf.cleaned_data
+                tmp = tf_tuple(cd["id"], cd["answer"])

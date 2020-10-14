@@ -1,13 +1,13 @@
-<h1>Passer le quiz</h1>
-<br>
-<br>
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Titre du quiz{% endblock %}
 
-<form method="POST" action="">
-	{% csrf_token %}
+{% block content %}
+<h1>{{ title }}</h1>
+<form>
 	{% for form in forms %}
-		<p>Toto</p>
-		{{ form.as_p }}
+		<p>{{ form.0 }}</p>
+		{{ form.1.as_p }}
 	{% endfor %}
-
-	<input type="submit" value="J'ai fini !">
 </form>
+{% endblock %}

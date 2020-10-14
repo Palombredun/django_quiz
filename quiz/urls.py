@@ -1,7 +1,6 @@
 from django.urls import path
 
 from . import views
-from quiz.views import QuizListView, CategoryListView
 
 urlpatterns = [
     path("create/", views.create, name="create"),
@@ -11,12 +10,16 @@ urlpatterns = [
         name="ajax_load_subcategories",
     ),
     path("tutorial/", views.tutorial, name="tutorial"),
-    path("take/<slug:url>/", views.take_quiz, name="take"),
-    path("quiz-list/", QuizListView.as_view(), name="quiz-list"),
-    path("category-list/", CategoryListView.as_view(), name="category-list"),
+    path("take/<slug:url>/", views.take, name="take"),
+    path("quiz-list/", views.quiz_list, name="quiz-list"),
     path(
-        "<str:category_name>",
+        "category/<str:category_name>/",
         views.quiz_list_by_category,
         name="quiz_category_list_matching",
+    ),
+    path(
+        "subcategory/<str:subcategory_name>/",
+        views.quiz_list_by_subcategory,
+        name="quiz_subcategory_list_matching",
     ),
 ]

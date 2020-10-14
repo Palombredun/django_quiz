@@ -1,25 +1,15 @@
 {% extends 'core/base.html' %}
 {% load static %}
 
-{% block title %}{{ category}}{% endblock %}
+{% block title %}Liste des quiz{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="{% static 'quiz/quiz_list.css' %}">
 {% endblock %}
 
 {% block content %}
 <div class="flex min-h-screen">
-	<div class="container flex-grow mx-auto bg-gray-200 px-8">
+	<div class="container mx-auto flex-grow bg-gray-200 px-8">
 		<h1 class="pb-4 pt-8 text-2xl text-gray-700 font-bold">Liste des quiz créés du plus récent au plus ancien :</h1>
-
-		<button class="text-blue-400 py-4" id="show-categories">Sélectionner un quiz selon sa sous-catégorie</button>
-
-		<div class="py-4" id="categories">
-			{% for sub in subcategories %}
-			<a href="{% url 'quiz_subcategory_list_matching' subcategory_name=sub.sub_category %}">
-				<button class="{{ sub.category }} rounded py-1 px-1 my-1">{{ sub.sub_category }}</button>
-			</a>
-			{% endfor %}
-		</div>
 
 		<div class="flex content-start flex-wrap pb-16">
 			{% for quiz in quiz_list %}
@@ -48,13 +38,6 @@
 		</div>
 	</div>
 </div>
-<script>
-$("#categories").hide();
-$("#show-categories").click( function() {
-	$("#categories").fadeIn();
-});
-
-</script>
 {% endblock %}
 
 {% block footer %}

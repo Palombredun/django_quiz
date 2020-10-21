@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 from .forms import UserRegistrationForm
-from quiz.models import Quiz, Detail
+from quiz.models import Quiz, AnswerUser
 
 
 def register(request):
@@ -42,7 +42,7 @@ class MyLogoutView(SuccessMessageMixin, LogoutView):
 def profile(request):
     user = User.objects.get(pk=request.user.id)
     quiz_created = Quiz.objects.filter(creator=user)
-    questions_participated = Detail.objects.filter(user=user)
+    questions_participated = AnswerUser.objects.filter(user=user)
     if not questions_participated:
         quiz_participated = []
     else:

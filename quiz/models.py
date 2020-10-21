@@ -161,7 +161,7 @@ class Question(models.Model):
         return self.content
 
 
-class Detail(models.Model):
+class AnswerUser(models.Model):
     user = models.ManyToManyField(User)
     question = models.ManyToManyField(Question)
     correct = models.BooleanField()

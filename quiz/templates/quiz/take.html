@@ -4,10 +4,23 @@
 
 {% block content %}
 <h1>{{ title }}</h1>
-<form>
+<form method="POST">
+	{% csrf_token %}
 	{% for form in forms %}
-		<p>{{ form.0 }}</p>
-		{{ form.1.as_p }}
+		<p>{{ form.1 }}</p>
+		{% if form.0 == 'tf' %}
+			{{ form.2.as_p }}
+		{% else %}
+			<p>
+				<p><label>{{ form.2 }}</label></p>
+				<div>{{ form.5.answer1_correct }}</div>
+				<p><label>{{ form.3 }}</label></p>
+				<div>{{ form.5.answer2_correct }}</div>
+				<p><label>{{ form.4 }}</label></p>
+				<div>{{ form.5.answer3_correct }}</div>
+			</p>
+		{% endif %}
 	{% endfor %}
+	<input type="submit" value="Envoyer">
 </form>
 {% endblock %}

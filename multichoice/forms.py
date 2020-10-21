@@ -32,20 +32,7 @@ class CreationMultiChoiceForm(QuestionForm):
 
 
 class MultiChoiceForm(forms.Form):
-    answer1 = forms.CharField(max_length=1000)
     answer1_correct = forms.BooleanField(required=False)
-    answer2 = forms.CharField(max_length=1000)
     answer2_correct = forms.BooleanField(required=False)
-    answer3 = forms.CharField(max_length=1000)
     answer3_correct = forms.BooleanField(required=False)
-
-    class Meta:
-        model = MCQuestion
-        field = (
-            "answer1",
-            "answer1_correct",
-            "answer2",
-            "answer2_correct",
-            "answer3",
-            "answer3_correct",
-        )
+    question_id = forms.IntegerField(widget=forms.HiddenInput())

@@ -17,7 +17,4 @@ class CreationTrueFalseForm(QuestionForm):
 
 class TrueFalseForm(forms.Form):
     correct = forms.ChoiceField(choices=CORRECTNESS_CHOICES)
-
-    class Meta:
-        model = TF_Question
-        fields = ("content", "correct")
+    question_id = forms.IntegerField(widget=forms.HiddenInput())

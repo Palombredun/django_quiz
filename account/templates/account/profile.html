@@ -8,7 +8,7 @@
 
 <p>Vous pourrez retrouver ici toutes informations concernant votre profil telles que les quis auxquels vous avez participés ainsi que ceux que vous avez créées.</p>
 
-<a href="{% url "create" %}">
+<a href="{% url 'create' %}">
 	<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4  rounded">Créer un quiz</button>
 </a>
 
@@ -28,7 +28,7 @@
 			<div class="w-1/3 p-2">
 				<div class="bg-blue-300 p-2 h-40 rounded-lg">
 					<div class="text-gray-700 text-center truncate">
-						<a href="{% url 'take_quiz' quiz.url %}">{{ quiz.title }}</a>
+						<a href="#">{{ quiz.title }}</a>
 					</div>
 					<div class="flex h-24 justify-center items-end">
 						{% if quiz.difficulty == 1 %}
@@ -52,7 +52,7 @@
 				<div class="w-1/3 p-2">
 					<div class="bg-blue-300 p-2 h-40 rounded-lg">
 						<div class="text-gray-700 text-center truncate">
-							<a href="{% url 'take_quiz' quiz.url %}">{{ quiz.title }}</a>
+							<a href="#">{{ quiz.title }}</a>
 						</div>
 						<div class="flex h-24 justify-center items-end">
 							{% if quiz.difficulty == 1 %}

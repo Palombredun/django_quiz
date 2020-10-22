@@ -8,12 +8,7 @@ class Migration(migrations.Migration):
     atomic = False
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('quiz', '0007_auto_20201001_1839'),
+        ("quiz", "0007_auto_20201001_1839"),
     ]
 
-    operations = [
-        migrations.RenameModel(
-            old_name='Detail',
-            new_name='AnswerUser',
-        ),
-    ]
+    operations = [migrations.RenameModel(old_name="Detail", new_name="AnswerUser")]

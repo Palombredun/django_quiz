@@ -48,10 +48,7 @@ def create(request):
         tf_formset = TF_Formset(request.POST or None, prefix="tf")
         mc_formset = MC_Formset(request.POST or None, prefix="mc")
 
-        if quiz_form.is_valid() and (
-            (tf_formset.is_valid()
-            and mc_formset.is_valid())
-        ):
+        if quiz_form.is_valid() and ((tf_formset.is_valid() and mc_formset.is_valid())):
             quiz_cd = quiz_form.cleaned_data
             new_quiz = Quiz(
                 title=quiz_cd["title"],
@@ -182,8 +179,9 @@ def take(request, url):
         forms[index] = (
             "tf",
             question.content,
-            TrueFalseForm(prefix="tf" + str(index)),
-            question.id,
+            TrueFalseForm(
+                initial={"id_question": question.id}, prefix="tf" + str(index)
+            ),
         )
         id_questions[index] = question.id
     for question in mc_questions:
@@ -194,8 +192,9 @@ def take(request, url):
             question.answer1,
             question.answer2,
             question.answer3,
-            MultiChoiceForm(prefix="mc" + str(index)),
-            question.id,
+            MultiChoiceForm(
+                initial={"id_question": question.id}, prefix="mc" + str(index)
+            ),
         )
 
     if request.method == "GET":

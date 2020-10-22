@@ -10,6 +10,10 @@ from quiz.models import Quiz, AnswerUser
 
 
 def register(request):
+    """
+    Creation of the user account.
+    It requires a username, an email adress and a password.    
+    """
     if request.method == "POST":
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
@@ -26,20 +30,13 @@ def register(request):
     return render(request, "account/register.html", {"form": user_form})
 
 
-class MyLoginView(SuccessMessageMixin, LoginView):
-    template_name = "registration/login.html"
-    success_url = "home"
-    success_message = "Vous êtes bien connecté"
-
-
-class MyLogoutView(SuccessMessageMixin, LogoutView):
-    template_name = "registration/logged_out.html"
-    success_url = "home"
-    success_message = "Vous avez bien été déconnecté"
-
-
 @login_required
 def profile(request):
+    """
+    Profile page of the user
+    It displays the quiz he or she has passed and the quiz 
+    he or she has created.
+    """
     user = User.objects.get(pk=request.user.id)
     quiz_created = Quiz.objects.filter(creator=user)
     questions_participated = AnswerUser.objects.filter(user=user)

@@ -35,4 +35,4 @@ class MultiChoiceForm(forms.Form):
     answer1_correct = forms.BooleanField(required=False)
     answer2_correct = forms.BooleanField(required=False)
     answer3_correct = forms.BooleanField(required=False)
-    question_id = forms.IntegerField(widget=forms.HiddenInput())
+    id_question = forms.IntegerField(widget=forms.HiddenInput())

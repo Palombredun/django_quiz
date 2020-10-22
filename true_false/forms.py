@@ -17,4 +17,4 @@ class CreationTrueFalseForm(QuestionForm):
 
 class TrueFalseForm(forms.Form):
     correct = forms.ChoiceField(choices=CORRECTNESS_CHOICES)
-    question_id = forms.IntegerField(widget=forms.HiddenInput())
+    id_question = forms.IntegerField(widget=forms.HiddenInput())

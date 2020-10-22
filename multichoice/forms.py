@@ -6,6 +6,9 @@ from quiz.forms import QuestionForm
 
 
 class CreationMultiChoiceForm(QuestionForm):
+    """
+    Form dedicated to the creation of a MultiChoice Question.
+    """
     answer1 = forms.CharField(max_length=1000, label="Réponse 1")
     answer1_correct = forms.BooleanField(required=False, label="Correcte")
     answer2 = forms.CharField(max_length=1000, label="Réponse 2")
@@ -32,6 +35,12 @@ class CreationMultiChoiceForm(QuestionForm):
 
 
 class MultiChoiceForm(forms.Form):
+    """
+    Form used for the taking of a quiz.
+    It is used for getting the students' answer to  a multichoice question.
+    This answer will be compared to the one decided by the creator of
+    the quiz in order to decided if it is right or wrong.
+    """
     answer1_correct = forms.BooleanField(required=False)
     answer2_correct = forms.BooleanField(required=False)
     answer3_correct = forms.BooleanField(required=False)

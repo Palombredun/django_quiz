@@ -37,7 +37,7 @@ class CreationMultiChoiceForm(QuestionForm):
 class MultiChoiceForm(forms.Form):
     """
     Form used for the taking of a quiz.
-    It is used for getting the students' answer to  a multichoice question.
+    It is used for getting the student's answer to  a multichoice question.
     This answer will be compared to the one decided by the creator of
     the quiz in order to decided if it is right or wrong.
     """

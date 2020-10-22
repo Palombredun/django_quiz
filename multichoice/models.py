@@ -14,27 +14,24 @@ class MCQuestion(Question):
     answer1 = models.CharField(
         max_length=1000,
         blank=False,
-        help_text=_("Enter the answer text that " "you want displayed"),
-        verbose_name=_("Content"),
+        verbose_name="Content",
     )
     answer1_correct = models.BooleanField(blank=False, default=False)
 
     answer2 = models.CharField(
         max_length=1000,
         blank=False,
-        help_text=_("Enter the answer text that " "you want displayed"),
-        verbose_name=_("Content"),
+        verbose_name="Content",
     )
     answer2_correct = models.BooleanField(blank=False, default=False)
 
     answer3 = models.CharField(
         max_length=1000,
         blank=False,
-        help_text=_("Enter the answer text that " "you want displayed"),
-        verbose_name=_("Content"),
+        verbose_name="Content",
     )
     answer3_correct = models.BooleanField(blank=False, default=False)
 
     class Meta:
-        verbose_name = _("Multiple Choice Question")
-        verbose_name_plural = _("Multiple Choice Questions")
+        verbose_name = "Question à choix multiples"
+        verbose_name_plural = "Questions à choix multiples"

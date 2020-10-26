@@ -7,9 +7,9 @@
 <form method="POST">
 	{% csrf_token %}
 	{% for form in forms %}
-		<p>{{ form.1 }}</p>
+		<p>{{ form.1 }}</p> <!--- question's content -->
 		{% if form.0 == 'tf' %}
-			{{ form.2.as_p }}
+			{{ form.2.as_p }} <!-- TF form -->
 		{% else %}
 			<p>
 				<p><label>{{ form.2 }}</label></p>

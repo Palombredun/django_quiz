@@ -6,7 +6,12 @@ from quiz.models import Quiz, Question, Category, SubCategory
 DIFFICULTY_CHOICES = ((1, "facile"), (2, "moyen"), (3, "difficile"))
 
 
+
 class QuestionForm(forms.Form):
+    """
+    Base form used for the creation of questions in a quiz.
+    """
+
     content = forms.CharField(max_length=1000, label="Question")
     difficulty = forms.ChoiceField(choices=DIFFICULTY_CHOICES, label="Difficulté")
     theme1 = forms.CharField(
@@ -31,6 +36,10 @@ class QuestionForm(forms.Form):
 
 
 class QuizForm(forms.ModelForm):
+    """
+    Form used for the creation of a quiz. 
+    """
+    
     class Meta:
         model = Quiz
         fields = ("title", "description", "category", "sub_category", "random_order")

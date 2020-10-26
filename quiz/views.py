@@ -20,6 +20,15 @@ def tutorial(request):
     response.set_cookie("tutorial", "True")
     return response
 
+def zzz(request):
+    if request.method == "GET":
+        quiz_form = QuizForm()
+    elif request.method == "POST":
+        quiz_form = QuizForm(request.POST)
+
+        print(quiz_form.is_valid())
+        print(quiz_form)
+    return render(request, "quiz/zzz.html", {"quiz": quiz_form})
 
 @login_required
 def create(request):
@@ -31,7 +40,6 @@ def create(request):
         Quiz.objects.filter(creator=request.user).exists() == False
         or request.COOKIES.get("tutorial", "False") != "False"
     ):
-        # request.COOKIES['tutorial'] = True
         response = render(request, "quiz/tutorial.html")
         response.set_cookie("tutorial", "False")
 
@@ -48,15 +56,24 @@ def create(request):
         tf_formset = TF_Formset(request.POST or None, prefix="tf")
         mc_formset = MC_Formset(request.POST or None, prefix="mc")
 
+        print(quiz_form.is_valid())
+        print("\n\n", quiz_form.errors)
+        print("\n\n",quiz_form)
+
         if quiz_form.is_valid() and ((tf_formset.is_valid() and mc_formset.is_valid())):
             quiz_cd = quiz_form.cleaned_data
+            
+            category = Category.objects.get(id=cd['category'])
+            if cd['sub_category']:
+                sub_category = SubCategory.objects.get(id=cd["sub_category"])
+
             new_quiz = Quiz(
                 title=quiz_cd["title"],
                 description=quiz_cd["description"],
                 creator=request.user,
                 url="placeholder",
-                category=quiz_cd["category"],
-                sub_category=quiz_cd["sub_category"],
+                category=category,
+                sub_category=sub_category,
                 random_order=quiz_cd["random_order"],
             )
             new_quiz.save()
@@ -129,7 +146,8 @@ def load_sub_categories(request):
         "sub_category"
     )
     return render(
-        request, "quiz/subcategories_dropdown.html", {"sub_categories": sub_categories}
+        request, "quiz/subcategories_dropdown.html", 
+        {"sub_categories": sub_categories}
     )
 
 
@@ -145,7 +163,7 @@ def quiz_list(request):
 
 def quiz_list_by_category(request, category_name):
     category = Category.objects.get(category=category_name)
-    subcategories = SubCategory.objects.all()
+    subcategories = SubCategory.objects.filter(category=category)
     quiz = Quiz.objects.filter(category=category)
     return render(
         request,
@@ -175,7 +193,7 @@ def take(request, url):
     id_questions = [0] * (nb_tf_questions + nb_mc_questions)
 
     for question in tf_questions:
-        index = question.order
+        index = question.order-1
         forms[index] = (
             "tf",
             question.content,
@@ -193,8 +211,9 @@ def take(request, url):
             question.answer2,
             question.answer3,
             MultiChoiceForm(
-                initial={"id_question": question.id}, prefix="mc" + str(index)
-            ),
+                initial={"id_question": question.id}, 
+                prefix="mc" + str(index)
+            )
         )
 
     if request.method == "GET":
@@ -206,8 +225,10 @@ def take(request, url):
             tf = TrueFalseForm(request.POST, prefix="tf" + str(i))
             if tf.is_valid():
                 cd = tf.cleaned_data
+                print(cd)
         for i in range(nb_tf_questions):
             mc = MultiChoiceForm(request.POST, prefix="mc" + str(i))
             if mc.is_valid():
                 cd = mc.cleaned_data
+                print(cd)
         return render(request, "quiz/results.html")

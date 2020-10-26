@@ -12,7 +12,7 @@
 <div class="container mx-auto">
   <h1 class="text-2xl text-gray-900 font-bold py-8">Créer un quiz :</h1>
 
-  <form method="POST" id="quiz-form" data-cities-url="{% url 'ajax_load_subcategories' %}">
+  <form method="POST" id="quiz-form" data-subcategories-url="{% url 'ajax_load_subcategories' %}">
     {% csrf_token %}
     <div id="quiz">
       <p>
@@ -145,7 +145,7 @@
 <script src="{% static 'quiz/js/create.js' %}"></script>
 <script>
 $("#id_quiz-category").change(function() {
-  var url = $("#quiz-form").attr('data-cities-url');
+  var url = $("#quiz-form").attr('data-subcategories-url');
   var categoryId = $(this).val();
 
   $.ajax({

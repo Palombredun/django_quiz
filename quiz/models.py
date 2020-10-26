@@ -5,7 +5,9 @@ from markdown import markdown
 
 
 class Category(models.Model):
-
+    """
+    Category Model. 
+    """
     category = models.CharField(
         verbose_name="Catégorie", max_length=250, blank=True, unique=True, null=True
     )
@@ -19,7 +21,11 @@ class Category(models.Model):
 
 
 class SubCategory(models.Model):
-
+    """
+    Modèle d'une sous-catégorie. Elles sont rattachées aux catégories.
+    SubCategory Model, each subcategory is linked by a foreign key to its
+    "mother-category".
+    """
     sub_category = models.CharField(
         verbose_name="Sous-Catégorie", max_length=250, blank=True, null=True
     )
@@ -41,7 +47,11 @@ class SubCategory(models.Model):
 
 
 class Quiz(models.Model):
-
+    """
+    Quiz model. It contains all the basic informations of a quiz 
+    for its creation.
+    Questions belonging to the quiz will point to it through a Foreign Key.
+    """
     title = models.CharField(verbose_name="Titre", max_length=60, blank=False)
 
     description = models.TextField(
@@ -71,8 +81,8 @@ class Quiz(models.Model):
     created = models.DateTimeField(auto_now=True)
 
     random_order = models.BooleanField(
-        blank=False,
         default=False,
+        blank=True,
         verbose_name="Ordre aléatoire",
         help_text="Afficher les questions dans l'ordre de création ou aléatoirement ?",
     )
@@ -148,34 +158,20 @@ class Question(models.Model):
 
     def get_question_as_markdown(self):
         return mark_safe(markdown(self.content, safe_mode="escape"))
-        # {{ question.content }}
-        # >
-        # {{ question.get_question_as_markdown }}
 
     class Meta:
         verbose_name = "Question"
         verbose_name_plural = "Questions"
-        # ordering = ['category']
 
     def __str__(self):
         return self.content
 
 
 class AnswerUser(models.Model):
+    """
+    Modèle utilisé pour stocker toutes les réponses des utilisateurs
+    aux questions des quiz.
+    """
     user = models.ManyToManyField(User)
     question = models.ManyToManyField(Question)
     correct = models.BooleanField()
-
-
-class Result(models.Model):
-    quiz = models.OneToOneField(Quiz, on_delete=models.CASCADE)
-    student = models.ManyToManyField(User)
-    easy = models.FloatField()
-    medium = models.FloatField()
-    difficult = models.FloatField()
-    theme1 = models.FloatField()
-    theme2 = models.FloatField()
-    theme3 = models.FloatField()
-    result_0_to_3 = models.FloatField()
-    result_4_to_6 = models.FloatField()
-    result_7_to_10 = models.FloatField()

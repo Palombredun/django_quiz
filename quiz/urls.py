@@ -22,6 +22,4 @@ urlpatterns = [
         name="quiz_subcategory_list_matching",
     ),
     path("take/<slug:url>/", views.take, name="take-quiz"),
-
-    path("z/", views.zzz, name="zzz")
 ]

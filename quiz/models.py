@@ -27,7 +27,10 @@ class SubCategory(models.Model):
     "mother-category".
     """
     sub_category = models.CharField(
-        verbose_name="Sous-Catégorie", max_length=250, blank=True, null=True
+        verbose_name="Sous-Catégorie", 
+        max_length=250, 
+        blank=True, 
+        null=True
     )
 
     category = models.ForeignKey(

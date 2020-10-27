@@ -6,7 +6,6 @@ from quiz.models import Quiz, Question, Category, SubCategory
 DIFFICULTY_CHOICES = ((1, "facile"), (2, "moyen"), (3, "difficile"))
 
 
-
 class QuestionForm(forms.Form):
     """
     Base form used for the creation of questions in a quiz.
@@ -35,21 +34,40 @@ class QuestionForm(forms.Form):
     order = forms.IntegerField(widget=forms.HiddenInput())
 
 
-class QuizForm(forms.ModelForm):
-    """
-    Form used for the creation of a quiz. 
-    """
-    
-    class Meta:
-        model = Quiz
-        fields = ("title", "description", "category", "sub_category", "random_order")
-        labels = {
-            "title": "Titre",
-            "category": "Catégorie",
-            "sub_category": "Sous-catégorie",
-            "random_order": "Ordre aléatoire",
-        }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["sub_category"].queryset = SubCategory.objects.none()
+class QuizForm(forms.Form):
+    CATEGORY_CHOICES = (
+        (None, ""),
+        (1, "Sciences"),
+        (2, "Langues"),
+        (3, "Français"),
+        (4, "Autres"),
+        (5, "Histoire Géographie"),
+    )
+    SUBCATEGORY_CHOICES = (
+        (None, ""),
+        (1, "Physique"),
+        (2, "Chimie"),
+        (3, "Biologie"),
+        (4, "Sciences de la Vie et de la Terre"),
+        (5, "Informatique"),
+        (6, "Technologie"),
+        (7, "Sciences de l'Ingénieur"),
+        (8, "Anglais"),
+        (9, "Allemand"),
+        (10, "Espagnol"),
+        (11, "Italien"),
+        (12, "Latin"),
+        (13, "Orthographe"),
+        (14, "Vocabulaire"),
+        (15, "Analyse de texte"),
+        (16, "Grammaire"),
+        (17, "Histoire"),
+        (18, "Géographie"),
+        (19, "Education Civique et Morale"),
+        (20, "Sciences Economiques et Sociales"),
+    )
+    title = forms.CharField(max_length=100)
+    description = forms.CharField(max_length=1000, widget=forms.Textarea)
+    category = forms.ChoiceField(choices=CATEGORY_CHOICES)
+    sub_category = forms.ChoiceField(choices=SUBCATEGORY_CHOICES, required=False)
+    random_order = forms.BooleanField(required=False)

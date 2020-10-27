@@ -20,15 +20,6 @@ def tutorial(request):
     response.set_cookie("tutorial", "True")
     return response
 
-def zzz(request):
-    if request.method == "GET":
-        quiz_form = QuizForm()
-    elif request.method == "POST":
-        quiz_form = QuizForm(request.POST)
-
-        print(quiz_form.is_valid())
-        print(quiz_form)
-    return render(request, "quiz/zzz.html", {"quiz": quiz_form})
 
 @login_required
 def create(request):
@@ -36,14 +27,12 @@ def create(request):
     View dedicated to the creation of the quiz using formsets.
     If the user has never created a quiz, redirect him to the tutorial.
     """
-    if (
-        Quiz.objects.filter(creator=request.user).exists() == False
-        or request.COOKIES.get("tutorial", "False") != "False"
-    ):
-        response = render(request, "quiz/tutorial.html")
-        response.set_cookie("tutorial", "False")
-
-        return response
+    cookie = request.COOKIES.get("tutorial", "False")
+    if (Quiz.objects.filter(creator=request.user).exists() == False and
+    cookie == "False"):
+            response = redirect("tutorial")
+            response.set_cookie("tutorial", "True", 1800)
+            return response
 
     TF_Formset = formset_factory(CreationTrueFalseForm)
     MC_Formset = formset_factory(CreationMultiChoiceForm)
@@ -56,17 +45,14 @@ def create(request):
         tf_formset = TF_Formset(request.POST or None, prefix="tf")
         mc_formset = MC_Formset(request.POST or None, prefix="mc")
 
-        print(quiz_form.is_valid())
-        print("\n\n", quiz_form.errors)
-        print("\n\n",quiz_form)
-
         if quiz_form.is_valid() and ((tf_formset.is_valid() and mc_formset.is_valid())):
             quiz_cd = quiz_form.cleaned_data
             
-            category = Category.objects.get(id=cd['category'])
-            if cd['sub_category']:
-                sub_category = SubCategory.objects.get(id=cd["sub_category"])
-
+            category = Category.objects.get(id=quiz_cd['category'])
+            if quiz_cd['sub_category']:
+                sub_category = SubCategory.objects.get(id=quiz_cd["sub_category"])
+            else:
+                sub_category = None
             new_quiz = Quiz(
                 title=quiz_cd["title"],
                 description=quiz_cd["description"],

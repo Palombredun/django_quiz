@@ -66,8 +66,8 @@ class QuizForm(forms.Form):
         (19, "Education Civique et Morale"),
         (20, "Sciences Economiques et Sociales"),
     )
-    title = forms.CharField(max_length=100)
+    title = forms.CharField(max_length=100, label="Titre")
     description = forms.CharField(max_length=1000, widget=forms.Textarea)
-    category = forms.ChoiceField(choices=CATEGORY_CHOICES)
-    sub_category = forms.ChoiceField(choices=SUBCATEGORY_CHOICES, required=False)
-    random_order = forms.BooleanField(required=False)
+    category = forms.ChoiceField(choices=CATEGORY_CHOICES, label="Catégorie")
+    sub_category = forms.ChoiceField(choices=SUBCATEGORY_CHOICES, required=False, label="Sous-catégorie")
+    random_order = forms.BooleanField(required=False, label="Ordre aléatoire ?")

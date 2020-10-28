@@ -72,6 +72,7 @@ class Quiz(models.Model):
         verbose_name="Catégorie",
         on_delete=models.CASCADE,
     )
+    category_name = models.CharField(max_length=100, blank=False, default="")
 
     sub_category = models.ForeignKey(
         SubCategory,

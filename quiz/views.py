@@ -61,6 +61,7 @@ def create(request):
                 category=category,
                 sub_category=sub_category,
                 random_order=quiz_cd["random_order"],
+                difficulty=0
             )
             new_quiz.save()
 
@@ -114,7 +115,7 @@ def create(request):
             else:
                 quiz_difficulty = 2
             new_quiz.difficulty = quiz_difficulty
-            new_quiz.slug = slugify(quiz_cd["title"]) + "-" + str(new_quiz.id)
+            new_quiz.url = slugify(quiz_cd["title"]) + "-" + str(new_quiz.id)
             new_quiz.save()
 
             return redirect("profile")

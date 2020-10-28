@@ -28,8 +28,8 @@
         <div class="block appearance-none text-gray-500 lg:w-2/3 w-full bg-white">{{quiz_form.category }}</div>
       </p>
       <p>
-        <label class="block text-gray-700 text-base font-bold pt-4 pl-2 text-gray-700">{{ quiz_form.sub_category.label }}</label>
-        <div class="block appearance-none text-gray-500 lg:w-2/3 w-full bg-white">{{quiz_form.sub_category }}</div>
+        <label class="subcategory block text-gray-700 text-base font-bold pt-4 pl-2 text-gray-700">{{ quiz_form.sub_category.label }}</label>
+        <div class="subcategory block appearance-none text-gray-500 lg:w-2/3 w-full bg-white">{{quiz_form.sub_category }}</div>
       </p>
       <p>
         <label class="block text-gray-700 text-base font-bold pt-4 pl-2 text-gray-700">{{ quiz_form.random_order.label }}</label>
@@ -144,9 +144,16 @@
 
 <script src="{% static 'quiz/js/create.js' %}"></script>
 <script>
+$(".subcategory").hide();
+
 $("#id_quiz-category").change(function() {
   var url = $("#quiz-form").attr('data-subcategories-url');
   var categoryId = $(this).val();
+
+  if (categoryId == 4) {
+    return;
+  }
+  $(".subcategory").fadeIn();
 
   $.ajax({
     url: url,

@@ -1,0 +1,17 @@
+#finished {
+	border-bottom-width: 4px;
+	border-color: #E8BBA9;
+}
+
+#finished:hover {
+	background-color: #E8BBA9;
+}
+
+#created {
+	border-bottom-width: 4px;
+	border-color: #8CD894;
+}
+
+#created:hover {
+	background-color: #8CD894;
+}

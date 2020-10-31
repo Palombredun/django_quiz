@@ -89,6 +89,7 @@ def create(request):
                         correct=cd["correct"],
                         quiz=new_quiz,
                     )
+                    print("tf", cd['order'])
                     new_tf.save()
 
             if mc_formset:
@@ -111,6 +112,7 @@ def create(request):
                         answer3_correct=cd["answer3_correct"],
                         quiz=new_quiz,
                     )
+                    print("mc", cd['order'])
                     new_mc.save()
 
             # the difficulty is

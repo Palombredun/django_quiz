@@ -38,7 +38,7 @@ def profile(request):
     he or she has created.
     """
     user = User.objects.get(pk=request.user.id)
-    quiz_created = Quiz.objects.filter(creator=user)
+    quiz_created = Quiz.objects.filter(creator=user).order_by("-created")
     questions_participated = AnswerUser.objects.filter(user=user)
     
     data = {}

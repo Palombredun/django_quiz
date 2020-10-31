@@ -27,7 +27,7 @@
 		{% for quiz in quiz_participated %}
 		<div class="lg:w-1/3 w-full p-2">
 			<div class="{{ quiz.category_name }} p-2 h-40 rounded-lg">
-				<a href="{% url 'take-quiz' url=quiz.url%}">
+				<a href="{% url 'take' url=quiz.url %}">
 					<div class="text-gray-700 text-center truncate">
 						{{ quiz.title }}
 					</div>

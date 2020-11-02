@@ -10,17 +10,17 @@
 {% block content %}
 <div class="flex min-h-screen">
 	<div class="container mx-auto flex-grow bg-gray-200 px-8">
-	<h1 class="py-4">Bienvenue sur votre profil {{ user.username }}</h1>
+	<h1 class="text-gray-700 py-4">Bienvenue sur votre profil {{ user.username }}</h1>
 
-	<p>Vous pourrez retrouver ici toutes informations concernant votre profil telles que les quis auxquels vous avez participés ainsi que ceux que vous avez créées.</p>
+	<p class="text-gray-700">Vous pourrez retrouver ici toutes informations concernant votre profil telles que les quis auxquels vous avez participés ainsi que ceux que vous avez créées.</p>
 	<div class="py-8">
 		<a href="{% url 'create' %}">
 			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Créer un quiz</button>
 		</a>
 	</div>
 	<div class="flex">
-		<a href="" class="quizzes w-1/2 text-center" id="finished">Quiz finis</a>
-		<a href="" class="quizzes w-1/2 text-center" id="created">Quiz crées</a>
+		<a href="" class="quizzes w-1/2 text-center text-gray-700 font-bold" id="finished">Quiz finis</a>
+		<a href="" class="quizzes w-1/2 text-center text-gray-700 font-bold" id="created">Quiz crées</a>
 	</div>
 	<div class="flex content-start flex-wrap pb-16 my-8" id="quiz-finished">
 		{% if quiz_participated|length %}

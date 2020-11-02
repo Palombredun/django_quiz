@@ -6,35 +6,34 @@ $("#id_mc-0-order").val(order);
 $("#base-tf-form").hide();
 $("#base-mc-form").hide();
 $("#post-quiz").hide();
-order++;
 
 // Add a TrueFalse Question Form
 $(document).on('click', '#add-tf', function(e){
   e.preventDefault();
+  $("#post-quiz").show()
   var form = $("#base-tf-form");
-  cloneTF(form);
-  if (order == 0) {
-    $("#post-quiz").show()
+  if (total_tf == 0 && order !=0) {
+    $("#id_tf-0-order").val(order);
   }
-
-  $("#id_tf-" + (total_tf-1) + "-order").val(order);
+  cloneTF(form);
+  $("#id_tf-" + (total_tf-1) + "-order").last().val(order);
   order++;
-  $("#id-mc-0-order").val(order);
+  //$("#id-mc-0-order").val(order);
   return false;
 });
 
 // Add a MultiChoice Question Form
 $(document).on('click', '#add-mc', function(e){
   e.preventDefault();
+  $("#post-quiz").show()
   var form = $("#base-mc-form");
-  cloneMC(form);
-  if (order == 0) {
-    $("#post-quiz").show()
+  if (total_mc == 0 && order !=0) {
+    $("#id_mc-0-order").val(order);
   }
-
-  $("#id_mc-" + (total_mc-1) + "-order").val(order);
+  cloneMC(form);
+  $("#id_mc-" + (total_mc-1) + "-order").last().val(order);
   order++;
-  $("#id-mc-0-order").val(order);
+  //$("#id-mc-0-order").val(order);
   return false;
 });
 
@@ -70,7 +69,7 @@ $("form").submit(function(e){
   $(this).submit();
 });
 
-  function cloneTF(selector) {
+function cloneTF(selector) {
   // clone the selected part of the form
   var newElement = $(selector).clone(true);
 

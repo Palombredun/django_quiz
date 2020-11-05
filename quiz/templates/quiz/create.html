@@ -9,7 +9,8 @@
 </head>
 
 {% block content %}
-<div class="container mx-auto">
+<div class="flex min-h-screen">
+<div class="container flex-grow mx-auto">
   <h1 class="text-2xl text-gray-900 font-bold py-8">Créer un quiz :</h1>
 
   <form method="POST" id="quiz-form" data-subcategories-url="{% url 'ajax_load_subcategories' %}">
@@ -146,6 +147,7 @@
     <button class="mybutton text-white font-bold py-2 px-4 rounded-full" id="add-tf">Ajouter une question Vrai/Faux</button>
     <button class="mybutton text-white font-bold py-2 px-4 rounded-full" id="add-mc">Ajouter une question à Choix Multiples</button>
   </div>
+</div>
 </div>
 
 

@@ -1,3 +1,4 @@
+from collections import defaultdict
 from random import shuffle
 
 from django.shortcuts import render, redirect, get_object_or_404
@@ -13,6 +14,8 @@ from multichoice.forms import CreationMultiChoiceForm, MultiChoiceForm
 from quiz.models import Quiz, Question, Category, SubCategory
 from true_false.models import TF_Question
 from multichoice.models import MCQuestion
+
+from quiz.results import results
 
 
 def tutorial(request):
@@ -78,7 +81,7 @@ def create(request):
                 for question in tf_formset:
                     cd = question.cleaned_data
                     n += 1
-                    mean_difficulty += int(cd["difficulty"]) / n
+                    mean_difficulty += int(cd["difficulty"])
                     new_tf = TF_Question(
                         content=cd["content"],
                         difficulty=cd["difficulty"],
@@ -95,7 +98,7 @@ def create(request):
                 for question in mc_formset:
                     cd = question.cleaned_data
                     n += 1
-                    mean_difficulty += int(cd["difficulty"]) / n
+                    mean_difficulty += int(cd["difficulty"])
                     new_mc = MCQuestion(
                         content=cd["content"],
                         difficulty=cd["difficulty"],
@@ -112,7 +115,7 @@ def create(request):
                         quiz=new_quiz,
                     )
                     new_mc.save()
-
+            mean_difficulty /= n
             # the difficulty is
             if mean_difficulty < 1.667:
                 quiz_difficulty = 1
@@ -175,9 +178,15 @@ def quiz_list_by_subcategory(request, subcategory_name):
 
 
 def take(request, url):
+    """
+    Send questions belonging to the quiz
+    Receive results, compare them to the answers,
+    redirect to page results
+    """
+
     quiz = get_object_or_404(Quiz, url=url)
-    tf_questions = TF_Question.objects.filter(quiz=quiz)
-    mc_questions = MCQuestion.objects.filter(quiz=quiz)
+    tf_questions = TF_Question.objects.filter(quiz=quiz).order_by("order")
+    mc_questions = MCQuestion.objects.filter(quiz=quiz).order_by("order")
 
     nb_tf_questions = tf_questions.count()
     nb_mc_questions = mc_questions.count()
@@ -185,12 +194,14 @@ def take(request, url):
     id_questions = [0] * (nb_tf_questions + nb_mc_questions)
 
     for question in tf_questions:
-        index = question.order - 1
+        index = question.order
         forms[index] = (
             "tf",
             question.content,
             TrueFalseForm(
-                initial={"id_question": question.id}, prefix="tf" + str(index)
+                request.GET or None,
+                initial={"qid": question.id},
+                prefix="tf" + str(index),
             ),
         )
         id_questions[index] = question.id
@@ -203,7 +214,9 @@ def take(request, url):
             question.answer2,
             question.answer3,
             MultiChoiceForm(
-                initial={"id_question": question.id}, prefix="mc" + str(index)
+                request.GET or None,
+                initial={"qid": question.id},
+                prefix="mc" + str(index),
             ),
         )
 
@@ -211,15 +224,21 @@ def take(request, url):
         if quiz.random_order is True:
             shuffle(forms)
         return render(request, "quiz/take.html", {"title": quiz.title, "forms": forms})
+
     elif request.method == "POST":
+        tf_answers = {}
         for i in range(nb_tf_questions):
-            tf = TrueFalseForm(request.POST, prefix="tf" + str(i))
+            tf = TrueFalseForm(request.POST or None, prefix="tf" + str(i))
             if tf.is_valid():
                 cd = tf.cleaned_data
-                print(cd)
-        for i in range(nb_tf_questions):
-            mc = MultiChoiceForm(request.POST, prefix="mc" + str(i))
+                tf_answers[cd["qid"]] = cd["correct"]
+        mc_answers = {}
+        for i in range(nb_mc_questions):
+            mc = MultiChoiceForm(request.POST or None, prefix="mc" + str(i))
             if mc.is_valid():
                 cd = mc.cleaned_data
-                print(cd)
+                mc_answers[cd["qid"]] = (cd["answer1"], cd["answer2"], cd["answer3"])
+        total_questions = nb_tf_questions + nb_mc_questions
+        results(tf_answers, mc_answers, total_questions)
+
         return render(request, "quiz/results.html")

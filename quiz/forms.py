@@ -40,8 +40,8 @@ class QuizForm(forms.Form):
         (1, "Sciences"),
         (2, "Langues"),
         (3, "Français"),
-        (4, "Autres"),
         (5, "Histoire Géographie"),
+        (4, "Autres"),
     )
     SUBCATEGORY_CHOICES = (
         (None, ""),

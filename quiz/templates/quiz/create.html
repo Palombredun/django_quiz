@@ -10,15 +10,15 @@
 
 {% block content %}
 <div class="flex min-h-screen">
-<div class="container flex-grow mx-auto">
-  <h1 class="text-2xl text-gray-900 font-bold py-8">Créer un quiz :</h1>
+  <div class="container mx-auto">
+      <h1 class="text-2xl text-gray-900 font-bold py-8">Créer un quiz :</h1>
 
-  <form method="POST" id="quiz-form" data-subcategories-url="{% url 'ajax_load_subcategories' %}">
+      <form method="POST" id="quiz-form" data-subcategories-url="{% url 'ajax_load_subcategories' %}" class="ounded px-8 pt-6 pb-8 mb-4">
     {% csrf_token %}
     <div id="quiz">
       <p>
         <label class="block text-gray-700 text-base font-bold pt-4 pl-2">{{ quiz_form.title.label }}</label>
-        <div class="shadow appearance-none border rounded lg:w-3/5 w-full pt-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline">{{ quiz_form.title}}</div>
+        <div class="shadow appearance-none border rounded lg:w-3/5 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ quiz_form.title}}</div>
       </p>
       <p>
         <label class="block text-gray-700 text-base font-bold pt-4 pl-2 text-gray-700"> {{ quiz_form.description.label }}</label>
@@ -26,7 +26,7 @@
       </p>
       <p>
         <label class="block text-gray-700 text-base font-bold pt-4 pl-2 text-gray-700">{{ quiz_form.category.label }}</label>
-        <div class="block appearance-none text-gray-500 lg:w-2/3 w-full bg-white">{{quiz_form.category }}</div>
+        <div class="block appearance-none text-gray-500 lg:w-2/3 w-full">{{quiz_form.category }}</div>
       </p>
       <p>
         <label class="subcategory block text-gray-700 text-base font-bold pt-4 pl-2 text-gray-700">{{ quiz_form.sub_category.label }}</label>
@@ -142,14 +142,13 @@
     <div class="py-2">
       <input type="submit" value="J'ai fini !" class="mybutton text-white font-bold py-2 px-4 rounded-full" id="post-quiz">
     </div>
-  </form>
-  <div class="py-2 pb-32">
-    <button class="mybutton text-white font-bold py-2 px-4 rounded-full" id="add-tf">Ajouter une question Vrai/Faux</button>
-    <button class="mybutton text-white font-bold py-2 px-4 rounded-full" id="add-mc">Ajouter une question à Choix Multiples</button>
+      </form>
+      <div class="py-2 pb-32">
+        <button class="mybutton text-white font-bold py-2 px-4 rounded-full" id="add-tf">Ajouter une question Vrai/Faux</button>
+        <button class="mybutton text-white font-bold py-2 px-4 rounded-full" id="add-mc">Ajouter une question à Choix Multiples</button>
+      </div>
   </div>
 </div>
-</div>
-
 
 <script src="{% static 'quiz/js/create.js' %}"></script>
 <script>

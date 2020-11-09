@@ -71,7 +71,6 @@ def results(tf_answers, mc_answers, total_questions):
             if theme3:
                 score_theme[theme3] += 1
 
-
     if weighted_score/total_score > 0.66:
         "Vous avez très bien réussi le quiz !"
     elif weighted_score/total_score < 0.33:
@@ -87,12 +86,25 @@ def results(tf_answers, mc_answers, total_questions):
     )
 
     for diff, score in score_difficulty.items():
-        results_dict["difficulty"] = \
+        results_dict[diff] = \
             ("Vous avez bien répondu à " +
             str(score) +
             str(" questions de difficulté ") + str(diff) + " sur "+
             str(total_difficulty[diff])
         )
+
+    if (score_difficulty[1] > total_difficulty[1]/2 and
+        score_difficulty[2] > total_difficulty[2]/2 and
+        score_difficulty[3] > total_difficulty[3]/2):
+        results_dict["difficulty"] = "Vous avez bien réussi toutes les difficultés"
+    elif (score_difficulty[1] > total_difficulty[1]/2 and
+        score_difficulty[2] > total_difficulty[2]/2 and
+        score_difficulty[3] < total_difficulty[3]/2):
+        results_dict["difficulty"] = "Tout réussi sauf le difficile"
+    elif (score_difficulty[1] > total_difficulty[1]/2 and
+        score_difficulty[2] < total_difficulty[2]/2 and
+        score_difficulty[3] < total_difficulty[3]/2):
+        results_dict["difficulty"] = "Seul le facile est réussi"
 
     for theme, score in score_theme.items():
         if score > total_theme[theme]/2:

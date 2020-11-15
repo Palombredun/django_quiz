@@ -1,123 +1,149 @@
-from collections import defaultdict
+from collections import defaultdict, namedtuple
 
 from true_false.models import TF_Question
 from multichoice.models import MCQuestion
 
-def results(tf_answers, mc_answers, total_questions):
-    nb_good_answers = 0
-    weighted_score = 0
-    score_difficulty = {1: 0, 2: 0, 3: 0}
-    total_difficulty = defaultdict(int)
-    total_theme = defaultdict(int)
-    score_theme = defaultdict(int)
-    total_score = 0
 
-    results_dict = {}
+class Score:
+    def __init__(self):
+        self.nb_good_answers = 0
+        self.weighted = 0
+        self.difficulty = {1: 0, 2: 0, 3: 0}
+        self.theme = defaultdict(int)
 
-    # tf answers
-    for qid, answer in tf_answers.items():
-        question = TF_Question.objects.get(id=qid)
+    def add_correct_question(self, question):
+        self.nb_good_answers += 1
+        self.weighted += question.difficulty
+        self.difficulty[question.difficulty] += 1
 
-        total_score += question.difficulty
-        total_difficulty[question.difficulty] += 1
         theme1, theme2, theme3 = question.theme1, question.theme2, question.theme3
-        
         if theme1:
-            total_theme[theme1] += 1
+            self.theme[theme1] += 1
         if theme2:
-            total_theme[theme2] += 1
+            self.theme[theme2] += 1
         if theme3:
-            total_theme[theme3] += 1
-        
-        # check correct questions
-        if answer == str(question.correct):
-            nb_good_answers += 1
-            weighted_score += question.difficulty
-            score_difficulty[question.difficulty] += 1
-            if theme1:
-                score_theme[theme1] += 1
-            if theme2:
-                score_theme[theme2] += 1
-            if theme3:
-                score_theme[theme3] += 1
-        
-    for qid, answers in mc_answers.items():
-        question = MCQuestion.objects.get(id=qid)
+            self.theme[theme3] += 1
 
-        total_score += question.difficulty
-        total_difficulty[question.difficulty] += 1
+
+class Total:
+    def __init__(self, nb_questions):
+        self.weighted = 0
+        self.difficulty = defaultdict(int)
+        self.theme = defaultdict(int)
+        self.nb_questions = nb_questions
+
+    def populate(self, question):
+        self.weighted += question.difficulty
+        self.difficulty[question.difficulty]
+
         theme1, theme2, theme3 = question.theme1, question.theme2, question.theme3
-
         if theme1:
-            total_theme[theme1] += 1
+            self.theme[theme1] += 1
         if theme2:
-            total_theme[theme2] += 1
+            self.theme[theme2] += 1
         if theme3:
-            total_theme[theme3] += 1
+            self.theme[theme3] += 1
 
-        # check correct questions
-        if (
-            answers[0] == str(question.answer1_correct)
-            and answers[1] == str(question.answer2_correct)
-            and answers[2] == str(question.answer3_correct)
-        ):
-            nb_good_answers += 1
-            weighted_score += question.difficulty
-            score_difficulty[question.difficulty] += 1
-            if theme1:
-                score_theme[theme1] += 1
-            if theme2:
-                score_theme[theme2] += 1
-            if theme3:
-                score_theme[theme3] += 1
 
-    if weighted_score/total_score > 0.66:
-        "Vous avez très bien réussi le quiz !"
-    elif weighted_score/total_score < 0.33:
-        results_dict["global"] = "Vous avez besoin de plus de révisions, courage !"
-    else:
-        results_dict["global"] = "Avec un peu de travail supplémentaire, vous réussirez !"
+class Result:
+    def __init__(self):
+        self.advices = {}
+        self.details = {}
 
-    results_dict["detail_answers"] = \
-        ("Vous avez bien répondu à " +
-        str(nb_good_answers) + 
-        " questions sur " + 
-        str(total_questions)
-    )
+    def statistics_tf(self, tf_answers, score, total):
+        for qid, answer in tf_answers.items():
+            question = TF_Question.objects.get(id=qid)
+            total.populate(question)
 
-    for diff, score in score_difficulty.items():
-        results_dict[diff] = \
-            ("Vous avez bien répondu à " +
-            str(score) +
-            str(" questions de difficulté ") + str(diff) + " sur "+
-            str(total_difficulty[diff])
+            if answer == str(question.correct):
+                self.details[question.content] = "Vous avez bien répondu"
+                score.add_correct_question(question)
+            else:
+                if question.correct == True:
+                    self.details[question.content] = "La bonne réponse était Vrai"
+                elif question.correct == False:
+                    self.details[question.content] = "La bonne réponse était Faux"
+
+    def statistics_mc(self, mc_answers, score, total):
+        for qid, answer in mc_answers.items():
+            question = MCQuestion.objects.get(id=qid)
+            total.populate(question)
+
+            if (
+                answers[0] == str(question.answer1_correct)
+                and answers[1] == str(question.answer2_correct)
+                and answers[2] == str(question.answer3_correct)
+            ):
+                self.details[question.content] = "Vous avez bien répondu"
+                score.add_correct_question(question)
+            else:
+                answers = []
+                if question.answer1_correct == True:
+                    answers.append(question.answer1)
+                if question.answer2_correct == True:
+                    answers.append(question.answer2)
+                if question.answer3_correct == True:
+                    answers.append(question.answer3)
+                tmp = "\n"
+                for answer in answers:
+                    tmp += answer + "\n"
+                self.details[question.content] = "La bonne réponse était : " + tmp
+
+    def compute_scores(self, score, total):
+        if score.weighted / total.weighted > 0.66:
+            self.advices["global"] = "Vous avez très bien réussi le quiz !"
+        elif score.weighted / total.weighted < 0.33:
+            self.advices["global"] = "Vous avez besoin de plus de révisions, courage !"
+        else:
+            self.advices[
+                "global"
+            ] = "Avec un peu de travail supplémentaire, vous réussirez !"
+
+        self.advices["good_answers"] = (
+            "Vous avez bien répondu à "
+            + str(score.nb_good_answers)
+            + " questions sur "
+            + str(total.nb_questions)
         )
 
-    if (score_difficulty[1] > total_difficulty[1]/2 and
-        score_difficulty[2] > total_difficulty[2]/2 and
-        score_difficulty[3] > total_difficulty[3]/2):
-        results_dict["difficulty"] = "Vous avez bien réussi toutes les difficultés"
-    elif (score_difficulty[1] > total_difficulty[1]/2 and
-        score_difficulty[2] > total_difficulty[2]/2 and
-        score_difficulty[3] < total_difficulty[3]/2):
-        results_dict["difficulty"] = "Tout réussi sauf le difficile"
-    elif (score_difficulty[1] > total_difficulty[1]/2 and
-        score_difficulty[2] < total_difficulty[2]/2 and
-        score_difficulty[3] < total_difficulty[3]/2):
-        results_dict["difficulty"] = "Seul le facile est réussi"
+        if (
+            score.difficulty[1] > total.difficulty[1] / 2
+            and score.difficulty[2] > total.difficulty[2] / 2
+            and score.difficulty[3] > total.difficulty[3] / 2
+        ):
+            self.advices[
+                "difficulty"
+            ] = "Vous maîtrisez très bien ce sujet, félicitations !"
+        elif (
+            score.difficulty[1] > total.difficulty[1] / 2
+            and score.difficulty[2] > total.difficulty[2] / 2
+            and score.difficulty[3] < total.difficulty[3] / 2
+        ):
+            self.advices[
+                "difficulty"
+            ] = "Vous maîtrisez bien ce sujet sujet mais les questions plus avancées vous échappent encore"
+        elif (
+            score.difficulty[1] > total.difficulty[1] / 2
+            and score.difficulty[2] < total.difficulty[2] / 2
+            and score.difficulty[3] < total.difficulty[3] / 2
+        ):
+            self.advices[
+                "difficulty"
+            ] = "Vous semblez maîtriser les bases, poursuivez vos efforts !"
 
-    for theme, score in score_theme.items():
-        if score > total_theme[theme]/2:
-            results_dict[str(theme)] = "Thème " + str(theme) + " réussi"
-        else:
-            results_dict[str(theme)] = "Thème " + str(theme) + " raté"
+        for theme, score in score.theme.items():
+            if score > total.theme[theme] / 2:
+                self.advices[
+                    str(theme)
+                ] = "Vous avez bien réussi les questions sur le thème " + str(theme)
+            else:
+                self.advices[
+                    str(theme)
+                ] = "Vous devriez réviser le sujet suivant " + str(theme)
 
 
-    for diff, score in score_difficulty.items():
-        if score > total_difficulty[diff]/2:
-            results_dict["difficulty"+str(diff)] = "Vous avez réussi en difficulté " + str(diff)
-        else:
-            results_dict["difficulty"+str(diff)] = "Vous avez raté en difficulté " + str(diff)
-    for key, val in results_dict.items():
-        print(key, "\n", val)
-        print("---------------------------------")
+# print(detailed_results)
+# for key, val in advices.items():
+#    print(key, "\n", val)
+#    print("---------------------------------")
+# return detailed_results, advices

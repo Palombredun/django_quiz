@@ -15,7 +15,7 @@ from quiz.models import Quiz, Question, Category, SubCategory
 from true_false.models import TF_Question
 from multichoice.models import MCQuestion
 
-from quiz.results import results
+from quiz.results import Result, Score, Total
 
 
 def tutorial(request):
@@ -239,6 +239,15 @@ def take(request, url):
                 cd = mc.cleaned_data
                 mc_answers[cd["qid"]] = (cd["answer1"], cd["answer2"], cd["answer3"])
         total_questions = nb_tf_questions + nb_mc_questions
-        results(tf_answers, mc_answers, total_questions)
+        
+        score_user = Score()
+        total_score = Total(total_questions)
+        results = Result()
 
-        return render(request, "quiz/results.html")
+        results.statistics_tf(tf_answers, score_user, total_score)
+        results.statistics_mc(mc_answers, score_user, total_score)
+        results.compute_scores(score_user, total_score)
+        print(results.details)
+        print(results.advices)
+
+        return render(request, "quiz/results.html", {"details": results.details, "advices": results.advices})

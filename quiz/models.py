@@ -8,6 +8,7 @@ class Category(models.Model):
     """
     Category Model. 
     """
+
     category = models.CharField(
         verbose_name="Catégorie", max_length=250, blank=True, unique=True, null=True
     )
@@ -26,11 +27,9 @@ class SubCategory(models.Model):
     SubCategory Model, each subcategory is linked by a foreign key to its
     "mother-category".
     """
+
     sub_category = models.CharField(
-        verbose_name="Sous-Catégorie", 
-        max_length=250, 
-        blank=True, 
-        null=True
+        verbose_name="Sous-Catégorie", max_length=250, blank=True, null=True
     )
 
     category = models.ForeignKey(
@@ -55,6 +54,7 @@ class Quiz(models.Model):
     for its creation.
     Questions belonging to the quiz will point to it through a Foreign Key.
     """
+
     title = models.CharField(verbose_name="Titre", max_length=60, blank=False)
 
     description = models.TextField(
@@ -176,6 +176,7 @@ class AnswerUser(models.Model):
     Modèle utilisé pour stocker toutes les réponses des utilisateurs
     aux questions des quiz.
     """
+
     user = models.ManyToManyField(User)
     question = models.ManyToManyField(Question)
     correct = models.BooleanField()

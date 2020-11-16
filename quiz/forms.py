@@ -69,5 +69,7 @@ class QuizForm(forms.Form):
     title = forms.CharField(max_length=100, label="Titre")
     description = forms.CharField(max_length=1000, widget=forms.Textarea)
     category = forms.ChoiceField(choices=CATEGORY_CHOICES, label="Catégorie")
-    sub_category = forms.ChoiceField(choices=SUBCATEGORY_CHOICES, required=False, label="Sous-catégorie")
+    sub_category = forms.ChoiceField(
+        choices=SUBCATEGORY_CHOICES, required=False, label="Sous-catégorie"
+    )
     random_order = forms.BooleanField(required=False, label="Ordre aléatoire ?")

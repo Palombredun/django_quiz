@@ -239,7 +239,7 @@ def take(request, url):
                 cd = mc.cleaned_data
                 mc_answers[cd["qid"]] = (cd["answer1"], cd["answer2"], cd["answer3"])
         total_questions = nb_tf_questions + nb_mc_questions
-        
+
         score_user = Score()
         total_score = Total(total_questions)
         results = Result()
@@ -250,4 +250,8 @@ def take(request, url):
         print(results.details)
         print(results.advices)
 
-        return render(request, "quiz/results.html", {"details": results.details, "advices": results.advices})
+        return render(
+            request,
+            "quiz/results.html",
+            {"details": results.details, "advices": results.advices},
+        )

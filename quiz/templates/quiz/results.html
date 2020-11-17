@@ -1,0 +1,32 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+
+  {% block title %}Résultat{% endblock %}
+  {% block css %}<link rel="stylesheet" href="{% static 'quiz/results.css' %}">{% endblock %}
+</head>
+
+{% block content %}
+<div class="flex min-h-screen">
+	<div class="container mx-auto">
+		{% for key, value in details.items %}
+		<p>{{ key }}
+			<br>
+		{{ value }}</p>
+		{% endfor %}
+
+		<br>
+		<br>
+
+		{% for key, value in advices.items %}
+		<p>
+			{{ value }}
+		</p>
+		{% endfor %}
+		{% endblock %}
+	</div>
+</div>
+
+{% block footer %}
+{% include 'core/footer.html' %}
+{% endblock %}

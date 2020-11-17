@@ -176,7 +176,7 @@ def quiz_list_by_subcategory(request, subcategory_name):
         {"subcategories": subcategory_name, "quiz_list": quiz},
     )
 
-
+@login_required
 def take(request, url):
     """
     Send questions belonging to the quiz
@@ -223,7 +223,7 @@ def take(request, url):
     if request.method == "GET":
         if quiz.random_order is True:
             shuffle(forms)
-        return render(request, "quiz/take.html", {"title": quiz.title, "forms": forms})
+        return render(request, "quiz/take.html", {"title": quiz.title, "description": quiz.description, "forms": forms})
 
     elif request.method == "POST":
         tf_answers = {}
@@ -247,8 +247,6 @@ def take(request, url):
         results.statistics_tf(tf_answers, score_user, total_score)
         results.statistics_mc(mc_answers, score_user, total_score)
         results.compute_scores(score_user, total_score)
-        print(results.details)
-        print(results.advices)
 
         return render(
             request,

@@ -140,10 +140,3 @@ class Result:
                 self.advices[
                     str(theme)
                 ] = "Vous devriez réviser le sujet suivant " + str(theme)
-
-
-# print(detailed_results)
-# for key, val in advices.items():
-#    print(key, "\n", val)
-#    print("---------------------------------")
-# return detailed_results, advices

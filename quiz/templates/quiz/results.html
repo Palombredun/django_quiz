@@ -8,24 +8,33 @@
 
 {% block content %}
 <div class="flex min-h-screen">
-	<div class="container mx-auto">
-		{% for key, value in details.items %}
-		<p>{{ key }}
-			<br>
-		{{ value }}</p>
-		{% endfor %}
+	<div class="container mx-auto bg-gray-200">
+		<div class="px-4 pt-4 pb-16 text-gray-800">
+			<h1 class="text-xl font-bold">Résultat du quiz :</h1>
+			<div class="pb-8">
+				{% for key, value in details.items %}
+				<div class="py-2">
+					<p class="font-bold">{{ key }}</p>
+					<p>{{ value }}</p>
+				</div>
+				{% endfor %}
+			</div>
 
-		<br>
-		<br>
+			<ul class="list-disc px-4">
+				{% for key, value in advices.items %}
+				<li class="py-2">{{ value }}</li>
+				{% endfor %}
+			</p>
+		</div>
 
-		{% for key, value in advices.items %}
-		<p>
-			{{ value }}
-		</p>
-		{% endfor %}
-		{% endblock %}
+		<div class="flex justify-center items-center pb-8">
+			<a href="{% url 'quiz-list' %}">
+          		<button class="bg-green-400 hover:bg-green-500 text-gray-800 font-bold py-4 rounded px-8 ">Retourner aux quiz</button>
+        	</a>
+    	</div>
 	</div>
 </div>
+{% endblock %}
 
 {% block footer %}
 {% include 'core/footer.html' %}

@@ -253,3 +253,8 @@ def take(request, url):
             "quiz/results.html",
             {"details": results.details, "advices": results.advices},
         )
+
+def statistics(request):
+    d1 = [10, 9, 8, 7, 6, 5]
+    d2 = [1, 2, 3, 4, 5, 6]
+    return render(request, "quiz/statistics.html", {"d1": d1, "d2": d2})

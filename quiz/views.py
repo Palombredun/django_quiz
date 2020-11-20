@@ -11,7 +11,16 @@ from quiz.forms import QuizForm
 from true_false.forms import CreationTrueFalseForm, TrueFalseForm
 from multichoice.forms import CreationMultiChoiceForm, MultiChoiceForm
 
-from quiz.models import Quiz, Question, Category, SubCategory
+from quiz.models import (
+    Quiz,
+    Question,
+    Category,
+    SubCategory,
+    Statistic,
+    Grade,
+    QuestionScore,
+    ThemeScore,
+)
 from true_false.models import TF_Question
 from multichoice.models import MCQuestion
 
@@ -176,6 +185,7 @@ def quiz_list_by_subcategory(request, subcategory_name):
         {"subcategories": subcategory_name, "quiz_list": quiz},
     )
 
+
 @login_required
 def take(request, url):
     """
@@ -223,7 +233,11 @@ def take(request, url):
     if request.method == "GET":
         if quiz.random_order is True:
             shuffle(forms)
-        return render(request, "quiz/take.html", {"title": quiz.title, "description": quiz.description, "forms": forms})
+        return render(
+            request,
+            "quiz/take.html",
+            {"title": quiz.title, "description": quiz.description, "forms": forms},
+        )
 
     elif request.method == "POST":
         tf_answers = {}
@@ -253,6 +267,7 @@ def take(request, url):
             "quiz/results.html",
             {"details": results.details, "advices": results.advices},
         )
+
 
 def statistics(request):
     d1 = [10, 9, 8, 7, 6, 5]

@@ -176,7 +176,33 @@ class AnswerUser(models.Model):
     Modèle utilisé pour stocker toutes les réponses des utilisateurs
     aux questions des quiz.
     """
-
     user = models.ManyToManyField(User)
     question = models.ManyToManyField(Question)
     correct = models.BooleanField()
+
+
+class Statistic(models.Model):
+    quiz = models.OneToOneField(Quiz, on_delete=models.CASCADE)
+    number_participants = models.IntegerField()
+    mean = models.IntegerField()
+    easy = models.IntegerField()
+    medium = models.IntegerField()
+    difficult = models.IntegerField()
+
+
+class Grade(models.Model):
+    grade = models.IntegerField()
+    number = models.IntegerField()
+    statistics = models.ManyToManyField(Statistic)
+
+
+class QuestionScore(models.Model):
+    question = models.OneToOneField(Question, on_delete=models.CASCADE)
+    score = models.IntegerField()
+    statistics = models.ManyToManyField(Statistic)
+
+
+class ThemeScore(models.Model):
+    theme_id = models.IntegerField()
+    score = models.IntegerField()
+    statistics = models.ManyToManyField(Statistic)

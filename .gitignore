@@ -26,3 +26,4 @@ _urls.py
 essay/
 package-lock.json
 node_modules
+migrations/

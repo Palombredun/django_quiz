@@ -17,12 +17,12 @@ class Score:
         self.difficulty[question.difficulty] += 1
 
         theme1, theme2, theme3 = question.theme1, question.theme2, question.theme3
-        if theme1:
-            self.theme[theme1] += 1
-        if theme2:
-            self.theme[theme2] += 1
-        if theme3:
-            self.theme[theme3] += 1
+        if theme1.name:
+            self.theme[theme1.name] += 1
+        if theme2.name:
+            self.theme[theme2.name] += 1
+        if theme3.name:
+            self.theme[theme3.name] += 1
 
 
 class Total:
@@ -37,12 +37,12 @@ class Total:
         self.difficulty[question.difficulty]
 
         theme1, theme2, theme3 = question.theme1, question.theme2, question.theme3
-        if theme1:
-            self.theme[theme1] += 1
-        if theme2:
-            self.theme[theme2] += 1
-        if theme3:
-            self.theme[theme3] += 1
+        if theme1.name:
+            self.theme[theme1.name] += 1
+        if theme2.name:
+            self.theme[theme2.name] += 1
+        if theme3.name:
+            self.theme[theme3.name] += 1
 
 
 class Result:

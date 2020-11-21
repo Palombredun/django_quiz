@@ -19,6 +19,7 @@ from quiz.models import (
     Statistic,
     Grade,
     QuestionScore,
+    Theme,
     ThemeScore,
 )
 from true_false.models import TF_Question
@@ -91,12 +92,20 @@ def create(request):
                     cd = question.cleaned_data
                     n += 1
                     mean_difficulty += int(cd["difficulty"])
+
+                    theme1 = Theme(name=cd["theme1"])
+                    theme1.save()
+                    theme2 = Theme(name=cd["theme2"])
+                    theme2.save()
+                    theme3 = Theme(name=cd["theme3"])
+                    theme3.save()
+
                     new_tf = TF_Question(
                         content=cd["content"],
                         difficulty=cd["difficulty"],
-                        theme1=cd["theme1"],
-                        theme2=cd["theme2"],
-                        theme3=cd["theme3"],
+                        theme1=theme1,
+                        theme2=theme2,
+                        theme3=theme3,
                         order=cd["order"],
                         correct=cd["correct"],
                         quiz=new_quiz,

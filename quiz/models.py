@@ -48,6 +48,20 @@ class SubCategory(models.Model):
         return self.sub_category + " (" + self.category.category + ")"
 
 
+class Theme(models.Model):
+    name = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        help_text=(
+            "Thème de la question. Plus précis que "
+            "la sous-catégorie, il permettra de "
+            "rédiger les conseils en fin de quiz."
+        ),
+    )
+
+
+
 class Quiz(models.Model):
     """
     Quiz model. It contains all the basic informations of a quiz 
@@ -131,34 +145,11 @@ class Question(models.Model):
         verbose_name="Explication",
     )
 
-    theme1 = models.CharField(
-        max_length=50,
-        blank=True,
-        null=True,
-        help_text=(
-            "Thème de la question. Plus précis que "
-            "la sous-catégorie, il permettra de "
-            "rédiger les conseils en fin de quiz."
-        ),
-    )
+    theme1 = models.OneToOneField(Theme, related_name="theme1", on_delete=models.CASCADE)
 
-    theme2 = models.CharField(
-        max_length=50,
-        blank=True,
-        null=True,
-        help_text="Thème de la question. Plus précis que "
-        "la sous-catégorie, il permettra de "
-        "rédiger les conseils en fin de quiz.",
-    )
+    theme2 = models.OneToOneField(Theme, related_name="theme2", on_delete=models.CASCADE)
 
-    theme3 = models.CharField(
-        max_length=50,
-        blank=True,
-        null=True,
-        help_text="Thème de la question. Plus précis que "
-        "la sous-catégorie, il permettra de "
-        "rédiger les conseils en fin de quiz.",
-    )
+    theme3 = models.OneToOneField(Theme, related_name="theme3", on_delete=models.CASCADE)
 
     def get_question_as_markdown(self):
         return mark_safe(markdown(self.content, safe_mode="escape"))
@@ -203,6 +194,6 @@ class QuestionScore(models.Model):
 
 
 class ThemeScore(models.Model):
-    theme_id = models.IntegerField()
+    theme = models.OneToOneField(Theme, default="", on_delete=models.CASCADE)
     score = models.IntegerField()
     statistics = models.ManyToManyField(Statistic)

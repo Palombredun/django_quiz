@@ -52,11 +52,11 @@ class QuizForm(forms.Form):
         (6, "Technologie"),
         (7, "Sciences de l'Ingénieur"),
         (8, "Mathématiques"),
-        (9, "Orthographe"),
-        (10, "Grammaire"),
-        (11, "Vocabulaire"),
-        (12, "Littérature"),
-        (13, "Autres"),
+        (9, "Autres"),
+        (10, "Orthographe"),
+        (11, "Grammaire"),
+        (12, "Vocabulaire"),
+        (13, "Littérature"),
         (14, "Autres"),
         (15, "Anglais"),
         (16, "Italien"),
@@ -66,9 +66,9 @@ class QuizForm(forms.Form):
         (20, "Autres"),
         (21, "Histoire"),
         (22, "Géographie"),
-        (23, "Education Morale et Civique"),
+        (23, "Enseignement Moral et Civique"),
         (24, "Sciences Economiques et Sociales"),
-        (25, "Autres"),
+        (25, "Autres")
     )
     title = forms.CharField(max_length=100, label="Titre")
     description = forms.CharField(max_length=1000, widget=forms.Textarea)

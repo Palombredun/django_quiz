@@ -47,21 +47,6 @@ class SubCategory(models.Model):
     def __str__(self):
         return self.sub_category + " (" + self.category.category + ")"
 
-
-class Theme(models.Model):
-    name = models.CharField(
-        max_length=50,
-        blank=True,
-        null=True,
-        help_text=(
-            "Thème de la question. Plus précis que "
-            "la sous-catégorie, il permettra de "
-            "rédiger les conseils en fin de quiz."
-        ),
-    )
-
-
-
 class Quiz(models.Model):
     """
     Quiz model. It contains all the basic informations of a quiz 
@@ -114,6 +99,19 @@ class Quiz(models.Model):
     def __str__(self):
         return self.title
 
+#class Theme(models.Model):
+#    name = models.CharField(
+#        max_length=50,
+#        blank=True,
+#        null=True,
+#        help_text=(
+#            "Thème de la question. Plus précis que "
+#            "la sous-catégorie, il permettra de "
+#            "rédiger les conseils en fin de quiz."
+#        ),
+#    )
+#    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+
 
 class Question(models.Model):
     """
@@ -145,11 +143,38 @@ class Question(models.Model):
         verbose_name="Explication",
     )
 
-    theme1 = models.OneToOneField(Theme, related_name="theme1", on_delete=models.CASCADE)
+    theme1 = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        help_text=(
+            "Thème de la question. Plus précis que "
+            "la sous-catégorie, il permettra de "
+            "rédiger les conseils en fin de quiz."
+        ),
+    )
 
-    theme2 = models.OneToOneField(Theme, related_name="theme2", on_delete=models.CASCADE)
+    theme2 = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        help_text=(
+            "Thème de la question. Plus précis que "
+            "la sous-catégorie, il permettra de "
+            "rédiger les conseils en fin de quiz."
+        ),
+    )
 
-    theme3 = models.OneToOneField(Theme, related_name="theme3", on_delete=models.CASCADE)
+    theme3 = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        help_text=(
+            "Thème de la question. Plus précis que "
+            "la sous-catégorie, il permettra de "
+            "rédiger les conseils en fin de quiz."
+        ),
+    )
 
     def get_question_as_markdown(self):
         return mark_safe(markdown(self.content, safe_mode="escape"))
@@ -184,16 +209,17 @@ class Statistic(models.Model):
 class Grade(models.Model):
     grade = models.IntegerField()
     number = models.IntegerField()
-    statistics = models.ManyToManyField(Statistic)
+    statistics = models.ForeignKey(Statistic, default=None, on_delete=models.CASCADE)
 
 
 class QuestionScore(models.Model):
     question = models.OneToOneField(Question, on_delete=models.CASCADE)
     score = models.IntegerField()
-    statistics = models.ManyToManyField(Statistic)
+    statistics = models.ForeignKey(Statistic, default=None, on_delete=models.CASCADE)
 
 
 class ThemeScore(models.Model):
-    theme = models.OneToOneField(Theme, default="", on_delete=models.CASCADE)
+    theme = models.CharField(max_length=50)
     score = models.IntegerField()
-    statistics = models.ManyToManyField(Statistic)
+    statistics = models.ForeignKey(Statistic, default=None, on_delete=models.CASCADE)
+    quiz = models.ForeignKey(Quiz, default=None, on_delete=models.CASCADE)

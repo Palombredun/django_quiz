@@ -19,7 +19,6 @@ from quiz.models import (
     Statistic,
     Grade,
     QuestionScore,
-    Theme,
     ThemeScore,
 )
 from true_false.models import TF_Question
@@ -93,19 +92,19 @@ def create(request):
                     n += 1
                     mean_difficulty += int(cd["difficulty"])
 
-                    theme1 = Theme(name=cd["theme1"])
-                    theme1.save()
-                    theme2 = Theme(name=cd["theme2"])
-                    theme2.save()
-                    theme3 = Theme(name=cd["theme3"])
-                    theme3.save()
+                    #theme1, created = Theme.objects.get_or_create(name=cd["theme1"], quiz=new_quiz)
+                    #theme1.save()
+                    #theme2, created = Theme.objects.get_or_create(name=cd["theme2"], quiz=new_quiz)
+                    #theme2.save()
+                    #theme3, created = Theme.objects.get_or_create(name=cd["theme3"], quiz=new_quiz)
+                    #theme3.save()
 
                     new_tf = TF_Question(
                         content=cd["content"],
                         difficulty=cd["difficulty"],
-                        theme1=theme1,
-                        theme2=theme2,
-                        theme3=theme3,
+                        theme1=cd["theme1"],
+                        theme2=cd["theme2"],
+                        theme3=cd["theme3"],
                         order=cd["order"],
                         correct=cd["correct"],
                         quiz=new_quiz,
@@ -277,8 +276,11 @@ def take(request, url):
             {"details": results.details, "advices": results.advices},
         )
 
-
+@login_required
 def statistics(request):
-    d1 = [10, 9, 8, 7, 6, 5]
-    d2 = [1, 2, 3, 4, 5, 6]
-    return render(request, "quiz/statistics.html", {"d1": d1, "d2": d2})
+    if request.user == Quiz.objects.get(creator = request.user).creator:
+        d1 = [10, 9, 8, 7, 6, 5]
+        d2 = [1, 2, 3, 4, 5, 6]
+        return render(request, "quiz/statistics.html", {"d1": d1, "d2": d2})
+    else:
+        return redirect("profile")

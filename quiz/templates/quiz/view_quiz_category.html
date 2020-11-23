@@ -22,6 +22,7 @@
 		</div>
 
 		<div class="flex content-start flex-wrap pb-16">
+			{% if quiz_list|length %}
 			{% for quiz in quiz_list %}
 			<div class="lg:w-1/3 w-full p-2">
 				<div class="{{ quiz.category }} p-2 h-40 rounded-lg">
@@ -45,6 +46,9 @@
 				</div>
 			</div>
 			{% endfor %}
+			{% else %}
+				<p class="tex-gray-700 p-2 italic">Aucun quiz dans cette catégorie n'a été crée pour le moment</p>
+			{% endif %}
 		</div>
 	</div>
 </div>

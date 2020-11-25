@@ -11,11 +11,13 @@ class Score:
         self.weighted = 0
         self.difficulty = {1: 0, 2: 0, 3: 0}
         self.theme = defaultdict(int)
+        self.questions = []
 
     def add_correct_question(self, question):
         self.nb_good_answers += 1
         self.weighted += question.difficulty
         self.difficulty[question.difficulty] += 1
+        self.questions.append(question)
 
         theme1, theme2, theme3 = question.theme1, question.theme2, question.theme3
         if theme1:
@@ -29,13 +31,13 @@ class Score:
 class Total:
     def __init__(self, nb_questions):
         self.weighted = 0
-        self.difficulty = defaultdict(int)
+        self.difficulty = {1: 0, 2: 0, 3: 0}
         self.theme = defaultdict(int)
         self.nb_questions = nb_questions
 
     def populate(self, question):
         self.weighted += question.difficulty
-        self.difficulty[question.difficulty]
+        self.difficulty[question.difficulty] += 1
 
         theme1, theme2, theme3 = question.theme1, question.theme2, question.theme3
         if theme1:

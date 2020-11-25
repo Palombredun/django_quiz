@@ -1,4 +1,4 @@
-from collections import defaultdict
+from collections import defaultdict, namedtuple
 from random import shuffle
 
 from django.shortcuts import render, redirect, get_object_or_404
@@ -91,13 +91,6 @@ def create(request):
                     cd = question.cleaned_data
                     n += 1
                     mean_difficulty += int(cd["difficulty"])
-
-                    #theme1, created = Theme.objects.get_or_create(name=cd["theme1"], quiz=new_quiz)
-                    #theme1.save()
-                    #theme2, created = Theme.objects.get_or_create(name=cd["theme2"], quiz=new_quiz)
-                    #theme2.save()
-                    #theme3, created = Theme.objects.get_or_create(name=cd["theme3"], quiz=new_quiz)
-                    #theme3.save()
 
                     new_tf = TF_Question(
                         content=cd["content"],
@@ -262,13 +255,61 @@ def take(request, url):
                 mc_answers[cd["qid"]] = (cd["answer1"], cd["answer2"], cd["answer3"])
         total_questions = nb_tf_questions + nb_mc_questions
 
-        score_user = Score()
+        results_user = Score()
         total_score = Total(total_questions)
         results = Result()
 
-        results.statistics_tf(tf_answers, score_user, total_score)
-        results.statistics_mc(mc_answers, score_user, total_score)
-        results.compute_scores(score_user, total_score)
+        results.statistics_tf(tf_answers, results_user, total_score)
+        results.statistics_mc(mc_answers, results_user, total_score)
+        results.compute_scores(results_user, total_score)
+
+
+        grade_user = round(results_user.nb_good_answers * 10 / total_score.nb_questions)
+        questions = results_user.questions
+
+        stats, created = Statistic.objects.get_or_create(quiz=quiz)
+        stats.number_participants += 1
+        stats.mean += (results_user.nb_good_answers / stats.number_participants)
+        stats.easy += (results_user.difficulty[1] / stats.number_participants)
+        stats.medium += (results_user.difficulty[2] / stats.number_participants)
+        stats.difficult += (results_user.difficulty[3] / stats.number_participants)
+        stats.save()
+
+        try:
+            g = Grade.objects.filter(statistics=stats).get(grade=grade_user)
+            g.number += 1
+        except Grade.DoesNotExist:
+            g = Grade(
+                grade = grade_user,
+                number = 1,
+                statistics = stats
+            )
+        g.save()
+        
+        for question in questions:
+            try:
+                q = QuestionScore.objects.get(question=question)
+                q.score += 1
+            except QuestionScore.DoesNotExist:
+                q = QuestionScore(
+                    question=question,
+                    score=1,
+                    statistics=stats
+                )
+            q.save()
+        
+        for theme, score in results_user.theme.items():
+            try:
+                t = ThemeScore.objects.filter(quiz=quiz).get(theme=theme)
+                t.score += 1
+            except ThemeScore.DoesNotExist:
+                t = ThemeScore(
+                    theme = theme,
+                    score = 1,
+                    quiz = quiz,
+                    statistics=stats
+                )
+            t.save()
 
         return render(
             request,
@@ -276,11 +317,50 @@ def take(request, url):
             {"details": results.details, "advices": results.advices},
         )
 
+
 @login_required
-def statistics(request):
-    if request.user == Quiz.objects.get(creator = request.user).creator:
-        d1 = [10, 9, 8, 7, 6, 5]
-        d2 = [1, 2, 3, 4, 5, 6]
-        return render(request, "quiz/statistics.html", {"d1": d1, "d2": d2})
+def statistics(request, url):
+    quiz = get_object_or_404(Quiz, url=url)
+    if request.user == quiz.creator:
+        try:
+            stats = Statistic.objects.get(quiz=quiz)
+
+            grades = Grade.objects.filter(statistics=stats)
+            grades_label = []
+            grades_data = []
+            for grade in grades:
+                grades_label.append(grade.grade)
+                grades_data.append(grade.number)
+
+            questions = QuestionScore.objects.filter(statistics=stats)
+            questions_label = []
+            questions_data = []
+            for question in questions:
+                questions_label.append("question" + str(question.question.order))
+                questions_data.append(question.score)
+
+            themes = ThemeScore.objects.filter(statistics=stats).filter(quiz=quiz)
+            themes_label = []
+            themes_data = []
+            for theme in themes:
+                themes_label.append(theme.theme)
+                themes_data.append(theme.score)
+
+            return render(request, "quiz/statistics.html",
+                {"title": quiz.title,
+                "stats": stats,
+                "g_label": grades_label,
+                "g_data": grades_data,
+                "q_label": questions_label,
+                "q_data": questions_data,
+                "t_label": themes_label,
+                "t_data": themes_data
+            })
+        except Statistic.DoesNotExist:
+            return render(request, 
+                "quiz/statistics.html", 
+                {"message": "Personne n'a passé ce quiz pour le moment"}
+            )            
     else:
         return redirect("profile")
+      

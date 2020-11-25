@@ -98,20 +98,7 @@ class Quiz(models.Model):
 
     def __str__(self):
         return self.title
-
-#class Theme(models.Model):
-#    name = models.CharField(
-#        max_length=50,
-#        blank=True,
-#        null=True,
-#        help_text=(
-#            "Thème de la question. Plus précis que "
-#            "la sous-catégorie, il permettra de "
-#            "rédiger les conseils en fin de quiz."
-#        ),
-#    )
-#    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
-
+        
 
 class Question(models.Model):
     """
@@ -199,27 +186,30 @@ class AnswerUser(models.Model):
 
 class Statistic(models.Model):
     quiz = models.OneToOneField(Quiz, on_delete=models.CASCADE)
-    number_participants = models.IntegerField()
-    mean = models.IntegerField()
-    easy = models.IntegerField()
-    medium = models.IntegerField()
-    difficult = models.IntegerField()
+    number_participants = models.IntegerField(default=0)
+    mean = models.IntegerField(default=0)
+    easy = models.IntegerField(default=0)
+    medium = models.IntegerField(default=0)
+    difficult = models.IntegerField(default=0)
 
 
 class Grade(models.Model):
-    grade = models.IntegerField()
-    number = models.IntegerField()
+    # grades of the users
+    grade = models.IntegerField(default=0)
+    number = models.IntegerField(default=0)
     statistics = models.ForeignKey(Statistic, default=None, on_delete=models.CASCADE)
 
 
 class QuestionScore(models.Model):
+    # Number of good answer given for each question
     question = models.OneToOneField(Question, on_delete=models.CASCADE)
-    score = models.IntegerField()
+    score = models.IntegerField(default=0)
     statistics = models.ForeignKey(Statistic, default=None, on_delete=models.CASCADE)
 
 
 class ThemeScore(models.Model):
+    # number of succeeded theme in the quiz
     theme = models.CharField(max_length=50)
-    score = models.IntegerField()
+    score = models.IntegerField(default=0)
     statistics = models.ForeignKey(Statistic, default=None, on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quiz, default=None, on_delete=models.CASCADE)

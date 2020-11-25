@@ -27,4 +27,7 @@ essay/
 package-lock.json
 node_modules
 migrations/
-000*
+0001_initial.py
+0002_quiz_category_name.py
+0003_grade_question_score_statistics_themescore.py
+0004_auto_20201120_1723.py

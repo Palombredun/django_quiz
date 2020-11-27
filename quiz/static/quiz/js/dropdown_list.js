@@ -1,7 +1,7 @@
 $("#id_category").change(function () {
 	var url = $("#titleForm").attr("data-subcategories-url");  // get the url of the `load_cities` view
-    var categoryId = $(this).val();  // get the selected country ID from the HTML input
-	$.ajax({                       // initialize an AJAX request
+  var categoryId = $(this).val();  // get the selected country ID from the HTML input
+  $.ajax({                       // initialize an AJAX request
 		url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
 		data: {
           'category': categoryId       // add the country id to the GET parameters

@@ -14,120 +14,173 @@
 		{% if message is not None %}
 			<p class="py-8 italic">{{ message }}</p>
 		{% else %}
-			<p class="py-8">Statistiques du quiz : {{ title }}</p>
-			<p>Nombre de participants : {{ stats.number_participants }}</p>
-			<p>Moyenne des participants : {{ stats.mean }}</p>
-			<p>Facile : {{ stats.easy }}</p>
-			<p>Moyen : {{ stats.medium }}</p>
-			<p>Difficule : {{ stats.difficult }}</p>
-			<br>
-			{% for grade in g_data %}
-				<p>Note : {{ grade }}</p>
-			{% endfor %}
-			<br>
-			{% for theme in t_data %}
-				<p>Theme: {{ theme }}</p>
-			{% endfor %}
-			<br>
-			{% for question in q_data %}
-			<p>Question : {{ question }}</p>
-			{% endfor %}
+			<div class="text-xl text-bold text-gray-700">
+				<p class="py-8">Statistiques du quiz : {{ title }}</p>
+				<p>Nombre de participants : {{ stats.nb_participants }}</p>
+				<p>Moyenne des participants : {{ stats.mean }}</p>
+			</div>
+
+			<div class="w-1/2 py-8">
+				<canvas id="grades"></canvas>
+			</div>
+			<div class="w-1/2 py-8">
+				<canvas id="questions"></canvas>
+			</div>
+			<div class="w-2/3 py-8">
+				<canvas id="themes"></canvas>
+			</div>
+			<div class="w-1/2 py-8">
+				<canvas id="difficulty"></canvas>
+			</div>		
+
 		{% endif %}
 	</div>
 	</div>
 </div>
 
 <script>
-var ctx = document.getElementById("myChart");
-var myChart = new Chart(ctx, {
-	type: 'bar',
-	data: {
-		labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-		datasets: [{
-			label: '# of votes',
-			data: {{ d1|safe }},
-			backgroundColor: [
-			'rgba(255, 99, 132, 0.2)',
-			'rgba(54, 162, 235, 0.2)',
-			'rgba(255, 206, 86, 0.2)',
-			'rgba(75, 192, 192, 0.2)',
-			'rgba(153, 102, 255, 0.2)',
-			'rgba(255, 159, 64, 0.2)'
-			],
-			borderColor: [
-			'rgba(255, 99, 132, 1)',
-			'rgba(54, 162, 235, 1)',
-			'rgba(255, 206, 86, 1)',
-			'rgba(75, 192, 192, 1)',
-			'rgba(153, 102, 255, 1)',
-			'rgba(255, 159, 64, 1)'
-			],
-			borderWidth: 1
-		}]
-	},
-	options: {
-		responsive: true,
-		maintainAspectRatio: true,
-		scales: {
-			yAxes: [{
-				ticks: {
-					beginAtZero: true
-				}
-			}]
-		},
-		legend: {
-			labels: {
-				fontSize: 20
-			}
-		}
-	}
-});
+$(document).ready(function () {
+	var dynamicColors = function() {
+		var randomColor = Math.floor(Math.random()*16777215).toString(16);
+        return "#" + randomColor;
+    };
 
-var ctx = document.getElementById("yourChart");
-var yourChart = new Chart(ctx, {
-	type: 'bar',
-	data: {
-		labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-		datasets: [{
-			label: '# of votes',
-			data: {{ d2|safe }},
-			backgroundColor: [
-			'rgba(255, 99, 132, 0.2)',
-			'rgba(54, 162, 235, 0.2)',
-			'rgba(255, 206, 86, 0.2)',
-			'rgba(75, 192, 192, 0.2)',
-			'rgba(153, 102, 255, 0.2)',
-			'rgba(255, 159, 64, 0.2)'
-			],
-			borderColor: [
-			'rgba(255, 99, 132, 1)',
-			'rgba(54, 162, 235, 1)',
-			'rgba(255, 206, 86, 1)',
-			'rgba(75, 192, 192, 1)',
-			'rgba(153, 102, 255, 1)',
-			'rgba(255, 159, 64, 1)'
-			],
-			borderWidth: 1
-		}]
-	},
-	options: {
-		responsive: true,
-		maintainAspectRatio: true,
-		scales: {
-			yAxes: [{
-				ticks: {
-					beginAtZero: true
-				}
+	var diff = document.getElementById("difficulty");
+	var diffChart = new Chart(diff, {
+		type: "bar",
+		data: {
+			labels: ['facile', 'moyen', 'difficile'],
+			datasets: [{
+				label: "score selon la difficulté",
+				data: {{ stats.difficulty }},
+				backgroundColor: [
+				"#34CD34", "#F7C23B", "#FF6347"
+				]
 			}]
 		},
-		legend: {
-			labels: {
-				fontSize: 20
-			}
+		options: {
+			responsive: true,
+			scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        suggestedMax: 100,
+                        maxTicksLimit: 20
+                    },
+                    gridLines: {
+                    	color: "rgba(0,0,0,0)"
+                    }
+                }],
+                xAxes: {
+                	gridLines: {
+                		color: "rgba(0,0,0,0)"
+                	}
+                }
+            }
 		}
+	});
+
+
+	var g_color = [];
+	for (i=0; i < {{ g_data|length }}; i++) {
+		g_color.push(dynamicColors());
 	}
+
+	var grades = document.getElementById("grades");
+	var gradesChart = new Chart(grades, {
+		type: "bar",
+		data: {
+			labels: {{ g_label|safe }},
+			datasets: [{
+				label: "Notes des participants",
+				data: {{ g_data|safe }},
+				backgroundColor: g_color
+			}]
+		},
+		options: {
+			responsive: true,
+			scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        suggestedMax: 100,
+                        maxTicksLimit: 20
+                    },
+                    gridLines: {
+                    	color: "rgba(0,0,0,0)"
+                    }
+                }],
+                xAxes: {
+                	gridLines: {
+                		color: "rgba(0,0,0,0)"
+                	}
+                }
+            }
+		}
+	});
+
+
+	q_color = [];
+	for (i=0; i < {{ q_data|length }}; i++) {
+		q_color.push(dynamicColors());
+	}
+	var questions = document.getElementById("questions");
+	var questionsChart = new Chart(questions, {
+		type: "bar",
+		data: {
+			labels: {{ q_label|safe }},
+			datasets: [{
+				label: "Résultats aux questions",
+				data: {{ q_data|safe }},
+				backgroundColor: q_color
+			}]
+		},
+		options: {
+			responsive: true,
+			scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        suggestedMax: 100,
+                        maxTicksLimit: 20
+                    },
+                    gridLines: {
+                    	color: "rgba(0,0,0,0)"
+                    }
+                }],
+                xAxes: {
+                	gridLines: {
+                		color: "rgba(0,0,0,0)"
+                	}
+                }
+            }
+		}
+	});
+
+
+	t_color = [];
+	for (i=0; i < {{ t_data|length }}; i++) {
+		t_color.push(dynamicColors());
+	}
+	var themes = document.getElementById("themes");
+	var themeChart = new Chart(themes, {
+		type: "pie",
+		data: {
+			labels: {{ t_label|safe }},
+			datasets: [{
+				label: "Résultats aux thèmes",
+				data: {{ t_data|safe }},
+				backgroundColor: t_color,
+			}]
+		},
+		options: {
+			responsive: true,
+		}
+	})
+
+
 });
-	</script>
+</script>
 {% endblock %}
 
 {% block footer %}

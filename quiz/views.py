@@ -1,15 +1,17 @@
 from collections import defaultdict, namedtuple
 from random import shuffle
 
-from django.shortcuts import render, redirect, get_object_or_404
-from django.forms import formset_factory
-from django.utils.text import slugify
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count
+from django.forms import formset_factory
+from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.text import slugify
 from django.views.generic.list import ListView
 
 from quiz.forms import QuizForm
-from true_false.forms import CreationTrueFalseForm, TrueFalseForm
 from multichoice.forms import CreationMultiChoiceForm, MultiChoiceForm
+from true_false.forms import CreationTrueFalseForm, TrueFalseForm
+
 
 from quiz.models import (
     Quiz,
@@ -270,9 +272,9 @@ def take(request, url):
         stats, created = Statistic.objects.get_or_create(quiz=quiz)
         stats.number_participants += 1
         stats.mean += (results_user.nb_good_answers / stats.number_participants)
-        stats.easy += (results_user.difficulty[1] / stats.number_participants)
-        stats.medium += (results_user.difficulty[2] / stats.number_participants)
-        stats.difficult += (results_user.difficulty[3] / stats.number_participants)
+        stats.easy += results_user.difficulty[1]
+        stats.medium += results_user.difficulty[2]
+        stats.difficult += results_user.difficulty[3]
         stats.save()
 
         try:
@@ -325,26 +327,49 @@ def statistics(request, url):
         try:
             stats = Statistic.objects.get(quiz=quiz)
 
-            grades = Grade.objects.filter(statistics=stats)
+            grades = Grade.objects.filter(statistics=stats).order_by("grade")
             grades_label = []
             grades_data = []
             for grade in grades:
                 grades_label.append(grade.grade)
-                grades_data.append(grade.number)
+                data = round(100*(grade.number/stats.number_participants))
+                grades_data.append(data)
 
-            questions = QuestionScore.objects.filter(statistics=stats)
+            questions = QuestionScore.objects.filter(statistics=stats).order_by("question__order")
             questions_label = []
             questions_data = []
             for question in questions:
-                questions_label.append("question" + str(question.question.order))
-                questions_data.append(question.score)
+                questions_label.append(question.question.content)
+                data = round(100*(question.score/stats.number_participants))
+                questions_data.append(data)
 
+            qs = Question.objects.filter(quiz=quiz)
             themes = ThemeScore.objects.filter(statistics=stats).filter(quiz=quiz)
             themes_label = []
             themes_data = []
             for theme in themes:
                 themes_label.append(theme.theme)
+                theme_occurences = sum([
+                    len(qs.filter(theme1=theme.theme)),
+                    len(qs.filter(theme2=theme.theme)),
+                    len(qs.filter(theme3=theme.theme))
+                ])
+                data = round(100*(theme.score/theme_occurences))
                 themes_data.append(theme.score)
+
+            total_difficulty = {1: 0, 2: 0, 3: 0}
+            for question in qs:
+                total_difficulty[question.difficulty] += 1
+
+            stats = {
+                "mean": stats.mean, 
+                "nb_participants": stats.number_participants,
+                "difficulty": [
+                    round(100*stats.easy/total_difficulty[1]),
+                    round(100*stats.medium/total_difficulty[2]),
+                    round(100*stats.difficult/total_difficulty[3])
+                ]
+            }
 
             return render(request, "quiz/statistics.html",
                 {"title": quiz.title,

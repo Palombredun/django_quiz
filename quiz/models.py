@@ -47,6 +47,7 @@ class SubCategory(models.Model):
     def __str__(self):
         return self.sub_category + " (" + self.category.category + ")"
 
+
 class Quiz(models.Model):
     """
     Quiz model. It contains all the basic informations of a quiz 
@@ -98,7 +99,7 @@ class Quiz(models.Model):
 
     def __str__(self):
         return self.title
-        
+
 
 class Question(models.Model):
     """

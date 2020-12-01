@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 from .forms import UserRegistrationForm
-from quiz.models import Quiz, AnswerUser
+from quiz.models import Quiz
 
 
 def register(request):

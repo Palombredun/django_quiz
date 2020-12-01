@@ -61,7 +61,7 @@ def test_login_with_wrong_password(client, user_A):
         password="zzz")
     assert response == False
 
-###
+# Test logout
 
 def test_logout(client, user_A):
     response = client.login(
@@ -69,9 +69,4 @@ def test_logout(client, user_A):
         password=user_A.password
     )
     response = client.get(reverse('logout'))
-    assert response.status_code == 302
-
-
-def test_profile_unlogged(client):
-    response = client.get("/account/profile/")
     assert response.status_code == 302

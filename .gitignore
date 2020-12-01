@@ -32,4 +32,4 @@ migrations/
 0003_grade_question_score_statistics_themescore.py
 0004_auto_20201120_1723.py
 __pycache__/
-.pytest-cache
+.pytest-cache/

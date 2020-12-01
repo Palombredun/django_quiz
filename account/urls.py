@@ -19,5 +19,4 @@ urlpatterns = [
         name="password_change_done",
     ),
     path("register/", views.register, name="register"),
-    path("profile/", views.profile, name="profile"),
 ]

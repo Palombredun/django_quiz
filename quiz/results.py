@@ -2,7 +2,7 @@ from collections import defaultdict, namedtuple
 
 from true_false.models import TF_Question
 from multichoice.models import MCQuestion
-from quiz.models import Statistic
+from quiz.models import AnswerUser
 
 
 class Score:
@@ -53,44 +53,84 @@ class Result:
         self.advices = {}
         self.details = {}
 
-    def statistics_tf(self, tf_answers, score, total):
+    def _is_tf_answer_correct(self, tf_answer, question):
+        if tf_answer == str(question.correct):
+            return True
+        else:
+            return False
+
+    def _is_mc_answer_correct(self, mc_answer, question):
+        if (
+            mc_answer[0] == str(question.answer1_correct)
+            and mc_answer[1] == str(question.answer2_correct)
+            and mc_answer[2] == str(question.answer3_correct)
+        ):
+            return True
+        else:
+            return False
+
+    def _update_or_create_answerUser(self, question, user, correct):
+        try:
+            answer_user = AnswerUser.objects.filter(question=question).get(user=user)
+            answer_user.correct = correct
+            answer_user.save()
+        except AnswerUser.DoesNotExist:
+            answer_user = AnswerUser(correct=correct)
+            answer_user.save()
+            answer_user.user.add(user)
+            answer_user.question.add(question)
+        
+
+    def _update_details_tf(self, well_answered, question, question_correct=None):
+        if well_answered:
+            self.details[question.content] = "Vous avez bien répondu"
+        else:
+            if question_correct:
+                self.details[question.content] = "La bonne réponse était Vrai"
+            else:
+                self.details[question.content] = "La bonne réponse était Vrai"
+
+    def _update_details_mc(self, well_answered, question=None):
+        if well_answered:
+            self.self.details[question.content] = "Vous avez bien répondu"
+        else:
+            answers = []
+            if question.answer1_correct == True:
+                answers.append(question.answer1)
+            if question.answer2_correct == True:
+                answers.append(question.answer2)
+            if question.answer3_correct == True:
+                answers.append(question.answer3)
+            tmp = "\n"
+            for answer in answers:
+                tmp += answer + "\n"
+            self.details[question.content] = "La bonne réponse était : " + tmp
+
+    def statistics_tf(self, tf_answers, score, total, user):
         for qid, answer in tf_answers.items():
             question = TF_Question.objects.get(id=qid)
             total.populate(question)
 
-            if answer == str(question.correct):
-                self.details[question.content] = "Vous avez bien répondu"
+            if self._is_tf_answer_correct(answer, question):
                 score.add_correct_question(question)
+                self._update_or_create_answerUser(question, user, True)
+                self._update_details_tf(True, question)
             else:
-                if question.correct == True:
-                    self.details[question.content] = "La bonne réponse était Vrai"
-                elif question.correct == False:
-                    self.details[question.content] = "La bonne réponse était Faux"
+                self._update_or_create_answerUser(question, user, False)
+                self._update_details_tf(False, question, question_correct=question.correct)
 
-    def statistics_mc(self, mc_answers, score, total):
+    def statistics_mc(self, mc_answers, score, total, user):
         for qid, answer in mc_answers.items():
             question = MCQuestion.objects.get(id=qid)
             total.populate(question)
 
-            if (
-                answers[0] == str(question.answer1_correct)
-                and answers[1] == str(question.answer2_correct)
-                and answers[2] == str(question.answer3_correct)
-            ):
-                self.details[question.content] = "Vous avez bien répondu"
+            if self._is_mc_question_correct(answer, question):
                 score.add_correct_question(question)
+                self.update_or_create_answerUser(question, user, True)
+                self.update_details_mc(True, question=question)
             else:
-                answers = []
-                if question.answer1_correct == True:
-                    answers.append(question.answer1)
-                if question.answer2_correct == True:
-                    answers.append(question.answer2)
-                if question.answer3_correct == True:
-                    answers.append(question.answer3)
-                tmp = "\n"
-                for answer in answers:
-                    tmp += answer + "\n"
-                self.details[question.content] = "La bonne réponse était : " + tmp
+                self.update_or_create_answerUser(question, user, False)
+                self.update_details_mc(False, question=question)
 
     def compute_scores(self, score, total):
         if score.weighted / total.weighted > 0.66:

@@ -24,6 +24,7 @@ urlpatterns = [
     path("account/", include("account.urls")),
     path("users/", include("profiles.urls")),
     path("quiz/", include("quiz.urls")),
+    path("quiz/", include("results.url")),
 ]
 
 handler404 = "core.views.handler404"

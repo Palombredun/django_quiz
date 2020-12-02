@@ -261,8 +261,8 @@ def take(request, url):
         total_score = Total(total_questions)
         results = Result()
 
-        results.statistics_tf(tf_answers, results_user, total_score)
-        results.statistics_mc(mc_answers, results_user, total_score)
+        results.statistics_tf(tf_answers, results_user, total_score, request.user)
+        results.statistics_mc(mc_answers, results_user, total_score, request.user)
         results.compute_scores(results_user, total_score)
 
 

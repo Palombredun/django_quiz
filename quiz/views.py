@@ -1,4 +1,3 @@
-from collections import defaultdict, namedtuple
 from random import shuffle
 
 from django.contrib.auth.decorators import login_required
@@ -41,15 +40,6 @@ def create(request):
     View dedicated to the creation of the quiz using formsets.
     If the user has never created a quiz, redirect him to the tutorial.
     """
-    cookie = request.COOKIES.get("tutorial", "False")
-    if (
-        Quiz.objects.filter(creator=request.user).exists() == False
-        and cookie == "False"
-    ):
-        response = redirect("tutorial")
-        response.set_cookie("tutorial", "True", 1800)
-        return response
-
     TF_Formset = formset_factory(CreationTrueFalseForm)
     MC_Formset = formset_factory(CreationMultiChoiceForm)
     if request.method == "GET":

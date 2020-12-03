@@ -1,49 +1,89 @@
-from django.core.files.base import ContentFile
-from django.db.models.fields.files import ImageFieldFile
-from django.test import TestCase
-from django.utils.six import StringIO
+import datetime
 
-from .models import MCQuestion, Answer
+import pytest
+
+from django.contrib.auth.models import User
+
+from quiz.models import Category, Quiz
+from multichoice.models import MCQuestion
+
+### Fixtures ###
+
+@pytest.fixture
+def category_m(db):
+    return Category.objects.create(category="m")
 
 
-class TestMCQuestionModel(TestCase):
-    def setUp(self):
-        self.q = MCQuestion.objects.create(
-            id=1,
-            content=("WHAT is the airspeed" + "velocity of an unladen" + "swallow?"),
-            explanation="I, I don't know that!",
-        )
+@pytest.fixture
+def user_A(db):
+    return User.objects.create_user(username="A")
 
-        self.answer1 = Answer.objects.create(
-            id=123, question=self.q, content="African", correct=False
-        )
 
-        self.answer2 = Answer.objects.create(
-            id=456, question=self.q, content="European", correct=True
-        )
+@pytest.fixture
+def quiz_q(db, category_m, user_A):
+    date = datetime.datetime.now()
+    return Quiz.objects.create(
+        title="title",
+        description="Long description",
+        creator=user_A,
+        category=category_m,
+        category_name="m",
+        sub_category=None,
+        created=date,
+        random_order=False,
+        difficulty=1,
+    )
 
-    def test_answers(self):
-        answers = Answer.objects.filter(question=self.q)
-        correct_a = Answer.objects.get(question=self.q, correct=True)
-        answers_by_method = self.q.get_answers()
+@pytest.fixture
+def mc_question_one_true(quiz_q):
+    return MCQuestion.objects.create(
+        quiz=quiz_q,
+        difficulty=1,
+        order=1,
+        figure=None,
+        content="mc",
+        explanation="",
+        theme1="t1",
+        theme2="t2",
+        theme3="t3",
+        answer1="a1",
+        answer1_correct=True,
+        answer2="a2",
+        answer2_correct=False,
+        answer3="a3",
+        answer3_correct=False,
+    )
 
-        self.assertEqual(answers.count(), 2)
-        self.assertEqual(correct_a.content, "European")
-        self.assertEqual(self.q.check_if_correct(123), False)
-        self.assertEqual(self.q.check_if_correct(456), True)
-        self.assertEqual(answers_by_method.count(), 2)
-        self.assertEqual(self.q.answer_choice_to_string(123), self.answer1.content)
+@pytest.fixture
+def mc_question_all_true(quiz_q):
+    return MCQuestion.objects.create(
+        quiz=quiz_q,
+        difficulty=1,
+        order=1,
+        figure=None,
+        content="mc",
+        explanation="",
+        theme1="t1",
+        theme2="t2",
+        theme3="t3",
+        answer1="a1",
+        answer1_correct=True,
+        answer2="a2",
+        answer2_correct=True,
+        answer3="a3",
+        answer3_correct=True,
+    )
 
-    def test_figure(self):
-        # http://stackoverflow.com/a/2473445/1694979
-        imgfile = StringIO(
-            "GIF87a\x01\x00\x01\x00\x80\x01\x00\x00\x00\x00ccc,"
-            "\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;"
-        )
-        imgfile.name = "test_img_file.gif"
+### Test model MCQuestion ###
+def test_model_mc_question(mc_question_one_true):
+    assert mc_question_one_true.answer1 == "a1"
+    assert mc_question_one_true.answer1_correct == True
+    assert mc_question_one_true.answer2 == "a2"
+    assert mc_question_one_true.answer2_correct == False
+    assert mc_question_one_true.answer3 == "a3"
+    assert mc_question_one_true.answer3_correct == False
 
-        self.q.figure.save("image", ContentFile(imgfile.read()))
-        self.assertIsInstance(self.q.figure, ImageFieldFile)
-
-    def test_answer_to_string(self):
-        self.assertEqual("African", self.q.answer_choice_to_string(123))
+def test_model_mc_question_all_true(mc_question_all_true):
+    assert mc_question_all_true.answer1_correct == True
+    assert mc_question_all_true.answer2_correct == True
+    assert mc_question_all_true.answer3_correct == True

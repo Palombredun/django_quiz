@@ -9,13 +9,16 @@ from true_false.models import TF_Question
 
 ### Fixtures ###
 
+
 @pytest.fixture
 def category_m(db):
     return Category.objects.create(category="m")
 
+
 @pytest.fixture
 def user_A(db):
     return User.objects.create_user(username="A")
+
 
 @pytest.fixture
 def quiz_q(db, category_m, user_A):
@@ -29,8 +32,9 @@ def quiz_q(db, category_m, user_A):
         sub_category=None,
         created=date,
         random_order=False,
-        difficulty=1
+        difficulty=1,
     )
+
 
 @pytest.fixture
 def true_false_true(quiz_q):
@@ -44,8 +48,9 @@ def true_false_true(quiz_q):
         theme1="t1",
         theme2="t2",
         theme3="t3",
-        correct=True
+        correct=True,
     )
+
 
 @pytest.fixture
 def true_false_false(quiz_q):
@@ -59,14 +64,16 @@ def true_false_false(quiz_q):
         theme1="t1",
         theme2="t2",
         theme3="t3",
-        correct=False
+        correct=False,
     )
 
+
 ## Test TF_Question ###
+
 
 def test_true_false_question_model_true(true_false_true):
     assert true_false_true.correct == True
 
+
 def test_true_false_question_model_false(true_false_false):
     assert true_false_false.correct == False
-

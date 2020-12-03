@@ -255,13 +255,12 @@ def take(request, url):
         results.statistics_mc(mc_answers, results_user, total_score, request.user)
         results.compute_scores(results_user, total_score)
 
-
         grade_user = round(results_user.nb_good_answers * 10 / total_score.nb_questions)
         questions = results_user.questions
 
         stats, created = Statistic.objects.get_or_create(quiz=quiz)
         stats.number_participants += 1
-        stats.mean += (results_user.nb_good_answers / stats.number_participants)
+        stats.mean += results_user.nb_good_answers / stats.number_participants
         stats.easy += results_user.difficulty[1]
         stats.medium += results_user.difficulty[2]
         stats.difficult += results_user.difficulty[3]
@@ -271,36 +270,23 @@ def take(request, url):
             g = Grade.objects.filter(statistics=stats).get(grade=grade_user)
             g.number += 1
         except Grade.DoesNotExist:
-            g = Grade(
-                grade = grade_user,
-                number = 1,
-                statistics = stats
-            )
+            g = Grade(grade=grade_user, number=1, statistics=stats)
         g.save()
-        
+
         for question in questions:
             try:
                 q = QuestionScore.objects.get(question=question)
                 q.score += 1
             except QuestionScore.DoesNotExist:
-                q = QuestionScore(
-                    question=question,
-                    score=1,
-                    statistics=stats
-                )
+                q = QuestionScore(question=question, score=1, statistics=stats)
             q.save()
-        
+
         for theme, score in results_user.theme.items():
             try:
                 t = ThemeScore.objects.filter(quiz=quiz).get(theme=theme)
                 t.score += 1
             except ThemeScore.DoesNotExist:
-                t = ThemeScore(
-                    theme = theme,
-                    score = 1,
-                    quiz = quiz,
-                    statistics=stats
-                )
+                t = ThemeScore(theme=theme, score=1, quiz=quiz, statistics=stats)
             t.save()
 
         return render(
@@ -322,15 +308,17 @@ def statistics(request, url):
             grades_data = []
             for grade in grades:
                 grades_label.append(grade.grade)
-                data = round(100*(grade.number/stats.number_participants))
+                data = round(100 * (grade.number / stats.number_participants))
                 grades_data.append(data)
 
-            questions = QuestionScore.objects.filter(statistics=stats).order_by("question__order")
+            questions = QuestionScore.objects.filter(statistics=stats).order_by(
+                "question__order"
+            )
             questions_label = []
             questions_data = []
             for question in questions:
                 questions_label.append(question.question.content)
-                data = round(100*(question.score/stats.number_participants))
+                data = round(100 * (question.score / stats.number_participants))
                 questions_data.append(data)
 
             qs = Question.objects.filter(quiz=quiz)
@@ -339,12 +327,14 @@ def statistics(request, url):
             themes_data = []
             for theme in themes:
                 themes_label.append(theme.theme)
-                theme_occurences = sum([
-                    len(qs.filter(theme1=theme.theme)),
-                    len(qs.filter(theme2=theme.theme)),
-                    len(qs.filter(theme3=theme.theme))
-                ])
-                data = round(100*(theme.score/theme_occurences))
+                theme_occurences = sum(
+                    [
+                        len(qs.filter(theme1=theme.theme)),
+                        len(qs.filter(theme2=theme.theme)),
+                        len(qs.filter(theme3=theme.theme)),
+                    ]
+                )
+                data = round(100 * (theme.score / theme_occurences))
                 themes_data.append(theme.score)
 
             total_difficulty = {1: 0, 2: 0, 3: 0}
@@ -352,30 +342,34 @@ def statistics(request, url):
                 total_difficulty[question.difficulty] += 1
 
             stats = {
-                "mean": stats.mean, 
+                "mean": stats.mean,
                 "nb_participants": stats.number_participants,
                 "difficulty": [
-                    round(100*stats.easy/total_difficulty[1]),
-                    round(100*stats.medium/total_difficulty[2]),
-                    round(100*stats.difficult/total_difficulty[3])
-                ]
+                    round(100 * stats.easy / total_difficulty[1]),
+                    round(100 * stats.medium / total_difficulty[2]),
+                    round(100 * stats.difficult / total_difficulty[3]),
+                ],
             }
 
-            return render(request, "quiz/statistics.html",
-                {"title": quiz.title,
-                "stats": stats,
-                "g_label": grades_label,
-                "g_data": grades_data,
-                "q_label": questions_label,
-                "q_data": questions_data,
-                "t_label": themes_label,
-                "t_data": themes_data
-            })
+            return render(
+                request,
+                "quiz/statistics.html",
+                {
+                    "title": quiz.title,
+                    "stats": stats,
+                    "g_label": grades_label,
+                    "g_data": grades_data,
+                    "q_label": questions_label,
+                    "q_data": questions_data,
+                    "t_label": themes_label,
+                    "t_data": themes_data,
+                },
+            )
         except Statistic.DoesNotExist:
-            return render(request, 
-                "quiz/statistics.html", 
-                {"message": "Personne n'a passé ce quiz pour le moment"}
-            )            
+            return render(
+                request,
+                "quiz/statistics.html",
+                {"message": "Personne n'a passé ce quiz pour le moment"},
+            )
     else:
         return redirect("profile")
-      

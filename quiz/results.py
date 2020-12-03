@@ -79,7 +79,6 @@ class Result:
             answer_user.save()
             answer_user.user.add(user)
             answer_user.question.add(question)
-        
 
     def _update_details_tf(self, well_answered, question, question_correct=None):
         if well_answered:
@@ -117,7 +116,9 @@ class Result:
                 self._update_details_tf(True, question)
             else:
                 self._update_or_create_answerUser(question, user, False)
-                self._update_details_tf(False, question, question_correct=question.correct)
+                self._update_details_tf(
+                    False, question, question_correct=question.correct
+                )
 
     def statistics_mc(self, mc_answers, score, total, user):
         for qid, answer in mc_answers.items():

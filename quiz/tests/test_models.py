@@ -3,33 +3,37 @@ import datetime
 from django.contrib.auth.models import User
 
 from quiz.models import (
-    AnswerUser, 
-    Category, 
-    Grade, 
+    AnswerUser,
+    Category,
+    Grade,
     Question,
     QuestionScore,
-    Quiz, 
-    Statistic, 
+    Quiz,
+    Statistic,
     SubCategory,
-    ThemeScore
-    )
+    ThemeScore,
+)
 
 import pytest
 
 
 ### FIXTURES ###
 
+
 @pytest.fixture
 def category_m(db):
     return Category.objects.create(category="m")
+
 
 @pytest.fixture
 def sub_category_n(db, category_m):
     return SubCategory.objects.create(category=category_m, sub_category="n")
 
+
 @pytest.fixture
 def user_A(db):
     return User.objects.create_user(username="A")
+
 
 @pytest.fixture
 def quiz_q(db, category_m, sub_category_n, user_A):
@@ -43,8 +47,9 @@ def quiz_q(db, category_m, sub_category_n, user_A):
         sub_category=sub_category_n,
         created=date,
         random_order=False,
-        difficulty=1
+        difficulty=1,
     )
+
 
 @pytest.fixture
 def question_q(db, quiz_q):
@@ -58,7 +63,8 @@ def question_q(db, quiz_q):
         theme1="t1",
         theme2="t2",
         theme3="t3",
-        )
+    )
+
 
 @pytest.fixture
 def answerUser(db, question_q, user_A):
@@ -68,48 +74,46 @@ def answerUser(db, question_q, user_A):
     a.user.add(user_A)
     return a
 
+
 @pytest.fixture
 def stats_s(db, quiz_q):
     return Statistic.objects.create(
-        quiz=quiz_q,
-        number_participants=10,
-        mean=15,
-        easy=5,
-        medium=5,
-        difficult=5
+        quiz=quiz_q, number_participants=10, mean=15, easy=5, medium=5, difficult=5
     )
+
 
 @pytest.fixture
 def grade_g(db, stats_s):
     return Grade.objects.create(grade=5, number=10, statistics=stats_s)
 
+
 @pytest.fixture
 def questionScore_qs(db, stats_s, question_q):
     return QuestionScore.objects.create(
-        question=question_q,
-        statistics=stats_s,
-        score=5
+        question=question_q, statistics=stats_s, score=5
     )
+
 
 @pytest.fixture
 def themeScore_ts(db, stats_s, quiz_q):
     return ThemeScore.objects.create(
-        theme="t1",
-        score=5,
-        statistics=stats_s,
-        quiz=quiz_q
+        theme="t1", score=5, statistics=stats_s, quiz=quiz_q
     )
 
+
 ### TESTS ###
+
 
 def test_category(category_m):
     assert isinstance(category_m, Category)
     assert category_m.category == "m"
 
+
 def test_sub_category(category_m, sub_category_n):
     assert sub_category_n.sub_category == "n"
     assert sub_category_n.category == category_m
     assert isinstance(sub_category_n, SubCategory)
+
 
 def test_quiz(quiz_q, user_A, category_m, sub_category_n):
     date = datetime.datetime.now()
@@ -128,6 +132,7 @@ def test_quiz(quiz_q, user_A, category_m, sub_category_n):
     assert quiz_q.random_order == False
     assert quiz_q.difficulty == 1
 
+
 def test_question(quiz_q, question_q):
     assert question_q.quiz == quiz_q
     assert question_q.difficulty == 1
@@ -139,10 +144,12 @@ def test_question(quiz_q, question_q):
     assert question_q.theme2 == "t2"
     assert question_q.theme3 == "t3"
 
+
 def test_answerUser(answerUser, question_q, user_A):
     assert answerUser.correct == True
     assert answerUser.question.get(pk=question_q.id) == question_q
     assert answerUser.user.get(pk=user_A.id) == user_A
+
 
 def test_statisc(stats_s, quiz_q):
     assert stats_s.quiz == quiz_q
@@ -152,15 +159,18 @@ def test_statisc(stats_s, quiz_q):
     assert stats_s.medium == 5
     assert stats_s.difficult == 5
 
+
 def test_grade(grade_g, stats_s):
     assert grade_g.grade == 5
     assert grade_g.number == 10
     assert grade_g.statistics == stats_s
 
+
 def test_questionScore(stats_s, question_q, questionScore_qs):
     assert questionScore_qs.question == question_q
     assert questionScore_qs.statistics == stats_s
     assert questionScore_qs.score == 5
+
 
 def test_themeScore(themeScore_ts, stats_s, quiz_q):
     assert themeScore_ts.theme == "t1"

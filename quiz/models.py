@@ -180,6 +180,7 @@ class AnswerUser(models.Model):
     Modèle utilisé pour stocker toutes les réponses des utilisateurs
     aux questions des quiz.
     """
+
     user = models.ManyToManyField(User)
     question = models.ManyToManyField(Question)
     correct = models.BooleanField()

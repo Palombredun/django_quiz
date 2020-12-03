@@ -10,6 +10,7 @@ class QuestionForm(forms.Form):
     """
     Base form used for the creation of questions in a quiz.
     """
+
     content = forms.CharField(max_length=1000, label="Question")
     difficulty = forms.ChoiceField(choices=DIFFICULTY_CHOICES, label="Difficulté")
     theme1 = forms.CharField(
@@ -68,7 +69,7 @@ class QuizForm(forms.Form):
         (22, "Géographie"),
         (23, "Enseignement Moral et Civique"),
         (24, "Sciences Economiques et Sociales"),
-        (25, "Autres")
+        (25, "Autres"),
     )
     title = forms.CharField(max_length=100, label="Titre")
     description = forms.CharField(max_length=1000, widget=forms.Textarea)

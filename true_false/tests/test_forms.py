@@ -43,3 +43,20 @@ def test_valid_creation_form_without_theme():
     }
     form = CreationTrueFalseForm(data)
     assert form.is_valid() is True
+
+
+def test_valid_true_false_form():
+	data = {
+		"correct": True,
+		"qid": 1
+	}
+	form = TrueFalseForm(data)
+	assert form.is_valid() is True
+
+def test_invalid_true_false_form():
+	data = {
+		"correct": None,
+		"qid": 1
+	}
+	form = TrueFalseForm(data)
+	assert form.is_valid() is False

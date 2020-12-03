@@ -1,9 +1,7 @@
 import pytest
-from pytest_django.asserts import assertTemplateUsed
 
 from django.contrib import auth
 from django.contrib.auth.models import User
-from django.urls import reverse
 
 
 ### Fixture
@@ -47,12 +45,16 @@ def test_login_with_username(client, user_A):
         'password': user_A.password,
     })
     assert response.status_code == 200
+    response = client.get('/account/profile/')
+    assert response.status_code == 200
 
 def test_login_with_email(client, user_A):
     response = client.post('/account/login/', 
         {'username': user_A.email,
         'password': user_A.password,
     })
+    assert response.status_code == 200
+    response = client.get('/account/profile/')
     assert response.status_code == 200
 
 def test_login_with_wrong_password(client, user_A):
@@ -68,5 +70,5 @@ def test_logout(client, user_A):
         username=user_A.username,
         password=user_A.password
     )
-    response = client.get(reverse('logout'))
+    response = client.get('/account/logout/')
     assert response.status_code == 302

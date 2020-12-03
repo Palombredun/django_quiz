@@ -159,7 +159,7 @@ def quiz_list(request):
 
 
 def quiz_list_by_category(request, category_name):
-    category = Category.objects.get(category=category_name)
+    category = get_object_or_404(Category, category=category_name)
     subcategories = SubCategory.objects.filter(category=category)
     quiz = Quiz.objects.filter(category=category)
     return render(
@@ -170,7 +170,7 @@ def quiz_list_by_category(request, category_name):
 
 
 def quiz_list_by_subcategory(request, subcategory_name):
-    subcategory_id = SubCategory.objects.get(sub_category=subcategory_name)
+    subcategory_id = get_object_or_404(SubCategory, sub_category=subcategory_name)
     quiz = Quiz.objects.filter(sub_category=subcategory_id)
     return render(
         request,

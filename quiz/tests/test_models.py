@@ -44,7 +44,7 @@ def quiz_q(db, category_m, sub_category_n, user_A):
         created=date,
         random_order=False,
         difficulty=1
-        )
+    )
 
 @pytest.fixture
 def question_q(db, quiz_q):

@@ -79,19 +79,22 @@ class Result:
             answer_user.save()
             answer_user.user.add(user)
             answer_user.question.add(question)
+        return answer_user
 
-    def _update_details_tf(self, well_answered, question, question_correct=None):
+    def _update_details_tf(self, well_answered, question, question_correct=True):
         if well_answered:
             self.details[question.content] = "Vous avez bien répondu"
         else:
             if question_correct:
                 self.details[question.content] = "La bonne réponse était Vrai"
             else:
-                self.details[question.content] = "La bonne réponse était Vrai"
+
+                self.details[question.content] = "La bonne réponse était Faux"
+        return self.details
 
     def _update_details_mc(self, well_answered, question=None):
         if well_answered:
-            self.self.details[question.content] = "Vous avez bien répondu"
+            self.details[question.content] = "Vous avez bien répondu"
         else:
             answers = []
             if question.answer1_correct == True:
@@ -104,6 +107,7 @@ class Result:
             for answer in answers:
                 tmp += answer + "\n"
             self.details[question.content] = "La bonne réponse était : " + tmp
+        return self.details
 
     def statistics_tf(self, tf_answers, score, total, user):
         for qid, answer in tf_answers.items():
@@ -133,54 +137,78 @@ class Result:
                 self.update_or_create_answerUser(question, user, False)
                 self.update_details_mc(False, question=question)
 
-    def compute_scores(self, score, total):
-        if score.weighted / total.weighted > 0.66:
+    def _compute_global_score(self, score_weighted, total_weight):
+        if score_weighted / total_weight > 0.66:
             self.advices["global"] = "Vous avez très bien réussi le quiz !"
-        elif score.weighted / total.weighted < 0.33:
+        elif score_weighted / total_weight < 0.33:
             self.advices["global"] = "Vous avez besoin de plus de révisions, courage !"
         else:
             self.advices[
                 "global"
             ] = "Avec un peu de travail supplémentaire, vous réussirez !"
 
+    def _compute_nb_good_answers(self, nb_good_answers, nb_questions):
         self.advices["good_answers"] = (
             "Vous avez bien répondu à "
-            + str(score.nb_good_answers)
+            + str(nb_good_answers)
             + " questions sur "
-            + str(total.nb_questions)
+            + str(nb_questions)
         )
 
+    def _compute_difficulty(self, score_difficulty, total_difficulty):
         if (
-            score.difficulty[1] > total.difficulty[1] / 2
-            and score.difficulty[2] > total.difficulty[2] / 2
-            and score.difficulty[3] > total.difficulty[3] / 2
+            score_difficulty[1] > total_difficulty[1] / 2
+            and score_difficulty[2] > total_difficulty[2] / 2
+            and score_difficulty[3] > total_difficulty[3] / 2
         ):
             self.advices[
                 "difficulty"
             ] = "Vous maîtrisez très bien ce sujet, félicitations !"
         elif (
-            score.difficulty[1] > total.difficulty[1] / 2
-            and score.difficulty[2] > total.difficulty[2] / 2
-            and score.difficulty[3] < total.difficulty[3] / 2
+            score_difficulty[1] > total_difficulty[1] / 2
+            and score_difficulty[2] > total_difficulty[2] / 2
+            and score_difficulty[3] < total_difficulty[3] / 2
         ):
             self.advices[
                 "difficulty"
             ] = "Vous maîtrisez bien ce sujet sujet mais les questions plus avancées vous échappent encore"
         elif (
-            score.difficulty[1] > total.difficulty[1] / 2
-            and score.difficulty[2] < total.difficulty[2] / 2
-            and score.difficulty[3] < total.difficulty[3] / 2
+            score_difficulty[1] > total_difficulty[1] / 2
+            and score_difficulty[2] < total_difficulty[2] / 2
+            and score_difficulty[3] < total_difficulty[3] / 2
         ):
             self.advices[
                 "difficulty"
             ] = "Vous semblez maîtriser les bases, poursuivez vos efforts !"
+        elif (
+            score_difficulty[1] < total_difficulty[1] / 2
+            and score_difficulty[2] < total_difficulty[2] / 2
+            and score_difficulty[3] < total_difficulty[3] / 2
+        ):
+            self.advices[
+                "difficulty"
+            ] = "Vous ne semblez pas maîtriser le sujet. Commencez par revoir les bases."
 
-        for theme, score in score.theme.items():
-            if score > total.theme[theme] / 2:
+    def _compute_theme(self, themes, total_themes):
+        for theme, score in themes.items():
+            if score > total_themes[theme] / 2:
                 self.advices[
-                    str(theme)
-                ] = "Vous avez bien réussi les questions sur le thème " + str(theme)
+                    theme
+                ] = "Vous avez bien réussi les questions sur le thème : " + str(theme)
             else:
                 self.advices[
-                    str(theme)
-                ] = "Vous devriez réviser le sujet suivant " + str(theme)
+                    theme
+                ] = "Vous devriez réviser le sujet suivant : " + str(theme)
+
+    def compute_scores(self, score, total):
+        # global
+        self._compute_global_score(score.weighted, total.weighted)
+
+        # nb good answers
+        self._compute_nb_good_answers(score.nb_good_answers, total.nb_questions)
+
+        # difficulty
+        self._compute_difficulty(score.difficulty, total.difficulty)
+
+        # theme
+        self._compute_theme(score.theme, total.theme)

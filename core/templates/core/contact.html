@@ -1,0 +1,24 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Contact{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'core/home.css' %}">
+{% endblock %}
+
+{% block content %}
+	<div class="flex min-h-screen">
+		<div class="container mx-auto bg-gray-200 text-gray-700">
+			<p class="pt-8 px-2">
+				Le code-source du projet se trouve ici : <a href="github.com/Palombredun/django_quiz/" class="text-blue-500">Fast & Quizy</a>
+			</p>
+			<p class="px-2">
+				Ce projet est un fork de <a href="https://github.com/tomwalker/django_quiz" class="text-blue-500">django-quiz</a> de Tom Walker.
+			</p>
+		</div>
+	</div>
+{% endblock %}
+
+{% block footer %}
+  {% include 'core/footer.html' %}
+{% endblock %}

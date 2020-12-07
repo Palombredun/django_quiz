@@ -10,6 +10,12 @@ def home(request):
     quiz_list = Quiz.objects.order_by("-created")[:5]
     return render(request, "core/home.html", {"quiz_list": quiz_list})
 
+def license(request):
+    return render(request, "core/license.html")
+
+def contact(request):
+    return render(request, "core/contact.html")
+
 
 def handler404(request, exception):
     """

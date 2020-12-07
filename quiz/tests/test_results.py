@@ -247,7 +247,7 @@ def test_is_tf_answer_incorrect(result_r, truefalse_tf, question_false):
     WHEN Result._is_tf_answer_correct is called
     THEN assert it returns False
     """
-    result = "False"
+    result = "True"
     question = question_false
 
     res = result_r._is_tf_answer_correct(result, question)
@@ -558,3 +558,30 @@ def test_compute_theme_failed(result_r):
         result_r.advices["exercice"]
         == "Vous devriez réviser le sujet suivant : exercice"
     )
+
+def test_compute_scores(result_r):
+    """
+    GIVEN a score object representing the stats of a quiz
+    WHEN compute_scores is called
+    ASSERT that all the internals methods have been called by checking Result properties
+    """
+    score = Score()
+    score.nb_good_answers = 5
+    score.weighted = 9
+    score.difficulty = {1: 2, 2: 2, 3: 1}
+    score.theme = {'cours': 3, 'exercice': 2, 'dérivation': 1, 'intégration': 1}
+
+    total = Total(6)
+    total.weighted = 10
+    score.difficulty = {1: 2, 2: 2, 3: 2}
+    score.theme = {'cours': 3, 'exercice': 3, 'dérivation': 1, 'intégration': 2}
+
+    result_r.compute_scores(score, total)
+
+    assert result_r.advices["global"] == "Vous avez très bien réussi le quiz !"
+    assert result_r.advices["good_answers"] == "Vous avez bien répondu à 5 questions sur 6"
+    assert result_r.advices["difficulty"] == "Vous maîtrisez très bien ce sujet, félicitations !"
+    assert result_r.advices["cours"] == "Vous avez bien réussi les questions sur le thème : cours"
+    assert result_r.advices["exercice"] == "Vous avez bien réussi les questions sur le thème : exercice"
+    assert result_r.advices["dérivation"] == "Vous avez bien réussi les questions sur le thème : dérivation"
+    assert result_r.advices["intégration"] == "Vous avez bien réussi les questions sur le thème : intégration"

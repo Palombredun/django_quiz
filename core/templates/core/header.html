@@ -7,10 +7,6 @@
         F&Q
       </a>
     </h1>
-
-    <a class="text-black hover:text-orange md:hidden" href="#">
-      <i class="fa fa-2x fa-bars"></i>
-    </a>
   </div>
   <!-- END Logo text or image -->
   
@@ -18,20 +14,20 @@
   <nav>
     <ul class="list-reset md:flex md:items-center">
       <li class="md:ml-4">
-        <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="{% url 'quiz-list' %}" name="quiz_list">
+        <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="{% url 'quiz-list' %}" id="quiz_list">
           Quiz
         </a>
       </li>
       {% if user.is_authenticated %}
         <li class="md:ml-4">
-          <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="{% url 'profile' %}" name="profile"> Mon compte</a>
+          <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="{% url 'profile' %}" id="profile"> Mon compte</a>
         </li>
         <li class="md:ml-4">
-          <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="{% url 'logout' %}" name="logout">Déconnexion</a>
+          <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="{% url 'logout' %}" id="logout">Déconnexion</a>
         </li>
       {% else %}
         <li class="md:ml-4">
-          <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="{% url 'login' %}" name="login">Connexion</a>
+          <a class="block no-underline py-2 hover:text-green-500 font-bold md:border-none md:p-0" href="{% url 'login' %}" id="login">Connexion</a>
         </li>
       {% endif %}
 

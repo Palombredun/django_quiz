@@ -1,7 +1,7 @@
 {% extends "core/base.html" %}
 {% load static %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Connexion{% endblock %}
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'account/login.css' %}">
@@ -29,13 +29,13 @@
           </div>
         </div>
         <div class="flex items-center justify-between">
-          <input type="submit" value="Connexion" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          <input type="submit" value="Connexion" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" id="login_button">
           <input type="hidden" name="next" value="{{ next }}">
           <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800 px-4" href="#">
             Mot de passe oublié ?
           </a>
         </div>
-        <a class="inline-block align-baseline text-sm text-blue-500 hover:text-blue-800 px-4 py-8" href="{% url 'register' %}">Pas encore de compte ? S'inscrire
+        <a class="inline-block align-baseline text-sm text-blue-500 hover:text-blue-800 px-4 py-8" href="{% url 'register' %}" id="register">Pas encore de compte ? S'inscrire
         </a>
       </form>
     </div>

@@ -15,8 +15,7 @@ def user_A(db):
     )
 
 
-# Test register
-
+### Test register ###
 
 def test_register(client):
     """
@@ -65,8 +64,7 @@ def test_should_not_check_unsuable_password(db, user_A):
     assert user_A.check_password("secret") is False
 
 
-# test login
-
+### Test login ###
 
 def test_login_page(client):
     """

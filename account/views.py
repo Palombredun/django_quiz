@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -21,8 +21,7 @@ def register(request):
             new_user.set_password(user_form.cleaned_data["password"])
             # Save the User object
             new_user.save()
-            # messages.success(request, "Compte crée")
-            return render(request, "core/home.html", {"new_user": new_user})
+            return redirect('login')
     else:
         user_form = UserRegistrationForm()
     return render(request, "account/register.html", {"form": user_form})

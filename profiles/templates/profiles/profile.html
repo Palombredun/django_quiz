@@ -48,7 +48,7 @@
 		</div>
 		{% endfor %}
 		{% else %}
-		<p class="py-4 italic text-gray-700">Vous n'avez pas encore complété de quiz</p>
+		<p class="py-4 italic text-gray-700" id="no_quiz_finished">Vous n'avez pas encore complété de quiz</p>
 		{% endif %}
 	</div>
 	<div class="flex content-start flex-wrap pb-16 my-8" id="quiz-created">
@@ -77,7 +77,7 @@
 		</div>
 		{% endfor %}
 		{% else %}
-		<p class="py-4 italic text-gray-700">Vous n'avez pas encore crée de quiz</p>
+		<p class="py-4 italic text-gray-700" id="no_quiz_created">Vous n'avez pas encore crée de quiz</p>
 		{% endif %}
 	</div>
 </div>

@@ -13,7 +13,7 @@
 		<button class="text-blue-400 py-4" id="show-categories">Sélectionner un quiz selon sa catégorie</button>
 		<div class="py-4" id="categories">
 			{% for cat in categories %}
-			<a href="{% url 'quiz_category_list_matching' category_name=cat.category %}">
+			<a href="{% url 'quiz_category_list_matching' category_name=cat.category %}" id="{{ cat.category }}">
 				<button class="{{ cat.category }} rounded py-1 px-1">{{ cat.category }}</button>
 			</a>
 			{% endfor %}
@@ -22,8 +22,8 @@
 			{% if quiz_list|length %}
 				{% for quiz in quiz_list %}
 				<div class="lg:w-1/3 w-full p-2">
-					<div class="{{ quiz.category }} p-2 h-40 rounded-lg">
-						<a href="{% url 'take-quiz' url=quiz.url%}">
+					<div class="{{ quiz.category_name }} p-2 h-40 rounded-lg">
+						<a href="{% url 'take-quiz' url=quiz.url%}" id="{{ quiz.url }}">
 							<div class="text-gray-700 text-center truncate">
 								{{ quiz.title }}
 							</div>

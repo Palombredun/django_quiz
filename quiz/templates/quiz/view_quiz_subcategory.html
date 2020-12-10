@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 {% load static %}
 
-{% block title %}Liste des quiz{% endblock %}
+{% block title %}{{ sub_category }}{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="{% static 'quiz/quiz_list.css' %}">
 {% endblock %}
@@ -16,7 +16,7 @@
 			{% for quiz in quiz_list %}
 			<div class="lg:w-1/3 w-full p-2">
 				<div class="{{ quiz.category }} p-2 h-40 rounded-lg">
-					<a href="{% url 'take-quiz' url=quiz.url%}">
+					<a href="{% url 'take-quiz' url=quiz.url%}" id="{{ quiz.url }}">
 						<div class="text-gray-700 text-center truncate">
 							{{ quiz.title }}
 						</div>

@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 {% load static %}
 
-{% block title %}{{ category}}{% endblock %}
+{% block title %}{{ category }}{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="{% static 'quiz/quiz_list.css' %}">
 {% endblock %}
@@ -15,7 +15,7 @@
 
 		<div class="py-4" id="categories">
 			{% for sub in subcategories %}
-			<a href="{% url 'quiz_subcategory_list_matching' subcategory_name=sub.sub_category %}">
+			<a href="{% url 'quiz_subcategory_list_matching' subcategory_name=sub.sub_category %}" id="{{ sub.sub_category }}">
 				<button class="{{ sub.category }} rounded py-1 px-1 my-1">{{ sub.sub_category }}</button>
 			</a>
 			{% endfor %}
@@ -26,7 +26,7 @@
 			{% for quiz in quiz_list %}
 			<div class="lg:w-1/3 w-full p-2">
 				<div class="{{ quiz.category }} p-2 h-40 rounded-lg">
-					<a href="{% url 'take-quiz' url=quiz.url%}">
+					<a href="{% url 'take-quiz' url=quiz.url%}" id="{{ quiz.url }}">
 						<div class="text-gray-700 text-center truncate">
 							{{ quiz.title }}
 						</div>

@@ -165,7 +165,9 @@ def quiz_list_by_category(request, category_name):
     return render(
         request,
         "quiz/view_quiz_category.html",
-        {"category": category_name, "subcategories": subcategories, "quiz_list": quiz},
+        {"category": category_name, 
+        "subcategories": subcategories, 
+        "quiz_list": quiz},
     )
 
 
@@ -175,7 +177,9 @@ def quiz_list_by_subcategory(request, subcategory_name):
     return render(
         request,
         "quiz/view_quiz_subcategory.html",
-        {"subcategories": subcategory_name, "quiz_list": quiz},
+        {"sub_category": subcategory_name,
+        "subcategories": subcategory_name, 
+        "quiz_list": quiz},
     )
 
 
@@ -186,7 +190,6 @@ def take(request, url):
     Receive results, compare them to the answers,
     redirect to page results
     """
-
     quiz = get_object_or_404(Quiz, url=url)
     tf_questions = TF_Question.objects.filter(quiz=quiz).order_by("order")
     mc_questions = MCQuestion.objects.filter(quiz=quiz).order_by("order")
@@ -211,12 +214,12 @@ def take(request, url):
     for question in mc_questions:
         index = question.order
         forms[index] = (
-            "mc",
-            question.content,
-            question.answer1,
-            question.answer2,
-            question.answer3,
-            MultiChoiceForm(
+            "mc",                           #0
+            question.content,               #1
+            question.answer1,               #2
+            question.answer2,               #3
+            question.answer3,               #4
+            MultiChoiceForm(                #5
                 request.GET or None,
                 initial={"qid": question.id},
                 prefix="mc" + str(index),

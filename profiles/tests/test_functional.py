@@ -19,8 +19,10 @@ def TestProfile(StaticLiveServerTestCase):
         # visit the profile page
         profile.click()
         assert self.browser.title == "Mon profil"
+
         quiz_participated = self.browser.find_element_by_id("no_quiz_finished")
         assert quiz_participated.text == "Vous n'avez pas encore complété de quiz"
+        
         show_created = self.browser.find_element_by_id("created")
         show_created.click()
         quiz_created = self.browser.find_element_by_id("no_quiz_created")

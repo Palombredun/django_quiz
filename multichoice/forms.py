@@ -40,7 +40,8 @@ class MultiChoiceForm(forms.Form):
     This answer will be compared to the one decided by the creator of
     the quiz in order to decided if it is right or wrong.
     """
-    answer1 = forms.BooleanField(required=False)
-    answer2 = forms.BooleanField(required=False)
-    answer3 = forms.BooleanField(required=False)
+    CHOICES = ((None, ""), (True, "Vrai"), (False, "Faux"))
+    answer1 = forms.ChoiceField(choices=CHOICES, widget=forms.Select(), required=True)
+    answer2 = forms.ChoiceField(choices=CHOICES, widget=forms.Select(), required=True)
+    answer3 = forms.ChoiceField(choices=CHOICES, widget=forms.Select(), required=True)
     qid = forms.IntegerField(widget=forms.HiddenInput())

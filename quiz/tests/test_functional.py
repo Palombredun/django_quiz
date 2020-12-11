@@ -139,7 +139,7 @@ class TestCreateQuiz(StaticLiveServerTestCase):
         button.click()
 
 
-    def test_takeQuiz(self):
+    def test_take_quiz(self):
         """
         Assert that a quiz created by the user is present in his profile
         both in the qui created and in the quiz finished once he passed it.
@@ -207,7 +207,8 @@ class TestCreateQuiz(StaticLiveServerTestCase):
         assert self.browser.title == "Titre du quiz"
 
         answer_tf1 = Select(self.browser.find_element_by_id("id_tf0-correct"))
-        answer_tf1.select_by_visible_text("Vrai")
+        #answer_tf1.select_by_visible_text("Vrai")
+        answer_tf1.select_by_visible_text("Faux")
 
         user_answer_mc1 = self.browser.find_element_by_id("id_mc1-answer2")
         user_answer_mc1.click()
@@ -219,6 +220,13 @@ class TestCreateQuiz(StaticLiveServerTestCase):
 
         submit = self.browser.find_element_by_id("submit")
         submit.click()
+
+        # assert we're still on the same page
+        sleep(5)
+        assert self.browser.title == "Résultat"
+
+        sleep(500)
+
 
 
         

@@ -103,6 +103,26 @@ def multichoice_mc(db, quiz_q):
         answer3_correct=False,
     )
 
+@pytest.fixture
+def multichoice_mc_multiple_answers(db, quiz_q):
+    return MCQuestion.objects.create(
+        quiz=quiz_q,
+        difficulty=1,
+        order=1,
+        figure=None,
+        content="question",
+        explanation=None,
+        theme1="t1",
+        theme2="t2",
+        theme3="t3",
+        answer1="a1",
+        answer1_correct=False,
+        answer2="a2",
+        answer2_correct=True,
+        answer3="a3",
+        answer3_correct=True,
+    )
+
 
 @pytest.fixture
 def answerUser_au(db, question_q, user_A):
@@ -155,10 +175,10 @@ def result_r():
 
 
 @pytest.fixture
-def question_true(db, quiz_q):
+def tf_question(db, quiz_q):
     return TF_Question.objects.create(
         quiz=quiz_q,
-        difficulty=0,
+        difficulty=1,
         order=0,
         figure=None,
         content="true",
@@ -167,22 +187,6 @@ def question_true(db, quiz_q):
         theme2="",
         theme3="",
         correct=True,
-    )
-
-
-@pytest.fixture
-def question_false(db, quiz_q):
-    return TF_Question.objects.create(
-        quiz=quiz_q,
-        difficulty=0,
-        order=0,
-        figure=None,
-        content="true",
-        explanation=None,
-        theme1="",
-        theme2="",
-        theme3="",
-        correct=False,
     )
 
 
@@ -227,30 +231,62 @@ def test_init_result(result_r):
     assert result_r.advices == {}
 
 
-def test_is_tf_answer_correct(result_r, question_true):
+def test_is_tf_answer_correct(result_r, truefalse_tf):
     """
     GIVEN a correct answer to a question
     WHEN Result._is_tf_answer_correct is called
     THEN assert it returns True
     """
     result = "True"
-    question = question_true
+    question = truefalse_tf
 
-    res = result_r._is_tf_answer_correct(result, question_true)
+    res = result_r._is_tf_answer_correct(result, truefalse_tf)
 
     assert res is True
 
 
-def test_is_tf_answer_incorrect(result_r, truefalse_tf, question_false):
+def test_is_tf_answer_incorrect(result_r, truefalse_tf):
     """
     GIVEN an incorrect answer to a question
     WHEN Result._is_tf_answer_correct is called
     THEN assert it returns False
     """
-    result = "True"
-    question = question_false
+    result = "False"
+    question = truefalse_tf
 
     res = result_r._is_tf_answer_correct(result, question)
+
+    assert res is False
+
+def test_is_mc_answer_correct(result_r, multichoice_mc):
+    result = {0: "True", 1: "False", 2: "False"}
+    question = multichoice_mc
+
+    res = result_r._is_mc_answer_correct(result, question)
+
+    assert res is True
+
+def test_is_mc_answer_correct_multiple_answers(result_r, multichoice_mc_multiple_answers):
+    result = {0: "False", 1: "True", 2: "True"}
+    question = multichoice_mc_multiple_answers
+
+    res = result_r._is_mc_answer_correct(result, question)
+
+    assert res is True
+
+def test_is_mc_answer_incorrect(result_r, multichoice_mc):
+    result = {0: "False", 1: "True", 2: "False"}
+    question = multichoice_mc
+
+    res = result_r._is_mc_answer_correct(result, question)
+
+    assert res is False
+
+def test_is_mc_answer_incorrect_multiple_answers(result_r, multichoice_mc_multiple_answers):
+    result = {0: "True", 1: "False", 2: "True"}
+    question = multichoice_mc_multiple_answers
+
+    res = result_r._is_mc_answer_correct(result, question)
 
     assert res is False
 
@@ -367,54 +403,6 @@ def test_udate_details_mc_with_false_question(result_r, multichoice_mc):
     details = result_r._update_details_mc(result, question)
 
     assert details["question"] == "La bonne réponse était : \na1\n"
-
-
-def test_compute_global_score_low(result_r):
-    """
-    GIVEN two ints representing the weighted score of the quiz
-    WHEN Result._compute_global_score is called
-    THEN assert Result.advices is updated with the appropriate string
-    """
-    score = 2
-    total = 9
-
-    result_r._compute_global_score(score, total)
-
-    assert (
-        result_r.advices["global"] == "Vous avez besoin de plus de révisions, courage !"
-    )
-
-
-def test_compute_global_score_medium(result_r):
-    """
-    GIVEN two ints representing the weighted score of the quiz
-    WHEN Result._compute_global_score is called
-    THEN assert Result.advices is updated with the appropriate string
-    """
-    score = 5
-    total = 9
-
-    result_r._compute_global_score(score, total)
-
-    assert (
-        result_r.advices["global"]
-        == "Avec un peu de travail supplémentaire, vous réussirez !"
-    )
-
-
-def test_compute_global_score_high(result_r):
-    """
-    GIVEN two ints representing the weighted score of the quiz
-    WHEN Result._compute_global_score is called
-    THEN assert Result.advices is updated with the appropriate string
-    """
-    score = 9
-    total = 9
-
-    result_r._compute_global_score(score, total)
-
-    assert result_r.advices["global"] == "Vous avez très bien réussi le quiz !"
-
 
 def test_compute_nb_good_answers(result_r):
     """

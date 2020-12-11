@@ -806,3 +806,49 @@ console.warn: SearchSettings: "get: No settings file exists, new profile?" (new 
 1607612747189	Marionette	WARN	TLS certificate errors will be ignored for this session
 JavaScript error: http://localhost:46133/quiz/statistics/titre-du-quiz-1, line 85: SyntaxError: expected expression, got ','
 1607612771869	Marionette	INFO	Stopped listening on port 42559
+1607615282505	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.FIEWmlhtvPaR"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607615294618	Marionette	INFO	Listening on port 46105
+1607615294811	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:40827/quiz/statistics/titre-du-quiz-1, line 85: SyntaxError: expected expression, got ','
+1607615318349	Marionette	INFO	Stopped listening on port 46105
+1607620752103	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.rIayBMWiDpKo"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607620767746	Marionette	INFO	Listening on port 42319
+1607620767883	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:51263/quiz/statistics/titre-du-quiz-1, line 85: SyntaxError: expected expression, got ','
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+1607675307737	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.o17N9zvyhBZV"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607675336349	Marionette	INFO	Listening on port 43725
+1607675336510	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:54679/quiz/statistics/titre-du-quiz-1, line 85: SyntaxError: expected expression, got ','
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+1607675430974	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.MylYCmPlDiXS"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607675445802	Marionette	INFO	Listening on port 33359
+1607675446012	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:46833/quiz/statistics/titre-du-quiz-1, line 85: SyntaxError: expected expression, got ','
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+1607675513722	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.PkHrkocjeEk9"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607675531698	Marionette	INFO	Listening on port 38289
+1607675531794	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:55757/quiz/statistics/titre-du-quiz-1, line 85: SyntaxError: expected expression, got ','
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.

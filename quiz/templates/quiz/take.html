@@ -19,14 +19,18 @@
 					{% if form.0 == 'tf' %}
 						{{ form.2.as_p }} <!-- TF form -->
 					{% else %} <!-- MC form -->
-						<p>
-							<p><label>{{ form.2 }}</label></p>
-							<div>{{ form.5.answer1 }}</div>
-							<p><label>{{ form.3 }}</label></p>
-							<div>{{ form.5.answer2 }}</div>
-							<p><label>{{ form.4 }}</label></p>
-							<div>{{ form.5.answer3 }}</div>
-						</p>
+						{{ form.5.non_field_errors }}
+						{% for hidden_field in form.hidden_fields %}
+    						{{ hidden_field.errors }}
+    						{{ hidden_field }}
+  						{% endfor %}
+						<p><label>{{ form.2 }}</label>
+						<div>{{ form.5.answer1 }}</div></p>
+						<p><label>{{ form.3 }}</label>
+						<div>{{ form.5.answer2 }}</div></p>
+						<p><label>{{ form.4 }}</label>
+						<div>{{ form.5.answer3 }}</div></p>
+						<p><div>{{ form.5.qid }}</div></p>
 					{% endif %}
 				</div>
 			{% endfor %}
@@ -37,6 +41,10 @@
 		</form>
 	</div>
 </div>
+
+<script>
+	
+</script>
 {% endblock %}
 
 

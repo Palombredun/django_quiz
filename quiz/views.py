@@ -194,37 +194,42 @@ def take(request, url):
     tf_questions = TF_Question.objects.filter(quiz=quiz).order_by("order")
     mc_questions = MCQuestion.objects.filter(quiz=quiz).order_by("order")
 
-    nb_tf_questions = tf_questions.count()
-    nb_mc_questions = mc_questions.count()
-    forms = [0] * (nb_tf_questions + nb_mc_questions)
-    id_questions = [0] * (nb_tf_questions + nb_mc_questions)
 
+    total_questions = tf_questions.count() + mc_questions.count()
+    forms = [0] * total_questions
+
+    tf_prefix = []
     for question in tf_questions:
         index = question.order
+        prefix = "tf" + str(index)
         forms[index] = (
             "tf",
             question.content,
             TrueFalseForm(
                 request.GET or None,
                 initial={"qid": question.id},
-                prefix="tf" + str(index),
+                prefix=prefix,
             ),
         )
-        id_questions[index] = question.id
+        tf_prefix.append(prefix)
+    
+    mc_prefix = []
     for question in mc_questions:
         index = question.order
+        prefix = "mc" + str(index)
         forms[index] = (
-            "mc",                           #0
-            question.content,               #1
-            question.answer1,               #2
-            question.answer2,               #3
-            question.answer3,               #4
-            MultiChoiceForm(                #5
-                request.GET or None,
+            "mc",                           
+            question.content,               
+            question.answer1,               
+            question.answer2,               
+            question.answer3,               
+            MultiChoiceForm(  
+                request.GET or None,              
                 initial={"qid": question.id},
-                prefix="mc" + str(index),
+                prefix=prefix,
             ),
         )
+        mc_prefix.append(prefix)
 
     if request.method == "GET":
         if quiz.random_order is True:
@@ -235,20 +240,30 @@ def take(request, url):
             {"title": quiz.title, "description": quiz.description, "forms": forms},
         )
 
+
     elif request.method == "POST":
+
         tf_answers = {}
-        for i in range(nb_tf_questions):
-            tf = TrueFalseForm(request.POST or None, prefix="tf" + str(i))
+        while tf_prefix:
+            prefix = tf_prefix.pop()
+            tf = TrueFalseForm(request.POST or None, prefix=prefix)
             if tf.is_valid():
                 cd = tf.cleaned_data
                 tf_answers[cd["qid"]] = cd["correct"]
+        
         mc_answers = {}
-        for i in range(nb_mc_questions):
-            mc = MultiChoiceForm(request.POST or None, prefix="mc" + str(i))
+        while mc_prefix:
+            prefix = mc_prefix.pop()
+            mc = MultiChoiceForm(request.POST or None, prefix=prefix)
             if mc.is_valid():
+                print()
+                print()
+                print("VALIIIIIIIID")
+                print()
+                print()
                 cd = mc.cleaned_data
                 mc_answers[cd["qid"]] = (cd["answer1"], cd["answer2"], cd["answer3"])
-        total_questions = nb_tf_questions + nb_mc_questions
+        
 
         results_user = Score()
         total_score = Total(total_questions)

@@ -129,23 +129,13 @@ class Result:
             question = MCQuestion.objects.get(id=qid)
             total.populate(question)
 
-            if self._is_mc_question_correct(answer, question):
+            if self._is_mc_answer_correct(answer, question):
                 score.add_correct_question(question)
-                self.update_or_create_answerUser(question, user, True)
-                self.update_details_mc(True, question=question)
+                self._update_or_create_answerUser(question, user, True)
+                self._update_details_mc(True, question=question)
             else:
-                self.update_or_create_answerUser(question, user, False)
-                self.update_details_mc(False, question=question)
-
-    def _compute_global_score(self, score_weighted, total_weight):
-        if score_weighted / total_weight > 0.66:
-            self.advices["global"] = "Vous avez très bien réussi le quiz !"
-        elif score_weighted / total_weight < 0.33:
-            self.advices["global"] = "Vous avez besoin de plus de révisions, courage !"
-        else:
-            self.advices[
-                "global"
-            ] = "Avec un peu de travail supplémentaire, vous réussirez !"
+                self._update_or_create_answerUser(question, user, False)
+                self._update_details_mc(False, question=question)
 
     def _compute_nb_good_answers(self, nb_good_answers, nb_questions):
         self.advices["good_answers"] = (
@@ -201,8 +191,6 @@ class Result:
                 ] = "Vous devriez réviser le sujet suivant : " + str(theme)
 
     def compute_scores(self, score, total):
-        # global
-        self._compute_global_score(score.weighted, total.weighted)
 
         # nb good answers
         self._compute_nb_good_answers(score.nb_good_answers, total.nb_questions)

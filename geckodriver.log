@@ -852,3 +852,207 @@ Exiting due to channel error.
 Exiting due to channel error.
 [GFX1-]: Receive IPC close with reason=AbnormalShutdown
 Exiting due to channel error.
+1607797568474	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.3r2zFyLwWg5t"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607797584203	Marionette	INFO	Listening on port 35585
+1607797584420	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:33887/quiz/statistics/titre-du-quiz-1, line 85: SyntaxError: expected expression, got ','
+1607797605329	Marionette	INFO	Stopped listening on port 35585
+1607797680333	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.G8V6WHoRiSnS"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607797693126	Marionette	INFO	Listening on port 34965
+1607797693257	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:50399/quiz/statistics/titre-du-quiz-1, line 85: SyntaxError: expected expression, got ','
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+1607797835418	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.t0g01ngGigc8"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607797847261	Marionette	INFO	Listening on port 36405
+1607797847367	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:58945/quiz/statistics/titre-du-quiz-1, line 85: SyntaxError: expected expression, got ','
+1607797865008	Marionette	INFO	Stopped listening on port 36405
+1607797958182	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.EXLNGrRcuzrw"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607797969746	Marionette	INFO	Listening on port 36429
+1607797969862	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:41753/quiz/statistics/titre-du-quiz-1, line 85: SyntaxError: expected expression, got ','
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+1607798018429	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.T8nXBXV1BNXP"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607798030647	Marionette	INFO	Listening on port 40211
+1607798030813	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:45977/quiz/statistics/titre-du-quiz-1, line 85: SyntaxError: expected expression, got ','
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+1607798073502	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.GVEYdkjtNQMD"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607798087511	Marionette	INFO	Listening on port 34731
+1607798087647	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:54093/quiz/statistics/titre-du-quiz-1, line 85: SyntaxError: expected expression, got ','
+1607798110291	Marionette	INFO	Stopped listening on port 34731
+1607798135726	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.7FIp4aGiuh19"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607798149003	Marionette	INFO	Listening on port 40421
+1607798149234	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:33855/quiz/statistics/titre-du-quiz-1, line 85: SyntaxError: expected expression, got ','
+1607798671347	Marionette	INFO	Stopped listening on port 40421
+1607799203479	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.igDZ1cAFV1dr"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607799217236	Marionette	INFO	Listening on port 46741
+1607799217397	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:38469/quiz/statistics/titre-du-quiz-1, line 85: SyntaxError: expected expression, got ','
+1607799242965	Marionette	INFO	Stopped listening on port 46741
+1607933894300	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.HuNdts4vxCGw"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607933912938	Marionette	INFO	Listening on port 43465
+1607933913079	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:54475/quiz/statistics/titre-du-quiz-1, line 85: SyntaxError: expected expression, got ','
+1607933946163	Marionette	INFO	Stopped listening on port 43465
+1607934999028	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.k74nj0X6o4oV"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607935014349	Marionette	INFO	Listening on port 42773
+1607935014666	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:54145/quiz/statistics/titre-du-quiz-1, line 85: SyntaxError: expected expression, got ','
+1607935543648	Marionette	INFO	Stopped listening on port 42773
+1607940197082	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.InqvBa8yokc1"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607940221718	Marionette	INFO	Listening on port 38593
+1607940222012	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:52697/quiz/statistics/titre-du-quiz-1, line 85: SyntaxError: expected expression, got ','
+1607940251074	Marionette	INFO	Stopped listening on port 38593
+1607957487218	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.08vGejuSnHLP"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607957499992	Marionette	INFO	Listening on port 36233
+1607957500104	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:39689/quiz/statistics/titre-du-quiz-1/, line 85: SyntaxError: expected expression, got ','
+1607957524134	Marionette	INFO	Stopped listening on port 36233
+1607958792780	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.XFcpSfm2AVH3"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607958805412	Marionette	INFO	Listening on port 37971
+1607958805724	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:56225/quiz/statistics/titre-du-quiz-1/, line 85: SyntaxError: expected expression, got ','
+1607958826745	Marionette	INFO	Stopped listening on port 37971
+1607958893413	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.ZnEwmryW350A"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607958907359	Marionette	INFO	Listening on port 35041
+1607958907511	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:44949/quiz/statistics/titre-du-quiz-1/, line 85: SyntaxError: expected expression, got ','
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+1607959002535	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.evcSCkMIGde1"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607959014451	Marionette	INFO	Listening on port 41717
+1607959014665	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:38067/quiz/statistics/titre-du-quiz-1/, line 85: SyntaxError: expected expression, got ','
+1607959037008	Marionette	INFO	Stopped listening on port 41717
+1607959077180	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.arnuhgOEk7Gs"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607959092103	Marionette	INFO	Listening on port 39991
+1607959092238	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:50803/quiz/statistics/titre-du-quiz-1/, line 85: SyntaxError: expected expression, got ','
+1607959114598	Marionette	INFO	Stopped listening on port 39991
+1607959185276	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.c2jQgKT9LNOY"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607959197490	Marionette	INFO	Listening on port 38379
+1607959197659	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:42507/quiz/statistics/titre-du-quiz-1/, line 85: SyntaxError: expected expression, got ','
+1607959223009	Marionette	INFO	Stopped listening on port 38379
+1607959739104	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.esjPaJsmmPfx"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607959757271	Marionette	INFO	Listening on port 35853
+1607959757502	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:47865/quiz/statistics/titre-du-quiz-1/, line 85: SyntaxError: expected expression, got ','
+1607959785751	Marionette	INFO	Stopped listening on port 35853
+1607959861365	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.qk3IfQLu9IES"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607959874259	Marionette	INFO	Listening on port 40041
+1607959874559	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:44913/quiz/statistics/titre-du-quiz-1/, line 85: SyntaxError: expected expression, got ','
+1607959897419	Marionette	INFO	Stopped listening on port 40041
+1607959942599	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.IXGunOA6c5WO"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607959954724	Marionette	INFO	Listening on port 39269
+1607959954924	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:46195/quiz/statistics/titre-du-quiz-1/, line 85: SyntaxError: expected expression, got ','
+1607960075841	Marionette	INFO	Stopped listening on port 39269
+1607960135645	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.zzV122i6hWw2"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607960147862	Marionette	INFO	Listening on port 34887
+1607960148031	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:52337/quiz/statistics/titre-du-quiz-1/, line 85: SyntaxError: expected expression, got ','
+1607960168538	Marionette	INFO	Stopped listening on port 34887
+1607960295944	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.ue0N68DVzjI2"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607960309534	Marionette	INFO	Listening on port 34663
+1607960309778	Marionette	WARN	TLS certificate errors will be ignored for this session
+1607960317701	Marionette	INFO	Stopped listening on port 34663
+1607960362574	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.padkYXvy3oBH"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607960374001	Marionette	INFO	Listening on port 34361
+1607960374129	Marionette	WARN	TLS certificate errors will be ignored for this session
+1607960381276	Marionette	INFO	Stopped listening on port 34361
+1607962035386	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.kSl8eNAxhaPB"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607962047973	Marionette	INFO	Listening on port 35263
+1607962048150	Marionette	WARN	TLS certificate errors will be ignored for this session
+1607962055941	Marionette	INFO	Stopped listening on port 35263
+1607962505127	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.m6NVYTSp3cFZ"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607962523432	Marionette	INFO	Listening on port 40107
+1607962523539	Marionette	WARN	TLS certificate errors will be ignored for this session
+1607962531190	Marionette	INFO	Stopped listening on port 40107
+1607962641713	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.AZNbOrTIkSfK"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607962664557	Marionette	INFO	Listening on port 33521
+1607962664699	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:42215/quiz/statistics/titre-du-quiz-1/, line 85: SyntaxError: expected expression, got ','
+1607962690709	Marionette	INFO	Stopped listening on port 33521
+1607962766701	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.PrsNGUczP7LR"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607962780188	Marionette	INFO	Listening on port 42449
+1607962780415	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:60161/quiz/statistics/titre-du-quiz-1/, line 85: SyntaxError: expected expression, got ','
+1607962805116	Marionette	INFO	Stopped listening on port 42449
+1607962846120	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.CCogy8zyQy2a"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607962860053	Marionette	INFO	Listening on port 43091
+1607962860197	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:48605/quiz/statistics/titre-du-quiz-1/, line 85: SyntaxError: expected expression, got ','
+1607962889432	Marionette	INFO	Stopped listening on port 43091
+1607964394769	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.7aqY6jIe7VhA"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607964408402	Marionette	INFO	Listening on port 41849
+1607964408573	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:60353/quiz/statistics/titre-du-quiz-1/, line 85: SyntaxError: expected expression, got ','
+1607964428812	Marionette	INFO	Stopped listening on port 41849
+1607964614806	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.WlmT40xgTD0Q"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607964627177	Marionette	INFO	Listening on port 38005
+1607964627265	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:38551/quiz/statistics/titre-du-quiz-1/, line 85: SyntaxError: expected expression, got ','
+1607964658495	Marionette	INFO	Stopped listening on port 38005
+1607964999983	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.JaISR0UhVSfz"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607965013799	Marionette	INFO	Listening on port 46561
+1607965013985	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:57953/quiz/statistics/titre-du-quiz-1/, line 85: SyntaxError: expected expression, got ','
+1607965039979	Marionette	INFO	Stopped listening on port 46561
+1607965059107	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.FuvYD77p9pKH"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607965072263	Marionette	INFO	Listening on port 42119
+1607965072454	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://localhost:44835/quiz/statistics/titre-du-quiz-1/, line 85: SyntaxError: expected expression, got ','
+1607965098618	Marionette	INFO	Stopped listening on port 42119

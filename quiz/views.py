@@ -256,11 +256,6 @@ def take(request, url):
             prefix = mc_prefix.pop()
             mc = MultiChoiceForm(request.POST or None, prefix=prefix)
             if mc.is_valid():
-                print()
-                print()
-                print("VALIIIIIIIID")
-                print()
-                print()
                 cd = mc.cleaned_data
                 mc_answers[cd["qid"]] = (cd["answer1"], cd["answer2"], cd["answer3"])
         

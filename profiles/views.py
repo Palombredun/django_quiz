@@ -19,8 +19,11 @@ def profile(request):
     data = {}
     if questions_participated:
         questions_id = [question.id for question in questions_participated]
-        quiz_participated = set(Quiz.objects.filter(question=questions_id))
-        data["quiz_participated"] = quiz_participated
+        data["quiz_participated"] = []
+        for qid in questions_id:
+            quiz_participated = Quiz.objects.filter(question=qid)[0]
+            data["quiz_participated"].append(quiz_participated)
+        data["quiz_participated"] = set(data["quiz_participated"])
     if quiz_created:
         data["quiz_created"] = quiz_created
     data["user"] = user

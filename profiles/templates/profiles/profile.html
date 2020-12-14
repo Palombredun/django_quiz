@@ -25,11 +25,12 @@
 		{% if quiz_participated|length %}
 		{% for quiz in quiz_participated %}
 		<div class="lg:w-1/3 w-full p-2">
-			<div class="{{ quiz.category_name }} p-2 h-40 rounded-lg" id="toto">
-				<a href="{% url 'take' url=quiz.url %}">
-					<div class="text-gray-700 text-center truncate" id="{{ quiz.url }}">
+			<div class="{{ quiz.category_name }} p-2 h-40 rounded-lg">
+				<a href="{% url 'take-quiz' url=quiz.url%}" id="{{ quiz.url }}">
+					<div class="text-gray-700 text-center truncate">
 						{{ quiz.title }}
 					</div>
+				</a>
 					<div class="flex h-24 justify-center items-end mt-4">
 						{% if quiz.difficulty == 1 %}
 						<img src="{% static "quiz/img/etoile.png" %}" alt="etoile" class="px-1">
@@ -55,10 +56,11 @@
 		{% for quiz in quiz_created %}
 		<div class="lg:w-1/3 w-full p-2">
 			<div class="{{ quiz.category_name }} p-2 h-40 rounded-lg">
-				<a href="{% url 'statistics' url=quiz.url%}">
-					<div class="text-gray-700 text-center truncate" id="{{ quiz.url }}">
+				<a href="{% url 'statistics' url=quiz.url%}" id="{{ quiz.url }}">
+					<div class="text-gray-700 text-center truncate">
 						{{ quiz.title }}
 					</div>
+				</a>
 					<div class="flex h-24 justify-center items-end mt-4">
 						{% if quiz.difficulty == 1 %}
 						<img src="{% static "quiz/img/etoile.png" %}" alt="etoile" class="px-1">

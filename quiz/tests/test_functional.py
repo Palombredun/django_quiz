@@ -159,7 +159,7 @@ class TestCreateQuiz(StaticLiveServerTestCase):
         show_created.click()
         quiz_url = self.browser.find_element_by_id("titre-du-quiz-1")
         assert quiz_url.text == "Titre du quiz"
-        quiz_url.click()
+        self.browser.get(self.live_server_url + "/quiz/statistics/titre-du-quiz-1")
 
         # check that no one passed the quiz
         assert self.browser.title == "Statistiques"
@@ -210,10 +210,12 @@ class TestCreateQuiz(StaticLiveServerTestCase):
         #answer_tf1.select_by_visible_text("Vrai")
         answer_tf1.select_by_visible_text("Faux")
 
-        user_answer_mc1 = self.browser.find_element_by_id("id_mc1-answer2")
-        user_answer_mc1.click()
-        user_answer_mc1 = self.browser.find_element_by_id("id_mc1-answer3")
-        user_answer_mc1.click()
+        user_answer_mc1 = Select(self.browser.find_element_by_id("id_mc1-answer1"))
+        user_answer_mc1.select_by_visible_text("Faux")
+        user_answer_mc1 = Select(self.browser.find_element_by_id("id_mc1-answer2"))
+        user_answer_mc1.select_by_visible_text("Vrai")
+        user_answer_mc1 = Select(self.browser.find_element_by_id("id_mc1-answer3"))
+        user_answer_mc1.select_by_visible_text("Vrai")
 
         answer_tf2 = Select(self.browser.find_element_by_id("id_tf2-correct"))
         answer_tf2.select_by_visible_text("Vrai")
@@ -225,8 +227,42 @@ class TestCreateQuiz(StaticLiveServerTestCase):
         sleep(5)
         assert self.browser.title == "Résultat"
 
-        sleep(500)
+        # assert the results are the good ones
+        assert "Question 3" in self.browser.page_source
+        assert "La bonne réponse était Faux" in self.browser.page_source
+        assert "Question 1" in self.browser.page_source
+        assert "La bonne réponse était Vrai" in self.browser.page_source
+        assert "Question 2" in self.browser.page_source
+        assert "Vous avez bien répondu" in self.browser.page_source
 
+        # assert we answered well to 1 answer on the 3
+        assert "Vous avez bien répondu à 1 questions sur 3" in self.browser.page_source
+
+        # assert we are proposed to revise the themes t1 and t2
+        assert "Vous devriez réviser le sujet suivant : t1" in self.browser.page_source
+        assert "Vous devriez réviser le sujet suivant : t3" in self.browser.page_source
+
+        # get back to the profile page
+        profile_link = self.browser.find_element_by_id("profile")
+        profile_link.click()
+        quiz_finished = self.browser.find_element_by_id("titre-du-quiz-1")
+        assert quiz_finished.text == "Titre du quiz"
+
+        # go the Statistics page to check if it has been updated
+        self.browser.get(self.live_server_url + "/quiz/statistics/titre-du-quiz-1")
+
+        # check that no one passed the quiz
+        assert self.browser.title == "Statistiques"
+
+        # assert charts are present
+        grades = self.browser.find_element_by_id("grades")
+        assert grades is not None
+        questions = self.browser.find_element_by_id("questions")
+        assert questions is not None
+        themes = self.browser.find_element_by_id("themes")
+        assert themes is not None
+        difficulty = self.browser.find_element_by_id("difficulty")
+        assert difficulty is not None
 
 
         

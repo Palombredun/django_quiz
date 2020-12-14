@@ -12,7 +12,7 @@
 			<h1 class="text-xl font-bold">Résultat du quiz :</h1>
 			<div class="pb-8">
 				{% for key, value in details.items %}
-				<div class="py-2">
+				<div class="py-2 details">
 					<p class="font-bold">{{ key }}</p>
 					<p>{{ value }}</p>
 				</div>
@@ -21,7 +21,7 @@
 
 			<ul class="list-disc px-4">
 				{% for key, value in advices.items %}
-				<li class="py-2">{{ value }}</li>
+				<li class="py-2 advices">{{ value }}</li>
 				{% endfor %}
 			</p>
 		</div>

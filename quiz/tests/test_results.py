@@ -566,7 +566,6 @@ def test_compute_scores(result_r):
 
     result_r.compute_scores(score, total)
 
-    assert result_r.advices["global"] == "Vous avez très bien réussi le quiz !"
     assert result_r.advices["good_answers"] == "Vous avez bien répondu à 5 questions sur 6"
     assert result_r.advices["difficulty"] == "Vous maîtrisez très bien ce sujet, félicitations !"
     assert result_r.advices["cours"] == "Vous avez bien réussi les questions sur le thème : cours"

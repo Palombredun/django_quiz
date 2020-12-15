@@ -107,12 +107,14 @@ def themeScore_ts(db, stats_s, quiz_q):
 def test_category(category_m):
     assert isinstance(category_m, Category)
     assert category_m.category == "m"
+    assert str(category_m) == "m"
 
 
 def test_sub_category(category_m, sub_category_n):
     assert sub_category_n.sub_category == "n"
     assert sub_category_n.category == category_m
     assert isinstance(sub_category_n, SubCategory)
+    assert str(sub_category_n) == "n (m)"
 
 
 def test_quiz(quiz_q, user_A, category_m, sub_category_n):
@@ -131,6 +133,7 @@ def test_quiz(quiz_q, user_A, category_m, sub_category_n):
     assert quiz_q.created.second == date.second
     assert quiz_q.random_order == False
     assert quiz_q.difficulty == 1
+    assert str(quiz_q) == "title"
 
 
 def test_question(quiz_q, question_q):
@@ -143,6 +146,7 @@ def test_question(quiz_q, question_q):
     assert question_q.theme1 == "t1"
     assert question_q.theme2 == "t2"
     assert question_q.theme3 == "t3"
+    assert str(question_q) == "question"
 
 
 def test_answerUser(answerUser, question_q, user_A):

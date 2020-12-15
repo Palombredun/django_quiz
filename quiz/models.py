@@ -164,8 +164,8 @@ class Question(models.Model):
         ),
     )
 
-    def get_question_as_markdown(self):
-        return mark_safe(markdown(self.content, safe_mode="escape"))
+    #def get_question_as_markdown(self):
+    #    return mark_safe(markdown(self.content, safe_mode="escape"))
 
     class Meta:
         verbose_name = "Question"

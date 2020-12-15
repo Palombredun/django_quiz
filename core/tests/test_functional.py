@@ -22,8 +22,6 @@ class TestHome(StaticLiveServerTestCase):
         self.browser.get(self.live_server_url)
 
         heading2 = self.browser.find_element_by_tag_name("h2")
-        profile = self.browser.find_element_by_name("profile")
 
         assert self.browser.title == "Fast & Quizy"
         assert heading2.text == "Derniers quiz crées"
-        assert profile.t is None

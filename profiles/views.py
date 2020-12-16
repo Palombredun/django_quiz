@@ -4,6 +4,10 @@ from django.contrib.auth.models import User
 
 from quiz.models import Quiz, AnswerUser
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 # Create your views here.
 @login_required
 def profile(request):
@@ -15,6 +19,8 @@ def profile(request):
     user = User.objects.get(pk=request.user.id)
     quiz_created = Quiz.objects.filter(creator=user).order_by("-created")
     questions_participated = AnswerUser.objects.filter(user=user)
+
+    logger.info('{levelname} {asctime} - Requested profile page')
     
     data = {}
     if questions_participated:

@@ -1,4 +1,5 @@
 from random import shuffle
+import logging
 
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
@@ -28,7 +29,10 @@ from multichoice.models import MCQuestion
 from quiz.results import Result, Score, Total
 
 
+logger = logging.getLogger(__name__)
+
 def tutorial(request):
+    logger.info("{levelname} {asctime} - User accessed tutorial page")
     response = render(request, "quiz/tutorial.html")
     response.set_cookie("tutorial", "True")
     return response
@@ -43,10 +47,12 @@ def create(request):
     TF_Formset = formset_factory(CreationTrueFalseForm)
     MC_Formset = formset_factory(CreationMultiChoiceForm)
     if request.method == "GET":
+        logger.info("{levelname} {asctime} - User accessed create page")
         quiz_form = QuizForm(request.GET or None, prefix="quiz")
         tf_formset = TF_Formset(request.GET or None, prefix="tf")
         mc_formset = MC_Formset(request.GET or None, prefix="mc")
     elif request.method == "POST":
+        logger.info("{levelname} {asctime} - User created a quiz page")
         quiz_form = QuizForm(request.POST, prefix="quiz")
         tf_formset = TF_Formset(request.POST or None, prefix="tf")
         mc_formset = MC_Formset(request.POST or None, prefix="mc")
@@ -143,12 +149,14 @@ def load_sub_categories(request):
     sub_categories = SubCategory.objects.filter(category_id=category_id).order_by(
         "sub_category"
     )
+    logger.info("{levelname} {asctime} - Subcategories requested in page create")
     return render(
         request, "quiz/subcategories_dropdown.html", {"sub_categories": sub_categories}
     )
 
 
 def quiz_list(request):
+    logger.info("{levelname} {asctime} - User accessed quiz-list page")
     quiz_list = Quiz.objects.all().order_by("-created")
     categories = Category.objects.all()
     return render(
@@ -159,6 +167,7 @@ def quiz_list(request):
 
 
 def quiz_list_by_category(request, category_name):
+    logger.info("{levelname} {asctime} - User accessed quiz-by-category page")
     category = get_object_or_404(Category, category=category_name)
     subcategories = SubCategory.objects.filter(category=category)
     quiz = Quiz.objects.filter(category=category)
@@ -172,6 +181,7 @@ def quiz_list_by_category(request, category_name):
 
 
 def quiz_list_by_subcategory(request, subcategory_name):
+    logger.info("{levelname} {asctime} - User accessed quiz-by-subcategory page")
     subcategory_id = get_object_or_404(SubCategory, sub_category=subcategory_name)
     quiz = Quiz.objects.filter(sub_category=subcategory_id)
     return render(
@@ -232,6 +242,7 @@ def take(request, url):
         mc_prefix.append(prefix)
 
     if request.method == "GET":
+        logger.info("{levelname} {asctime} - User accessed take page for the quiz " + str(url))
         if quiz.random_order is True:
             shuffle(forms)
         return render(
@@ -242,7 +253,7 @@ def take(request, url):
 
 
     elif request.method == "POST":
-
+        logger.info("{levelname} {asctime} - User finished the quiz " + str(url))
         tf_answers = {}
         while tf_prefix:
             prefix = tf_prefix.pop()
@@ -313,6 +324,7 @@ def take(request, url):
 def statistics(request, url):
     quiz = get_object_or_404(Quiz, url=url)
     if request.user == quiz.creator:
+        logger.info("{levelname} {asctime} - Creator of the quiz " + str(url) + "accessed the page")
         try:
             stats = Statistic.objects.get(quiz=quiz)
 

@@ -14,7 +14,7 @@ build*
 /uploads/
 .tox
 *.egg
-fastandquizy/settings.py
+fastandquizy/production.py
 venv/
 node_modules/
 package-lock.json

@@ -32,6 +32,9 @@ from quiz.results import Result, Score, Total
 logger = logging.getLogger(__name__)
 
 def tutorial(request):
+    """
+    Tutorial page explaining to the user what each field means.
+    """
     logger.info("{levelname} {asctime} - User accessed tutorial page")
     response = render(request, "quiz/tutorial.html")
     response.set_cookie("tutorial", "True")
@@ -42,22 +45,27 @@ def tutorial(request):
 def create(request):
     """
     View dedicated to the creation of the quiz using formsets.
-    If the user has never created a quiz, redirect him to the tutorial.
+    The user has to add at least one question for it to be valid.
     """
     TF_Formset = formset_factory(CreationTrueFalseForm)
     MC_Formset = formset_factory(CreationMultiChoiceForm)
+    
     if request.method == "GET":
         logger.info("{levelname} {asctime} - User accessed create page")
+
         quiz_form = QuizForm(request.GET or None, prefix="quiz")
         tf_formset = TF_Formset(request.GET or None, prefix="tf")
         mc_formset = MC_Formset(request.GET or None, prefix="mc")
+    
     elif request.method == "POST":
-        logger.info("{levelname} {asctime} - User created a quiz page")
+        logger.info("{levelname} {asctime} - User wants to create a quiz")
+
         quiz_form = QuizForm(request.POST, prefix="quiz")
         tf_formset = TF_Formset(request.POST or None, prefix="tf")
         mc_formset = MC_Formset(request.POST or None, prefix="mc")
 
         if quiz_form.is_valid() and ((tf_formset.is_valid() and mc_formset.is_valid())):
+            logger.info("{levelname} {asctime} - Quiz is valid")
             quiz_cd = quiz_form.cleaned_data
 
             category = Category.objects.get(id=quiz_cd["category"])
@@ -123,8 +131,9 @@ def create(request):
                         quiz=new_quiz,
                     )
                     new_mc.save()
+            
             mean_difficulty /= n
-            # the difficulty is
+            # Calculation of the difficulty
             if mean_difficulty < 1.667:
                 quiz_difficulty = 1
             elif mean_difficulty > 2.333:
@@ -132,6 +141,7 @@ def create(request):
             else:
                 quiz_difficulty = 2
             new_quiz.difficulty = quiz_difficulty
+
             new_quiz.url = slugify(quiz_cd["title"]) + "-" + str(new_quiz.id)
             new_quiz.save()
 
@@ -145,6 +155,9 @@ def create(request):
 
 
 def load_sub_categories(request):
+    """
+    View called by the dependent dropdown list of categories.
+    """
     category_id = request.GET.get("category")
     sub_categories = SubCategory.objects.filter(category_id=category_id).order_by(
         "sub_category"
@@ -156,6 +169,9 @@ def load_sub_categories(request):
 
 
 def quiz_list(request):
+    """
+    View returning all the quiz ordered by their date of creation.
+    """
     logger.info("{levelname} {asctime} - User accessed quiz-list page")
     quiz_list = Quiz.objects.all().order_by("-created")
     categories = Category.objects.all()
@@ -167,6 +183,10 @@ def quiz_list(request):
 
 
 def quiz_list_by_category(request, category_name):
+    """
+    View return all the quiz from the category specified in the url
+    ordered by their date of creation
+    """
     logger.info("{levelname} {asctime} - User accessed quiz-by-category page")
     category = get_object_or_404(Category, category=category_name)
     subcategories = SubCategory.objects.filter(category=category)
@@ -181,6 +201,10 @@ def quiz_list_by_category(request, category_name):
 
 
 def quiz_list_by_subcategory(request, subcategory_name):
+    """
+    View return all the quiz from the subcategory specified in the url
+    ordered by their date of creation
+    """
     logger.info("{levelname} {asctime} - User accessed quiz-by-subcategory page")
     subcategory_id = get_object_or_404(SubCategory, sub_category=subcategory_name)
     quiz = Quiz.objects.filter(sub_category=subcategory_id)
@@ -243,6 +267,7 @@ def take(request, url):
 
     if request.method == "GET":
         logger.info("{levelname} {asctime} - User accessed take page for the quiz " + str(url))
+        
         if quiz.random_order is True:
             shuffle(forms)
         return render(
@@ -270,7 +295,7 @@ def take(request, url):
                 cd = mc.cleaned_data
                 mc_answers[cd["qid"]] = (cd["answer1"], cd["answer2"], cd["answer3"])
         
-
+        # compute the student's score of the quiz
         results_user = Score()
         total_score = Total(total_questions)
         results = Result()
@@ -290,6 +315,7 @@ def take(request, url):
         stats.difficult += results_user.difficulty[3]
         stats.save()
 
+        # save the user's results
         try:
             g = Grade.objects.filter(statistics=stats).get(grade=grade_user)
             g.number += 1
@@ -322,6 +348,10 @@ def take(request, url):
 
 @login_required
 def statistics(request, url):
+    """
+    If the user is the creator of the quiz,
+    send him the results to the quiz he asked.
+    """
     quiz = get_object_or_404(Quiz, url=url)
     if request.user == quiz.creator:
         logger.info("{levelname} {asctime} - Creator of the quiz " + str(url) + "accessed the page")

@@ -9,6 +9,7 @@ DIFFICULTY_CHOICES = ((1, "facile"), (2, "moyen"), (3, "difficile"))
 class QuestionForm(forms.Form):
     """
     Base form used for the creation of questions in a quiz.
+    For the time being, figures cant' be added to questions
     """
 
     content = forms.CharField(max_length=1000, label="Question")
@@ -35,6 +36,10 @@ class QuestionForm(forms.Form):
 
 
 class QuizForm(forms.Form):
+    """
+    Form used for the creation of a Quiz.
+    A Category is mandatory but a SubCategory is not.
+    """
     CATEGORY_CHOICES = (
         (None, ""),
         (1, "Sciences"),

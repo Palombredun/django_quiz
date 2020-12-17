@@ -17,11 +17,17 @@ def home(request):
 
 
 def license(request):
+    """
+    Page indicating the license used by the website
+    """
     logger.info('{levelname} {asctime} - Request license page')
     return render(request, "core/license.html")
 
 
 def contact(request):
+    """
+    Contact page
+    """
     logger.info('{levelname} {asctime} - Request contact page')
     return render(request, "core/contact.html")
 

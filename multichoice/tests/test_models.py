@@ -76,6 +76,11 @@ def mc_question_all_true(quiz_q):
 
 ### Test model MCQuestion ###
 def test_model_mc_question(mc_question_one_true):
+    """
+    GIVEN a MultiChoiceQuestion with valid data
+    WHEN this data has to be compared
+    THEN assert it returns what is expected
+    """
     assert mc_question_one_true.answer1 == "a1"
     assert mc_question_one_true.answer1_correct == True
     assert mc_question_one_true.answer2 == "a2"
@@ -84,6 +89,11 @@ def test_model_mc_question(mc_question_one_true):
     assert mc_question_one_true.answer3_correct == False
 
 def test_model_mc_question_all_true(mc_question_all_true):
+    """
+    GIVEN a MultiChoiceQuestion where all questions are True
+    WHEN this data has to be compared
+    THEN assert it returns what is expected
+    """
     assert mc_question_all_true.answer1_correct == True
     assert mc_question_all_true.answer2_correct == True
     assert mc_question_all_true.answer3_correct == True

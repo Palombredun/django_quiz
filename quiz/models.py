@@ -6,7 +6,7 @@ from markdown import markdown
 
 class Category(models.Model):
     """
-    Category Model. 
+    Category Model
     """
 
     category = models.CharField(
@@ -23,8 +23,8 @@ class Category(models.Model):
 
 class SubCategory(models.Model):
     """
-    Modèle d'une sous-catégorie. Elles sont rattachées aux catégories.
-    SubCategory Model, each subcategory is linked by a foreign key to its
+    SubCategory Model.
+    Each subcategory is linked by a foreign key to its
     "mother-category".
     """
 
@@ -177,8 +177,8 @@ class Question(models.Model):
 
 class AnswerUser(models.Model):
     """
-    Modèle utilisé pour stocker toutes les réponses des utilisateurs
-    aux questions des quiz.
+    AnswerUser Model.
+    For each question answered by each user, save their last answer (correct or not)
     """
 
     user = models.ManyToManyField(User)
@@ -187,6 +187,12 @@ class AnswerUser(models.Model):
 
 
 class Statistic(models.Model):
+    """
+    Statistic Model.
+    It regroups the basic informations about the results from a Quiz.
+    It is also used as a central point for the other models about 
+    the results of a quiz.
+    """
     quiz = models.OneToOneField(Quiz, on_delete=models.CASCADE)
     number_participants = models.IntegerField(default=0)
     mean = models.IntegerField(default=0)
@@ -196,21 +202,32 @@ class Statistic(models.Model):
 
 
 class Grade(models.Model):
-    # grades of the users
+    """
+    Grade Model.
+    It stores, for each quiz Statistic (e.g. for each Quiz), 
+    for each grade, the number of time a student obtained it.
+    """
     grade = models.IntegerField(default=0)
     number = models.IntegerField(default=0)
     statistics = models.ForeignKey(Statistic, default=None, on_delete=models.CASCADE)
 
 
 class QuestionScore(models.Model):
-    # Number of good answer given for each question
+    """
+    QuestionScore Model.
+    For each Statistic (e.g. for each Quiz),
+    for each Question in the Quiz, the number of time it has been answered well.
+    """
     question = models.OneToOneField(Question, on_delete=models.CASCADE)
     score = models.IntegerField(default=0)
     statistics = models.ForeignKey(Statistic, default=None, on_delete=models.CASCADE)
 
 
 class ThemeScore(models.Model):
-    # number of succeeded theme in the quiz
+    """
+    ThemeScore Model.
+    For each theme in the quiz, the number of time it has been answered well.
+    """
     theme = models.CharField(max_length=50)
     score = models.IntegerField(default=0)
     statistics = models.ForeignKey(Statistic, default=None, on_delete=models.CASCADE)

@@ -72,8 +72,18 @@ def true_false_false(quiz_q):
 
 
 def test_true_false_question_model_true(true_false_true):
+    """
+    GIVEN a TF_Question model
+    WHEN an instance of it with correct set to True and is saved
+    THEN assert it has been correctly saved
+    """
     assert true_false_true.correct == True
 
 
 def test_true_false_question_model_false(true_false_false):
+    """
+    GIVEN a TF_Question model
+    WHEN an instance of it with correct set to False and is saved
+    THEN assert it has been correctly saved
+    """
     assert true_false_false.correct == False

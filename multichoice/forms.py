@@ -7,6 +7,9 @@ from quiz.forms import QuestionForm
 class CreationMultiChoiceForm(QuestionForm):
     """
     Form dedicated to the creation of a MultiChoice Question.
+    It inherits from QuestionForm and adds the fields
+    answerN and and answerN_correct.
+
     """
     answer1 = forms.CharField(max_length=1000, label="Réponse 1")
     answer1_correct = forms.BooleanField(required=False, label="Correcte")

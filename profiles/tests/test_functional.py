@@ -13,6 +13,13 @@ def TestProfile(StaticLiveServerTestCase):
         self.browser.quit()
 
     def test_profile_page(self):
+        """
+        GIVEN a user who has an account and wants to visit his/her profile
+        WHEN they login and visit their profile
+        THEN assert the page and the good informations are sent. 
+
+        The case where a user has created and passed a quiz is tested in quiz app
+        """
         profile = self.browser.find_element_by_id("profile")
         assert profile.text == "Mon compte"
 

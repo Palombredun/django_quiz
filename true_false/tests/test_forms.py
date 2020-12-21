@@ -72,14 +72,14 @@ def test_valid_true_false_form():
     WHEN it is given to TrueFalseForm
     THEN assert is_valid() returns True
     """
-	data = {
-		"correct": True,
-		"qid": 1
-	}
+    data = {
+        "correct": True,
+        "qid": 1
+    }
 
-	form = TrueFalseForm(data)
+    form = TrueFalseForm(data)
 
-	assert form.is_valid() is True
+    assert form.is_valid() is True
 
 def test_invalid_true_false_form():
     """
@@ -87,9 +87,11 @@ def test_invalid_true_false_form():
     WHEN it is given to TrueFalseForm
     THEN assert is_valid() returns False
     """
-	data = {
-		"correct": None,
-		"qid": 1
-	}
-	form = TrueFalseForm(data)
-	assert form.is_valid() is False
+    data = {
+        "correct": None,
+        "qid": 1
+    }
+
+    form = TrueFalseForm(data)
+    
+    assert form.is_valid() is False

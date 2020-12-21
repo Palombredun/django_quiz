@@ -3,89 +3,93 @@
 
 {% block title %}Fast & Quizy{% endblock %}
 {% block css %}
-  <link rel="stylesheet" href="{% static 'core/home.css' %}">
+<link rel="stylesheet" href="{% static 'core/home.css' %}">
 {% endblock %}
 
 
 {% block content %}
-  <div class="first bg-contain">
-    <div class="pt-48 pb-32">
-      <h1 class="text-center font-bold italic text-6xl text-gray-300">Fast & Quizy</h1>
-      <p class="text-center text-2xl text-gray-300">
-      	Ici vous pourrez <br>
-      	participer à des quiz dans des domaines variés <br>
-        et obtenir des conseils personnalisés</p>
-    </div>
-    <br>
-    <br>
-    <div class="flex justify-center pb-32">
-      <button class="rounded-lg border-2 border-yellow-400 hover:bg-yellow-400 text-yellow-400 font-bold py-2 px-4 rounded text-2xl" id="begin">Commencer</button>
-    </div>
-  </div>
+<div class="first bg-contain">
+  <div class="pt-48 pb-32">
+    <h1 class="text-center font-bold italic text-6xl text-gray-300">Fast & Quizy</h1>
+    <p class="text-center text-2xl text-gray-300">
+     Ici vous pourrez <br>
+     participer à des quiz dans des domaines variés <br>
+   et obtenir des conseils personnalisés</p>
+ </div>
+ <br>
+ <br>
+ <div class="flex justify-center pb-32">
+  <button class="rounded-lg border-2 border-yellow-400 hover:bg-yellow-400 text-yellow-400 font-bold py-2 px-4 rounded text-2xl" id="begin">Commencer</button>
+</div>
+</div>
 
   <!-- reste à implémenter la boucle et les conditions pour la couleur
     des tuiles ainsi que le nombre d'étoiles -->
-  <div class='container mx-auto py-8 bg-gray-300'>
-    <div class="text-center font-bold text-2xl text-gray-800 py-4">
-      <h2>Derniers quiz crées</h2>
+    <div class='container mx-auto py-8 bg-gray-300'>
+      <div class="text-center font-bold text-2xl text-gray-800 py-4">
+        <h2>Derniers quiz crées</h2>
+      </div>
+
+      <div class="flex content-start flex-wrap pb-16">
+        {% if quiz_list|length %}
+          {% for quiz in quiz_list %}
+          <div class="w-1/3 p-2">
+            <div class="{{ quiz.category_name }} p-2 h-40 rounded-lg">
+              <a href="{% url 'take-quiz' url=quiz.url%}">
+                <div class="text-gray-700 text-center truncate">
+                  {{ quiz.title }}
+                </div>
+                <div class="flex h-24 justify-center items-end mt-4">
+                  {% if quiz.difficulty == 1 %}
+                  <img src="{% static "core/img/etoile.png" %}" alt="etoile" class="px-1">
+                  {% elif quiz.difficulty == 2 %}
+                  <img src="{% static "core/img/etoile.png" %}" alt="etoile" class="px-1">
+                  <img src="{% static "core/img/etoile.png" %}" alt="etoile" class="px-1">
+                  {% else %}
+                  <img src="{% static "core/img/etoile.png" %}" alt="etoile" class="px-1">
+                  <img src="{% static "core/img/etoile.png" %}" alt="etoile" class="px-1">
+                  <img src="{% static "core/img/etoile.png" %}" alt="etoile" class="px-1">
+                  {% endif %}
+                </div>
+              </a>
+            </div>
+          </div>
+          {% endfor %}
+        <div class="w-1/3 p-2 flex justify-center items-center">
+          <a href="{% url 'quiz-list' %}">
+            <button class="text-lg font-bold" id="seequiz">Voir les quiz</button>
+          </a>
+        </div>
+        {% else %}
+          <p class="italic text-gray-700">Aucun quiz n'a été crée pour le moment</p>
+        {% endif %}
+      </div>
+
     </div>
 
-    <div class="flex content-start flex-wrap pb-16">
-    {% for quiz in quiz_list %}
-      <div class="w-1/3 p-2">
-          <div class="{{ quiz.category_name }} p-2 h-40 rounded-lg">
-            <a href="{% url 'take-quiz' url=quiz.url%}">
-              <div class="text-gray-700 text-center truncate">
-                {{ quiz.title }}
-              </div>
-              <div class="flex h-24 justify-center items-end mt-4">
-                {% if quiz.difficulty == 1 %}
-                  <img src="{% static "core/img/etoile.png" %}" alt="etoile" class="px-1">
-                {% elif quiz.difficulty == 2 %}
-                  <img src="{% static "core/img/etoile.png" %}" alt="etoile" class="px-1">
-                  <img src="{% static "core/img/etoile.png" %}" alt="etoile" class="px-1">
-                {% else %}
-                  <img src="{% static "core/img/etoile.png" %}" alt="etoile" class="px-1">
-                  <img src="{% static "core/img/etoile.png" %}" alt="etoile" class="px-1">
-                  <img src="{% static "core/img/etoile.png" %}" alt="etoile" class="px-1">
-                {% endif %}
-              </div>
-            </a>
+    <div class="explanations py-4">
+      <div class="container mx-auto text-center pb-16">
+        <h3 class="text-center font-bold text-2xl text-gray-700 py-4">Explications</h3>
+        <div class="py-8 text-gray-800">
+          <p>
+            Sur Fast & Quizy vous trouverez plein de quiz de tous niveaux dans de nombreuses catégories !
+            Le plus, c'est qu'à la fin de chaque quiz vous pourrez retrouver des conseils personnalisés selon vos résultats, idéal pour s'améliorer !
+            Si vous pensez en avoir les compétences, vous pouvez très facilement devenir à votre tour un créateur, et créer vos propres quiz pour aider les participants à s'améliorer !
+          </p>
+        </div>
+        <div class="flex justify-evenly -mx-16 px-8">
+          <a href="{% url 'create' %}" id="create-quiz">
+            <button class="bg-green-400 hover:bg-green-500 text-gray-800 font-bold py-4 rounded px-8">Créer un quiz</button>
+          </a>
+          <a href="{% url 'quiz-list' %}" id="quiz-list">
+            <button class="bg-green-400 hover:bg-green-500 text-gray-800 font-bold py-4 rounded px-8 ">Voir les quiz</button>
+          </a>
         </div>
       </div>
-    {% endfor %}
-    <div class="w-1/3 p-2 flex justify-center items-center">
-      <a href="{% url 'quiz-list' %}">
-        <button class="text-lg font-bold" id="seequiz">Voir les quiz</button>
-      </a>
     </div>
-  </div>
 
-  </div>
+    {% endblock %}
 
-  <div class="explanations py-4">
-    <div class="container mx-auto text-center pb-16">
-  	 <h3 class="text-center font-bold text-2xl text-gray-700 py-4">Explications</h3>
-     <div class="py-8 text-gray-800">
-        <p>
-          Sur Fast & Quizy vous trouverez plein de quiz de tous niveaux dans de nombreuses catégories !
-          Le plus, c'est qu'à la fin de chaque quiz vous pourrez retrouver des conseils personnalisés selon vos résultats, idéal pour s'améliorer !
-          Si vous pensez en avoir les compétences, vous pouvez très facilement devenir à votre tour un créateur, et créer vos propres quiz pour aider les participants à s'améliorer !
-        </p>
-      </div>
-      <div class="flex justify-evenly -mx-16 px-8">
-        <a href="{% url 'create' %}" id="create-quiz">
-          <button class="bg-green-400 hover:bg-green-500 text-gray-800 font-bold py-4 rounded px-8">Créer un quiz</button>
-        </a>
-        <a href="{% url 'quiz-list' %}" id="quiz-list">
-          <button class="bg-green-400 hover:bg-green-500 text-gray-800 font-bold py-4 rounded px-8 ">Voir les quiz</button>
-        </a>
-      </div>
-    </div>
-  </div>
-
-{% endblock %}
-
-{% block footer %}
-  {% include 'core/footer.html' %}
-{% endblock %}
+    {% block footer %}
+    {% include 'core/footer.html' %}
+    {% endblock %}

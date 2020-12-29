@@ -9,12 +9,12 @@
   <meta name="author" content="">
   <title>{% block title %}{% endblock %}</title>
   {% block css %}{% endblock %}
-  <link href="{% static 'core/output.css' %}" type="text/css" rel="stylesheet" />
   <link rel="stylesheet" href="{% static 'core/base.css' %}">
+  <link rel="shortcut icon" type="image/png" href="{% static 'core/img/favicon.ico' %}"/>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <!--<script src="script.js"></script>-->
 </head>
 
 <body>

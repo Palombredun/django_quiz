@@ -29,6 +29,19 @@ DEBUG = prod.DEBUG
 
 ALLOWED_HOSTS = prod.ALLOWED_HOSTS
 
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+sentry_sdk.init(
+    dsn="https://763723feae744324a4ffe35df3409f5d@o308355.ingest.sentry.io/5589674",
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
+
 
 # Application definition
 

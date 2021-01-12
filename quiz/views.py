@@ -405,7 +405,6 @@ def statistics(request, url):
                     if total != 0
                 ] 
             }
-            print("\n\n", stats, "\n\n")
 
             return render(
                 request,

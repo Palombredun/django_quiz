@@ -6,6 +6,7 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.firefox.options import Options
 
 from time import sleep
 from datetime import datetime
@@ -23,15 +24,12 @@ from quiz.models import (
 from true_false.models import TF_Question
 from multichoice.models import MCQuestion
 
-from quiz.results import Result, Score, Total
-
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 class TestCreateQuiz(StaticLiveServerTestCase):
     def setUp(self):
-        self.browser = webdriver.Firefox()
+        options = Options()
+        options.headless = True
+        self.browser = webdriver.Firefox(options=options)
 
         # Create Categories and SubCategories
         sc = Category.objects.create(category="Sciences")

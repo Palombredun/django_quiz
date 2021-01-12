@@ -128,9 +128,6 @@ def test_quiz(quiz_q, user_A, category_m, sub_category_n):
     assert quiz_q.created.year == date.year
     assert quiz_q.created.month == date.month
     assert quiz_q.created.day == date.day
-    assert quiz_q.created.hour == date.hour
-    assert quiz_q.created.minute == date.minute
-    assert quiz_q.created.second == date.second
     assert quiz_q.random_order == False
     assert quiz_q.difficulty == 1
     assert str(quiz_q) == "title"

@@ -5,7 +5,7 @@ from pytest_django.asserts import assertTemplateUsed
 
 from django.contrib.auth.models import User
 
-from quiz.models import Category, SubCategory, Quiz
+from quiz.models import Category, SubCategory, Quiz, Statistic, Question, Grade
 
 
 ### FIXTURE ###
@@ -41,20 +41,35 @@ def quiz_q(db, category_m, sub_category_n, user_A):
         created=date,
         random_order=False,
         difficulty=1,
+        url="title-1"
+    )
+
+
+@pytest.fixture
+def stats_s(db, quiz_q):
+    return Statistic.objects.create(
+        quiz=quiz_q,
+        number_participants=1,
+        mean=2,
+        easy=1,
+        medium=1,
+        difficult=1
+    )
+
+@pytest.fixture
+def grade_g(stats_s):
+    return Grade.objects.create(
+        statistics=stats_s,
+        grade=2,
+        number=1
     )
 
 
 ### Tests page tutorial ###
 
 
-def test_page_tutorial_not_connected(client):
+def test_page_tutorial(client):
     response = client.get("/quiz/tutorial/")
-    assert response.status_code == 200
-
-
-def test_page_tutorial_connected(client, user_A):
-    response = client.login(username=user_A.username, password=user_A.password)
-    response = client.get("quiz/tutorial/")
     assert response.status_code == 200
 
 
@@ -66,18 +81,16 @@ def test_access_page_create_unlogged(client):
     assert response.status_code == 302
 
 
-def test_with_authenticated_client(client, django_user_model):
-    user = User.objects.create_user("A")
-    user.set_password("secret")
-    client.force_login(user)
-    response = client.get("/account/profile/")
+def test_access_page_create_logged(client, user_A):
+    response = client.force_login(user_A)
+    response = client.get("/quiz/create/")
     assert response.status_code == 200
 
 
 ### Test page load_sub_categories ###
 
 
-def test_page_load_sub_categories(client):
+def test_page_load_sub_categories(client, db):
     response = client.get("quiz/ajax/load-subcategories/")
     assert response.status_code == 200
 
@@ -90,13 +103,13 @@ def test_page_quiz_list(client, db):
     assert response.status_code == 200
 
 
-def test_quiz_list_by_category(client, db):
-    response = client.get("/quiz/category/Sciences/")
+def test_quiz_list_by_category(client, category_m):
+    response = client.get("/quiz/category/m/")
     assert response.status_code == 200
 
 
-def test_quiz_list_by_subcategory(client, db):
-    response = client.get("/quiz/subcategory/mathématiques/")
+def test_quiz_list_by_subcategory(client, sub_category_n):
+    response = client.get("/quiz/subcategory/n/")
     assert response.status_code == 200
 
 
@@ -113,7 +126,11 @@ def test_take_quiz(client, quiz_q, user_A):
 ### Test page statistics ###
 
 
-def test_statistics(client, quiz_q, user_A):
+def test_statistics(client, quiz_q, stats_s, user_A, grade_g):
+    q = Question.objects.create(
+        quiz=quiz_q,
+        difficulty=1
+    )
     client.force_login(user_A)
     url = "/quiz/statistics/" + quiz_q.url + "/"
     response = client.get(url)

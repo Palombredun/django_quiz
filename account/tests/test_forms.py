@@ -54,3 +54,4 @@ def test_different_passwords_user_creation_form(db):
 	form = UserRegistrationForm(data)
 	
 	assert form.is_valid() is False
+	

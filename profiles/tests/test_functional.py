@@ -2,12 +2,16 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
 import pytest
 
-import selenium
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.firefox.options import Options
 
 
-def TestProfile(StaticLiveServerTestCase):
+class TestProfile(StaticLiveServerTestCase):
     def setUp(self):
-        self.browser = webdriver.Firefox()
+        options = Options()
+        options.headless = True
+        self.browser = webdriver.Firefox(options=options)
 
     def tearDown(self):
         self.browser.quit()
@@ -20,6 +24,36 @@ def TestProfile(StaticLiveServerTestCase):
 
         The case where a user has created and passed a quiz is tested in quiz app
         """
+        self.browser.get(self.live_server_url)
+        
+        # visit the register page
+        login = self.browser.find_element_by_id("login")
+        login.click()
+        register = self.browser.find_element_by_id("register")
+        register.click()
+
+        # create an account
+        username_input = self.browser.find_element_by_id("id_username")
+        username_input.send_keys("A")
+        email_input = self.browser.find_element_by_id("id_email")
+        email_input.send_keys("a@mail.com")
+        password_input = self.browser.find_element_by_id("id_password")
+        password_input.send_keys("_MyKindOfPassword123_")
+        password2_input = self.browser.find_element_by_id("id_password2")
+        password2_input.send_keys("_MyKindOfPassword123_")
+        button = self.browser.find_element_by_id("register")
+        button.click()
+
+        # assert we have been properly redirected to the login page
+        assert self.browser.title == "Connexion"
+
+        # login with our credentials
+        username_input = self.browser.find_element_by_id("id_username")
+        username_input.send_keys("A")
+        password_input = self.browser.find_element_by_id("id_password")
+        password_input.send_keys("_MyKindOfPassword123_")
+        button = self.browser.find_element_by_id("login_button")
+        button.click()
         profile = self.browser.find_element_by_id("profile")
         assert profile.text == "Mon compte"
 

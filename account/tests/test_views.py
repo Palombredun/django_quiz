@@ -88,8 +88,6 @@ def test_login_with_username(client, user_A):
     response = client.post("/account/login/", data)
 
     assert response.status_code == 200
-    response = client.get("/account/profile/")
-    assert response.status_code == 200
 
 
 def test_login_with_email(client, user_A):
@@ -102,8 +100,6 @@ def test_login_with_email(client, user_A):
 
     response = client.post("/account/login/")
 
-    assert response.status_code == 200
-    response = client.get("/account/profile/")
     assert response.status_code == 200
 
 

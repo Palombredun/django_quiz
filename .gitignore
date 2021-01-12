@@ -10,7 +10,6 @@ build*
 /.coverage
 /.coveragerc
 /coverage_html_report/
-/htmlcov/
 /uploads/
 .tox
 *.egg

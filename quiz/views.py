@@ -395,16 +395,17 @@ def statistics(request, url):
             total_difficulty = {1: 0, 2: 0, 3: 0}
             for question in qs:
                 total_difficulty[question.difficulty] += 1
-
+            score_difficulty = {1: stats.easy, 2: stats.medium, 3: stats.difficult}
             stats = {
                 "mean": stats.mean,
                 "nb_participants": stats.number_participants,
                 "difficulty": [
-                    round(100 * stats.easy / total_difficulty[1]),
-                    round(100 * stats.medium / total_difficulty[2]),
-                    round(100 * stats.difficult / total_difficulty[3]),
-                ],
+                    round(100 * diff/total)
+                    for diff, total in zip(score_difficulty.values(), total_difficulty.values())
+                    if total != 0
+                ] 
             }
+            print("\n\n", stats, "\n\n")
 
             return render(
                 request,

@@ -4,16 +4,11 @@ node {
 	stage 'Preparation'
 	sh 'git checkout -b tests'
 	sh 'git pull origin'
+	sh 'source venv/bin/activate'
 	sh 'pip install -r requirements.txt'
 
 	stage 'Test'
-	sh 'pytest account'
-	sh 'pytest core'
-	sh 'pytest multichoice'
-	sh 'pytest profiles'
-	sh 'pytest quiz'
-	sh 'pytest true_false'
-	// Once the tests have passed, generate a new report
+	// Execute all tests and generate a new report
 	sh 'pytest --cov=. --cov-report html --cov-config=.coveragerc'
 
 	stage 'Merge'
@@ -21,5 +16,7 @@ node {
 	sh 'git commit -m "Committed changes at $(date)'
 	sh 'git checkout master'
 	sh 'git merge tests'
-	sh 'git branch -d tests'	
+	sh 'git branch -d tests'
+
+	stage 'sudo systemctl restart gunicorn'	
 }

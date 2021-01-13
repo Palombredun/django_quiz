@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
-import fastandquizy.production as prod
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,12 +21,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = prod.SECRET_KEY
+SECRET_KEY = os.getenv('SECRET_KEY').replace("\\", "")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = prod.DEBUG
+DEBUG = False
 
-ALLOWED_HOSTS = prod.ALLOWED_HOSTS
+ALLOWED_HOSTS = ["127.0.0.1", 'localhost', '46.101.166.239']
 
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
@@ -101,7 +100,12 @@ WSGI_APPLICATION = "fastandquizy.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = prod.DATABASES
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

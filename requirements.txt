@@ -1,5 +1,6 @@
 asgiref==3.2.10
 attrs==20.3.0
+certifi==2020.12.5
 coverage==5.3
 Django==3.1.2
 importlib-metadata==2.0.0
@@ -15,8 +16,10 @@ pytest-cov==2.10.1
 pytest-django==4.1.0
 pytz==2020.1
 selenium==3.141.0
+sentry-sdk==0.19.5
 sqlparse==0.4.1
 toml==0.10.2
 urllib3==1.26.2
 virtualenv==16.7.9
+whitenoise==5.2.0
 zipp==3.3.1
